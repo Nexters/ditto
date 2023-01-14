@@ -2657,7 +2657,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@^1.22.1, resolve@npm:^1.19.0":
+"resolve@npm:^1.19.0, resolve@npm:^1.22.1":
   version: 1.22.1
   resolution: "resolve@npm:1.22.1"
   dependencies:
@@ -2670,7 +2670,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-resolve@^2.0.0-next.4:
+"resolve@npm:^2.0.0-next.4":
   version: 2.0.0-next.4
   resolution: "resolve@npm:2.0.0-next.4"
   dependencies:
@@ -3063,7 +3063,7 @@ resolve@^2.0.0-next.4:
   languageName: node
   linkType: hard
 
-typescript@4.9.4:
+"typescript@npm:4.9.4":
   version: 4.9.4
   resolution: "typescript@npm:4.9.4"
   bin:
