@@ -46,3 +46,6 @@ next-env.d.ts
 !.yarn/versions
 
 .idea/*
+
+# avoid overwrite issue
+.vscode/settings.json
