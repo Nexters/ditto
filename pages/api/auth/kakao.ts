@@ -24,8 +24,9 @@ const redirect_uri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL as string;
 const client_id = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.method, redirect_uri, client_id);
-  if (req.method !== 'GET') return res.status(404).send('not found');
+  if (req.method !== 'GET') {
+    return res.status(404).end();
+  }
 
   try {
     // 엑세스 토큰 있다면 -> id 조회
@@ -37,31 +38,12 @@ const handler: NextApiHandler = async (req, res) => {
     const prev_refresh_token = req.cookies.refresh_token;
     let user_access_token = prev_access_token;
 
-    console.log('prev', prev_access_token, prev_refresh_token);
-
     if (!user_access_token) {
       if (prev_refresh_token) {
         // 엑세스 토큰 재발급
-        const requestData = {
-          grant_type: 'refresh_token',
-          refresh_token: prev_refresh_token,
-          client_id,
-        };
-        const urlencoded = new URLSearchParams(requestData);
-        const responseByRefreshToken = await fetch('https://kauth.kakao.com/oauth/token', {
-          method: 'post',
-          body: urlencoded.toString(),
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-          },
-        }).then((res) => res.json());
-        const { access_token, expires_in } = responseByRefreshToken as ResponseByCode;
+        const { access_token, expires_in } = await reissueAccessTokenByRefreshToken(prev_refresh_token);
 
-        console.log('responseByRefreshToken', responseByRefreshToken);
-        if (!access_token) return sendMessage(res, 400, 'wrong token'); // res.status(500).send('wrong token');
-
-        setCookie(res, [{ name: 'access_token', value: access_token, options: { maxAge: expires_in } }]); // 'access_token', access_token, { maxAge: expires_in });
-        // setCookie(res, 'refresh_token', refresh_token, { maxAge: refresh_token_expires_in });
+        setCookie(res, [{ name: 'access_token', value: access_token, options: { maxAge: expires_in } }]);
 
         user_access_token = access_token;
       } else {
@@ -71,62 +53,93 @@ const handler: NextApiHandler = async (req, res) => {
           return sendMessage(res, 400, 'empty code');
         }
 
-        const requestData = {
-          grant_type: 'authorization_code',
-          code,
-          redirect_uri,
-          client_id,
-        };
-        const urlencoded = new URLSearchParams(requestData);
-        const responseByCode: ResponseByCode = await fetch('https://kauth.kakao.com/oauth/token', {
-          method: 'post',
-          body: urlencoded.toString(),
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-          },
-        }).then((res) => res.json());
-        console.log('responseByCode', responseByCode);
-
+        const responseByCode = await reissueAccessTokenByCode(code);
         const { access_token, expires_in, refresh_token, refresh_token_expires_in } = responseByCode;
-
-        if (!access_token || !refresh_token) return sendMessage(res, 400, 'wrong token'); // res.status(500).send('wrong token');
 
         setCookie(res, [
           { name: 'access_token', value: access_token, options: { maxAge: expires_in } },
           { name: 'refresh_token', value: refresh_token, options: { maxAge: refresh_token_expires_in } },
         ]);
-        // setCookie(res, 'access_token', access_token, { maxAge: expires_in });
-        // setCookie(res, 'refresh_token', refresh_token, { maxAge: refresh_token_expires_in });
 
         user_access_token = access_token;
       }
     }
-    console.log('user_access_token', user_access_token);
 
-    const config = { headers: { Authorization: `Bearer ${user_access_token}` } };
-    const responseByToken = await fetch('https://kapi.kakao.com/v2/user/me', config).then((res) => res.json());
-    console.log('responseByToken', responseByToken);
     const {
       id,
       properties: { nickname, profile_image },
-    } = responseByToken as ResponseByToken;
-    const oauth_id = `kakao:${id}`;
+    } = await fetchKakaoUserInfoByAccessToken(user_access_token);
 
-    const found = (await supabase.from('users').select('*').eq('oauth_id', oauth_id)).data?.[0];
-    console.log('found', found);
+    const oauth_id = `kakao2:${id}`;
+
+    let found = (await supabase.from('users').select('*').eq('oauth_id', oauth_id)).data?.[0];
+
     if (!found) {
-      const { data, error } = await supabase.from('users').insert({ oauth_id, nickname, profile_image });
-      console.log(data, error);
+      const { data, error } = await supabase.from('users').insert({ oauth_id, nickname, profile_image }).select();
+      found = data?.[0];
+      if (error || !found) throw error;
     } else {
-      await supabase.from('users').update({ nickname, profile_image }).eq('id', found.id);
+      const { data, error } = await supabase
+        .from('users')
+        .update({ nickname, profile_image })
+        .eq('id', found.id)
+        .select();
+      found = data?.[0];
+      if (error || !found) throw error;
     }
-    const found2 = (await supabase.from('users').select('*').eq('oauth_id', oauth_id)).data?.[0];
 
-    return sendMessage(res, 200, 'ok', found2); // res.status(200).send('ok');
+    return sendMessage(res, 200, 'ok', { found });
   } catch (error) {
-    console.log(error);
-    return sendMessage(res, 500, 'internal server error'); //res.status(500).send('server error');
+    return sendMessage(res, 400, 'bad request');
   }
+};
+
+const reissueAccessTokenByRefreshToken = async (refresh_token: string) => {
+  // 엑세스 토큰 재발급
+  const requestData = {
+    grant_type: 'refresh_token',
+    refresh_token,
+    client_id,
+  };
+  const urlencoded = new URLSearchParams(requestData);
+  const responseByRefreshToken: ResponseByCode = await fetch('https://kauth.kakao.com/oauth/token', {
+    method: 'post',
+    body: urlencoded.toString(),
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    },
+  }).then((res) => res.json());
+
+  if (responseByRefreshToken.access_token == null) throw 'empty access token';
+  return responseByRefreshToken;
+};
+
+const reissueAccessTokenByCode = async (code: string) => {
+  const requestData = {
+    grant_type: 'authorization_code',
+    code,
+    redirect_uri,
+    client_id,
+  };
+  const urlencoded = new URLSearchParams(requestData);
+  const responseByCode: ResponseByCode = await fetch('https://kauth.kakao.com/oauth/token', {
+    method: 'post',
+    body: urlencoded.toString(),
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    },
+  }).then((res) => res.json());
+
+  if (responseByCode.access_token == null) throw 'empty access token';
+  return responseByCode;
+};
+
+const fetchKakaoUserInfoByAccessToken = async (access_token: string) => {
+  const responseByToken: ResponseByToken = await fetch('https://kapi.kakao.com/v2/user/me', {
+    headers: { Authorization: `Bearer ${access_token}` },
+  }).then((res) => res.json());
+
+  return responseByToken;
 };
 
 export default handler;
