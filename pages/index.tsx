@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const ExampleComponentCSS = styled.div`
   // color: red;
-  white-space: pre-line;
+  white-space: pre;
 `;
 export default function Home() {
   const [data, setData] = useState<any>();
@@ -13,7 +13,7 @@ export default function Home() {
     const sample = async () => {
       const { data } = await supabase.from('users').select();
       console.log(data);
-      const str = data?.map((item) => new Date(item.created_time).toString()).join('\n');
+      const str = JSON.stringify(data, null, 2);
       // const date = new Date(data?.[3].created_time ?? '');
       setData(str);
     };
