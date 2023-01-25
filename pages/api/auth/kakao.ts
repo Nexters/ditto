@@ -22,10 +22,9 @@ type ResponseByToken = {
 
 const redirect_uri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL as string;
 const client_id = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
-const client_secret = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET as string;
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(req.method, redirect_uri, client_id, client_secret);
+  console.log(req.method, redirect_uri, client_id);
   if (req.method !== 'GET') return res.status(404).send('not found');
 
   try {
@@ -47,7 +46,6 @@ const handler: NextApiHandler = async (req, res) => {
           grant_type: 'refresh_token',
           refresh_token: prev_refresh_token,
           client_id,
-          client_secret,
         };
         const urlencoded = new URLSearchParams(requestData);
         const responseByRefreshToken = await fetch('https://kauth.kakao.com/oauth/token', {
@@ -76,9 +74,8 @@ const handler: NextApiHandler = async (req, res) => {
         const requestData = {
           grant_type: 'authorization_code',
           code,
-          redirect_uri: 'http://localhost:3000/oauth',
+          redirect_uri,
           client_id,
-          client_secret,
         };
         const urlencoded = new URLSearchParams(requestData);
         const responseByCode: ResponseByCode = await fetch('https://kauth.kakao.com/oauth/token', {
