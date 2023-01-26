@@ -70,7 +70,7 @@ const handler: NextApiHandler = async (req, res) => {
       properties: { nickname, profile_image },
     } = await fetchKakaoUserInfoByAccessToken(user_access_token);
 
-    const oauth_id = `kakao2:${id}`;
+    const oauth_id = `kakao:${id}`;
 
     let found = (await supabase.from('users').select('*').eq('oauth_id', oauth_id)).data?.[0];
 
