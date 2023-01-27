@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { sendMessage, setCookie } from '@/utils/nextjs';
+import { sendMessage, setCookie } from '@/utils/api-helpers';
 import { NextApiHandler } from 'next';
 
 // export const config = {
