@@ -10,7 +10,7 @@ import * as foundations from './foundations';
 import * as components from './components';
 
 const config: ThemeConfig = {
-  initialColorMode: 'dark',
+  initialColorMode: 'light',
   useSystemColorMode: false,
 };
 const theme = extendTheme({
