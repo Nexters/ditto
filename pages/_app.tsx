@@ -1,12 +1,22 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ChakraProvider } from '@chakra-ui/react';
-import MainLayout from '@/components/layouts/MainLayout';
+import { ReactElement, ReactNode } from 'react';
 import Head from 'next/head';
+import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
+import { NextPage } from 'next';
 
-function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function App({ Component, pageProps }: AppPropsWithLayout) {
   const queryClient = new QueryClient();
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>
@@ -19,7 +29,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme} resetCSS>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
         </ChakraProvider>
       </QueryClientProvider>
     </>

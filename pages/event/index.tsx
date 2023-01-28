@@ -1,17 +1,24 @@
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import React from 'react';
+import { NextPageWithLayout } from '@/pages/_app';
 
-const Event = () => {
+const Event: NextPageWithLayout = () => {
   return (
-    <MainLayout>
-      <PageHeader />
+    <>
       <h1>일정</h1>
       <section>
         <h2>일정</h2>
       </section>
-    </MainLayout>
+    </>
   );
 };
+
+Event.getLayout = (page) => (
+  <MainLayout>
+    <PageHeader />
+    {page}
+  </MainLayout>
+);
 
 export default Event;

@@ -1,11 +1,11 @@
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import React from 'react';
+import { NextPageWithLayout } from '@/pages/_app';
 
-const BucketListItem = () => {
+const BucketListItem: NextPageWithLayout = () => {
   return (
-    <MainLayout>
-      <PageHeader useBackButton />
+    <>
       <h1>Bucket Item</h1>
       <section>
         <h2>버킷리스트</h2>
@@ -14,8 +14,15 @@ const BucketListItem = () => {
           <li>버킷리스트 아이템 2</li>
         </ul>
       </section>
-    </MainLayout>
+    </>
   );
 };
+
+BucketListItem.getLayout = (page) => (
+  <MainLayout>
+    <PageHeader useBackButton />
+    {page}
+  </MainLayout>
+);
 
 export default BucketListItem;
