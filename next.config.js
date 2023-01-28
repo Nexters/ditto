@@ -1,14 +1,5 @@
 const nextConfig = {
-  reactStrictMode: true,
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/event',
-        permanent: false,
-      },
-    ];
-  },
+  reactStrictMode: true
 };
 
 module.exports = nextConfig;
