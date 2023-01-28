@@ -1,9 +1,5 @@
-import styled from '@emotion/styled';
+const Index = () => {
+  return <p>Index</p>;
+};
 
-const ExampleComponentCSS = styled.div`
-  color: red;
-`;
-
-export default function Home() {
-  return (<ExampleComponentCSS>emotion test</ExampleComponentCSS>);
-}
+export default Index;
