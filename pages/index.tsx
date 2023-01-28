@@ -1,24 +1,27 @@
-import { supabase } from '@/lib/supabase/client';
-import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import { useEffect } from 'react';
 
-const ExampleComponentCSS = styled.div`
-  // color: red;
-  white-space: pre;
-`;
 export default function Home() {
-  const [data, setData] = useState<any>();
+  const href = queryString.stringifyUrl({
+    url: 'https://kauth.kakao.com/oauth/authorize',
+    query: {
+      client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
+      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL,
+      response_type: 'code',
+    },
+  });
 
   useEffect(() => {
-    const sample = async () => {
-      const { data } = await supabase.from('users').select();
-      console.log(data);
-      const str = JSON.stringify(data, null, 2);
-      // const date = new Date(data?.[3].created_time ?? '');
-      setData(str);
-    };
-    sample();
+    // get user info by kakao access token
+    fetch('/api/auth/user')
+      .then((res) => res.json())
+      .then(console.log);
   }, []);
 
-  return <ExampleComponentCSS>{data}</ExampleComponentCSS>;
+  return (
+    <div>
+      <h1>root page</h1>
+      <a href={href}>kakao login</a>
+    </div>
+  );
 }
