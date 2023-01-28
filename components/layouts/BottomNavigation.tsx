@@ -23,7 +23,6 @@ const BottomNavBar = styled.nav`
   height: 60px;
   background-color: #fff;
   border: 1px solid #000000;
-  margin-bottom: 60px;
 `;
 
 const NavContainer = styled.ul`

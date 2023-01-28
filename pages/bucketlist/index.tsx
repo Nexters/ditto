@@ -1,11 +1,12 @@
 import PageHeader from '@/components/layouts/Header';
+import MainLayout from '@/components/layouts/MainLayout';
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import React from 'react';
 
 const BucketList = () => {
   return (
-    <>
+    <MainLayout>
       <PageHeader />
       <h1>Bucket List</h1>
       <section>
@@ -15,7 +16,7 @@ const BucketList = () => {
           <Link href="/bucketlist/2">폴더2</Link>
         </FolderList>
       </section>
-    </>
+    </MainLayout>
   );
 };
 

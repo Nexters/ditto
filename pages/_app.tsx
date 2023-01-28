@@ -19,9 +19,7 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme} resetCSS>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
+          <Component {...pageProps} />
         </ChakraProvider>
       </QueryClientProvider>
     </>
