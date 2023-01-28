@@ -72,13 +72,15 @@ const handler: NextApiHandler = async (req, res) => {
 
     const oauth_id = `kakao:${id}`;
 
-    let found = (await supabase.from('users').select('*').eq('oauth_id', oauth_id)).data?.[0];
+    let found = (await supabase.from('users').select().eq('oauth_id', oauth_id)).data?.[0];
 
     if (!found) {
+      // 없으면 회원가입
       const { data, error } = await supabase.from('users').insert({ oauth_id, nickname, profile_image }).select();
       found = data?.[0];
       if (error || !found) throw error;
-    } else {
+    } else if (found.nickname !== nickname || found.profile_image !== profile_image) {
+      // 있는데 프로필 정보가 변경되면 업데이트
       const { data, error } = await supabase
         .from('users')
         .update({ nickname, profile_image })
@@ -88,7 +90,7 @@ const handler: NextApiHandler = async (req, res) => {
       if (error || !found) throw error;
     }
 
-    return sendMessage(res, 200, 'ok', { found });
+    return sendMessage(res, 200, 'ok', found);
   } catch (error) {
     return sendMessage(res, 400, 'bad request');
   }
