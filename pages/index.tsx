@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
