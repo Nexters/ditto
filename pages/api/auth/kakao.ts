@@ -1,5 +1,5 @@
 import { setCookie } from '@/lib/api-helpers/setCookie';
-import { createHandler } from '@/lib/api-helpers/_handler';
+import { createHandler } from '@/lib/api-helpers/createHandler';
 import { issueAccessToken } from '@/lib/auth/kakao';
 
 // export const config = {

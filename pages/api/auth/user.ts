@@ -1,6 +1,6 @@
 import { sendMessage } from '@/lib/api-helpers/sendMessage';
 import { setCookie } from '@/lib/api-helpers/setCookie';
-import { createHandler } from '@/lib/api-helpers/_handler';
+import { createHandler } from '@/lib/api-helpers/createHandler';
 import { fetchUserInfo, reissueAccessToken } from '@/lib/auth/kakao';
 import { supabase } from '@/lib/supabase/client';
 
