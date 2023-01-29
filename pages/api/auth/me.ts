@@ -13,7 +13,7 @@ export default createHandler({
       if (!refreshToken) throw 'empty refresh token';
       if (!accessToken) {
         const { access_token, expires_in } = await reissueAccessToken(refreshToken);
-        setCookie(res, [{ name: 'access_token', value: access_token, options: { maxAge: expires_in } }]);
+        setCookie(res, [{ name: 'access_token', value: access_token, options: { path: '/', maxAge: expires_in } }]);
         accessToken = access_token;
       }
 
@@ -46,8 +46,8 @@ export default createHandler({
     } catch (error) {
       // clear cookie
       setCookie(res, [
-        { name: 'access_token', value: '', options: { maxAge: 0 } },
-        { name: 'refresh_token', value: '', options: { maxAge: 0 } },
+        { name: 'access_token', value: '', options: { path: '/', maxAge: 0 } },
+        { name: 'refresh_token', value: '', options: { path: '/', maxAge: 0 } },
       ]);
       sendMessage(res, 400, 'bad request', { error });
     }

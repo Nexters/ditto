@@ -17,8 +17,8 @@ export default createHandler({
       const { access_token, expires_in, refresh_token, refresh_token_expires_in } = responseByCode;
 
       setCookie(res, [
-        { name: 'access_token', value: access_token, options: { maxAge: expires_in } },
-        { name: 'refresh_token', value: refresh_token, options: { maxAge: refresh_token_expires_in } },
+        { name: 'access_token', value: access_token, options: { path: '/', maxAge: expires_in } },
+        { name: 'refresh_token', value: refresh_token, options: { path: '/', maxAge: refresh_token_expires_in } },
       ]);
     } catch (error) {
       // no action
