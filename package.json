@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "husky-install": "husky install",
-    "gen-schema": "supabase gen types typescript --project-id yisfridtbmrytnwmkpfg --schema public > lib/schema.ts"
+    "gen-schema": "npx supabase gen types typescript --project-id nmudcjshynedjpjithxj --schema public > lib/supabase/schema.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
@@ -37,8 +37,7 @@
     "eslint-config-prettier": "^8.6.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.3",
-    "supabase": "^1.34.5"
+    "prettier": "^2.8.3"
   },
   "lint-staged": {
     "*.tsx": "eslint --fix",

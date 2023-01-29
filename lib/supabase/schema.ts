@@ -1,27 +1,55 @@
-/* eslint-disable no-unused-vars */
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
 export interface Database {
   public: {
     Tables: {
-      categories: {
+      bucket_folders: {
         Row: {
-          created_time: string | null;
+          created_time: string;
           creator_id: number;
           group_id: number;
           id: number;
           title: string;
         };
         Insert: {
-          created_time?: string | null;
+          created_time?: string;
           creator_id: number;
           group_id: number;
           id?: number;
           title: string;
         };
         Update: {
-          created_time?: string | null;
+          created_time?: string;
           creator_id?: number;
+          group_id?: number;
+          id?: number;
+          title?: string;
+        };
+      };
+      bucket_items: {
+        Row: {
+          bucket_folder_id: number;
+          created_time: string;
+          creator_id: number;
+          description: string | null;
+          group_id: number;
+          id: number;
+          title: string;
+        };
+        Insert: {
+          bucket_folder_id: number;
+          created_time?: string;
+          creator_id: number;
+          description?: string | null;
+          group_id: number;
+          id?: number;
+          title: string;
+        };
+        Update: {
+          bucket_folder_id?: number;
+          created_time?: string;
+          creator_id?: number;
+          description?: string | null;
           group_id?: number;
           id?: number;
           title?: string;
@@ -29,7 +57,7 @@ export interface Database {
       };
       events: {
         Row: {
-          created_time: string | null;
+          created_time: string;
           creator_id: number;
           description: string | null;
           end_time: string;
@@ -41,7 +69,7 @@ export interface Database {
           title: string;
         };
         Insert: {
-          created_time?: string | null;
+          created_time?: string;
           creator_id: number;
           description?: string | null;
           end_time: string;
@@ -53,7 +81,7 @@ export interface Database {
           title: string;
         };
         Update: {
-          created_time?: string | null;
+          created_time?: string;
           creator_id?: number;
           description?: string | null;
           end_time?: string;
@@ -69,37 +97,37 @@ export interface Database {
         Row: {
           group_id: number;
           joined_by: number | null;
-          joined_time: string | null;
+          joined_time: string;
           user_id: number;
         };
         Insert: {
           group_id: number;
           joined_by?: number | null;
-          joined_time?: string | null;
+          joined_time?: string;
           user_id: number;
         };
         Update: {
           group_id?: number;
           joined_by?: number | null;
-          joined_time?: string | null;
+          joined_time?: string;
           user_id?: number;
         };
       };
       groups: {
         Row: {
-          created_time: string | null;
+          created_time: string;
           id: number;
           name: string;
           owner_id: number | null;
         };
         Insert: {
-          created_time?: string | null;
+          created_time?: string;
           id?: number;
           name: string;
           owner_id?: number | null;
         };
         Update: {
-          created_time?: string | null;
+          created_time?: string;
           id?: number;
           name?: string;
           owner_id?: number | null;
@@ -108,50 +136,21 @@ export interface Database {
       invitations: {
         Row: {
           code: string;
-          created_time: string | null;
+          created_time: string;
           creator_id: number;
           group_id: number;
         };
         Insert: {
           code: string;
-          created_time?: string | null;
+          created_time?: string;
           creator_id: number;
           group_id: number;
         };
         Update: {
           code?: string;
-          created_time?: string | null;
+          created_time?: string;
           creator_id?: number;
           group_id?: number;
-        };
-      };
-      tasks: {
-        Row: {
-          categories_id: number;
-          created_time: string | null;
-          creator_id: number;
-          description: string | null;
-          group_id: number;
-          id: number;
-          title: string;
-        };
-        Insert: {
-          categories_id: number;
-          created_time?: string | null;
-          creator_id: number;
-          description?: string | null;
-          group_id: number;
-          id?: number;
-          title: string;
-        };
-        Update: {
-          categories_id?: number;
-          created_time?: string | null;
-          creator_id?: number;
-          description?: string | null;
-          group_id?: number;
-          id?: number;
-          title?: string;
         };
       };
       users: {
