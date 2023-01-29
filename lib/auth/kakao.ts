@@ -34,7 +34,7 @@ export const issueAccessToken = async (code: string) => {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     },
   }).then((res) => res.json());
-  console.log(responseByCode);
+
   if (responseByCode.access_token == null) throw 'empty access token';
   return responseByCode;
 };
@@ -55,7 +55,6 @@ export const reissueAccessToken = async (refresh_token: string) => {
       'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     },
   }).then((res) => res.json());
-  console.log(responseByRefreshToken);
 
   if (responseByRefreshToken.access_token == null) throw 'empty access token';
   return responseByRefreshToken;
