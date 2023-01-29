@@ -6,7 +6,7 @@ export default function Home() {
     url: 'https://kauth.kakao.com/oauth/authorize',
     query: {
       client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
-      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL,
+      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL,
       response_type: 'code',
     },
   });
@@ -21,7 +21,7 @@ export default function Home() {
 
   useEffect(() => {
     // get user info by kakao access token
-    fetch('/api/auth/user')
+    fetch('/api/auth/me')
       .then((res) => res.json())
       .then(console.log);
   }, []);
