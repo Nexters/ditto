@@ -2,11 +2,19 @@ import queryString from 'query-string';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const href = queryString.stringifyUrl({
+  const loginHref = queryString.stringifyUrl({
     url: 'https://kauth.kakao.com/oauth/authorize',
     query: {
       client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
       redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL,
+      response_type: 'code',
+    },
+  });
+  const logoutHref = queryString.stringifyUrl({
+    url: 'https://kauth.kakao.com/oauth/logout',
+    query: {
+      client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
+      logout_redirect_uri: process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL,
       response_type: 'code',
     },
   });
@@ -21,7 +29,8 @@ export default function Home() {
   return (
     <div>
       <h1>root page</h1>
-      <a href={href}>kakao login</a>
+      <a href={loginHref}>kakao login</a>
+      <a href={logoutHref}>kakao logout</a>
     </div>
   );
 }
