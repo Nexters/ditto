@@ -21,8 +21,13 @@ const edgeFunction: EdgeFunction = async (req) => {
     // @note: edge runtime에선 현재 쿠키가 두개 이상 set하면 첫번째꺼만 반영되는 이슈가 있음
     // 임시로 refresh_token을 먼저 쓰도록 하고, access_token set은 /api/auth/me 에서 진행되도록 한다.
     // https://github.com/vercel/next.js/issues/38302
-    res.cookies.set('refresh_token', refresh_token, { path: '/', maxAge: refresh_token_expires_in });
-    res.cookies.set('access_token', access_token, { path: '/', maxAge: expires_in });
+    res.cookies.set('refresh_token', refresh_token, {
+      path: '/',
+      maxAge: refresh_token_expires_in,
+      httpOnly: true,
+      secure: true,
+    });
+    res.cookies.set('access_token', access_token, { path: '/', maxAge: expires_in, httpOnly: true, secure: true });
 
     return res;
   } catch (error) {
