@@ -9,9 +9,9 @@ export const config = {
 
 const edgeFunction: EdgeFunction = async (req) => {
   try {
-    const refreshToken = req.cookies.get('refresh_token') as string | undefined;
-    let accessToken = req.cookies.get('access_token') as string | undefined;
-    let expiresIn: number = -1;
+    const refreshToken = req.cookies.get('refresh_token')?.value;
+    let accessToken = req.cookies.get('access_token')?.value;
+    let expiresIn: number = 0;
 
     if (!refreshToken) throw 'empty refresh token';
     if (!accessToken) {
@@ -57,7 +57,7 @@ const edgeFunction: EdgeFunction = async (req) => {
         },
       }
     );
-    if (expiresIn) {
+    if (expiresIn > 0) {
       res.cookies.set('access_token', accessToken, { maxAge: expiresIn });
     }
     return res;
