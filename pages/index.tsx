@@ -1,3 +1,4 @@
+import { KAKAO_CLIENT_ID, KAKAO_LOGIN_REDIRECT_URL, KAKAO_LOGOUT_REDIRECT_URL } from '@/utils/const';
 import queryString from 'query-string';
 import { useEffect } from 'react';
 
@@ -5,16 +6,16 @@ export default function Home() {
   const loginHref = queryString.stringifyUrl({
     url: 'https://kauth.kakao.com/oauth/authorize',
     query: {
-      client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
-      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL,
+      client_id: KAKAO_CLIENT_ID,
+      redirect_uri: KAKAO_LOGIN_REDIRECT_URL,
       response_type: 'code',
     },
   });
   const logoutHref = queryString.stringifyUrl({
     url: 'https://kauth.kakao.com/oauth/logout',
     query: {
-      client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY,
-      logout_redirect_uri: process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL,
+      client_id: KAKAO_CLIENT_ID,
+      logout_redirect_uri: KAKAO_LOGOUT_REDIRECT_URL,
       response_type: 'code',
     },
   });
