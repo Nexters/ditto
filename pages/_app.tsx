@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
+import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   // eslint-disable-next-line no-unused-vars
@@ -30,7 +31,11 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme} resetCSS>
-          {getLayout(<Component {...pageProps} />)}
+          {getLayout(
+            <ErrorBoundary fallback={<div>에러 페이지</div>}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          )}
         </ChakraProvider>
       </QueryClientProvider>
     </>
