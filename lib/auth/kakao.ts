@@ -1,6 +1,6 @@
 const redirect_uri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL as string;
 const client_id = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
-const client_secret = process.env.KAKAO_CLIENT_SECRET as string;
+const client_secret = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET as string;
 
 export type ResponseByCode = {
   access_token: string;
