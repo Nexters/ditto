@@ -68,7 +68,6 @@ const edgeFunction: EdgeFunction = async (req) => {
     }
     return res;
   } catch (error) {
-    console.log(error);
     const res = new NextResponse(
       JSON.stringify({
         message: 'bad request',
