@@ -27,8 +27,15 @@ const edgeFunction: EdgeFunction = async (req) => {
       maxAge: refresh_token_expires_in,
       httpOnly: true,
       secure: true,
+      sameSite: 'strict',
     });
-    res.cookies.set('access_token', access_token, { path: '/', maxAge: expires_in, httpOnly: true, secure: true });
+    res.cookies.set('access_token', access_token, {
+      path: '/',
+      maxAge: expires_in,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
 
     return res;
   } catch (error) {

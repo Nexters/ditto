@@ -58,7 +58,13 @@ const edgeFunction: EdgeFunction = async (req) => {
       }
     );
     if (expiresIn > 0) {
-      res.cookies.set('access_token', accessToken, { path: '/', maxAge: expiresIn, httpOnly: true, secure: true });
+      res.cookies.set('access_token', accessToken, {
+        path: '/',
+        maxAge: expiresIn,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+      });
     }
     return res;
   } catch (error) {
