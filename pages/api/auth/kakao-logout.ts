@@ -1,13 +1,18 @@
-import { createHandler } from '@/lib/api-helpers/createHandler';
-import { setCookie } from '@/lib/api-helpers/setCookie';
+import { EdgeFunction } from '@/lib/edge/types';
+import { HOSTING_URL } from '@/utils/const';
+import { NextResponse } from 'next/server';
 
-export default createHandler({
-  GET: async (req, res) => {
-    // clear cookie
-    setCookie(res, [
-      { name: 'access_token', value: '', options: { path: '/', maxAge: 0 } },
-      { name: 'refresh_token', value: '', options: { path: '/', maxAge: 0 } },
-    ]);
-    res.status(307).redirect('/');
-  },
-});
+export const config = {
+  runtime: 'edge',
+};
+
+const edgeFunction: EdgeFunction = () => {
+  const res = NextResponse.redirect(HOSTING_URL, 302);
+
+  res.cookies.delete('refresh_token');
+  res.cookies.delete('access_token');
+
+  return res;
+};
+
+export default edgeFunction;

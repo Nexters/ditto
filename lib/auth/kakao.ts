@@ -1,6 +1,4 @@
-const redirect_uri = process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL as string;
-const client_id = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
-const client_secret = process.env.KAKAO_CLIENT_SECRET as string;
+import { KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET, KAKAO_LOGIN_REDIRECT_URL } from '@/utils/const';
 
 export type ResponseByCode = {
   access_token: string;
@@ -22,9 +20,9 @@ export const issueAccessToken = async (code: string) => {
   const requestData = {
     grant_type: 'authorization_code',
     code,
-    redirect_uri,
-    client_id,
-    client_secret,
+    redirect_uri: KAKAO_LOGIN_REDIRECT_URL,
+    client_id: KAKAO_CLIENT_ID,
+    client_secret: KAKAO_CLIENT_SECRET,
   };
   const urlencoded = new URLSearchParams(requestData);
   const responseByCode: ResponseByCode = await fetch('https://kauth.kakao.com/oauth/token', {
@@ -44,8 +42,8 @@ export const reissueAccessToken = async (refresh_token: string) => {
   const requestData = {
     grant_type: 'refresh_token',
     refresh_token,
-    client_id,
-    client_secret,
+    client_id: KAKAO_CLIENT_ID,
+    client_secret: KAKAO_CLIENT_SECRET,
   };
   const urlencoded = new URLSearchParams(requestData);
   const responseByRefreshToken: ResponseByRefreshToken = await fetch('https://kauth.kakao.com/oauth/token', {
