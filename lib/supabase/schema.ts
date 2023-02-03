@@ -36,6 +36,7 @@ export interface Database {
           group_id: number;
           id: number;
           title: string;
+          completed: boolean;
         };
         Insert: {
           bucket_folder_id: number;
@@ -45,6 +46,7 @@ export interface Database {
           group_id: number;
           id?: number;
           title: string;
+          completed: boolean;
         };
         Update: {
           bucket_folder_id?: number;
@@ -54,6 +56,7 @@ export interface Database {
           group_id?: number;
           id?: number;
           title?: string;
+          completed: boolean;
         };
       };
       events: {
