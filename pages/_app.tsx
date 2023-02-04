@@ -24,8 +24,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
 
   useEffect(() => {
     // @note:
-    // edge function은 server side에서 호출할 수 없기에
-    // 로그인 여부를 client side에서 체크합니다.
+    // getServerSideProps에서 edge function을 호출해도 그 응답에 접근할 수 없기에
+    // 로그인 여부를 client side에서 최초 mount된 시점에 체크합니다.
+    // https://nextjs.org/docs/api-routes/edge-api-routes#differences-between-api-routes
     login().catch(() => console.error('login failed'));
   }, [login]);
 
