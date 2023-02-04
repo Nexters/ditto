@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
 export interface Database {
@@ -30,33 +31,33 @@ export interface Database {
       bucket_items: {
         Row: {
           bucket_folder_id: number;
+          completed: boolean;
           created_time: string;
           creator_id: number;
           description: string | null;
           group_id: number;
           id: number;
           title: string;
-          completed: boolean;
         };
         Insert: {
           bucket_folder_id: number;
+          completed?: boolean;
           created_time?: string;
           creator_id: number;
           description?: string | null;
           group_id: number;
           id?: number;
           title: string;
-          completed: boolean;
         };
         Update: {
           bucket_folder_id?: number;
+          completed?: boolean;
           created_time?: string;
           creator_id?: number;
           description?: string | null;
           group_id?: number;
           id?: number;
           title?: string;
-          completed: boolean;
         };
       };
       events: {
