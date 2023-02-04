@@ -1,4 +1,4 @@
-import { useUser } from '@/share/store/useUser';
+import { useUser } from '@/store/useUser';
 import { KAKAO_CLIENT_ID, KAKAO_LOGIN_REDIRECT_URL, KAKAO_LOGOUT_REDIRECT_URL } from '@/utils/const';
 import queryString from 'query-string';
 export default function Home() {

@@ -6,7 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
-import { useUser } from '@/share/store/useUser';
+import { useUser } from '@/store/useUser';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   // eslint-disable-next-line no-unused-vars
