@@ -1,9 +1,16 @@
 import { User } from '@/lib/supabase/types';
 import { create } from 'zustand';
 
-type UserState = {
-  user: User | null;
-  isLoggedIn: boolean;
+type UserState = (
+  | {
+      user: User;
+      isLoggedIn: true;
+    }
+  | {
+      user: null;
+      isLoggedIn: false;
+    }
+) & {
   login: () => Promise<void>;
   logout: () => Promise<void>;
 };

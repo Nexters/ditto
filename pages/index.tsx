@@ -1,8 +1,9 @@
 import { useUser } from '@/store/useUser';
 import { KAKAO_CLIENT_ID, KAKAO_LOGIN_REDIRECT_URL, KAKAO_LOGOUT_REDIRECT_URL } from '@/utils/const';
 import queryString from 'query-string';
+
 export default function Home() {
-  const { user } = useUser();
+  const { user, isLoggedIn } = useUser();
 
   const loginHref = queryString.stringifyUrl({
     url: 'https://kauth.kakao.com/oauth/authorize',
@@ -23,7 +24,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>root page {user?.nickname}</h1>
+      <h1>root page {isLoggedIn && user.nickname}</h1>
       <a href={loginHref}>kakao login</a>
       <a href={logoutHref}>kakao logout</a>
     </div>
