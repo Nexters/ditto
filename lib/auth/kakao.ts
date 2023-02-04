@@ -1,4 +1,9 @@
-import { KAKAO_CLIENT_ID, KAKAO_CLIENT_SECRET, KAKAO_LOGIN_REDIRECT_URL } from '@/utils/const';
+import {
+  COOKIE_KAKAO_REFRESH_TOKEN_NAME,
+  KAKAO_CLIENT_ID,
+  KAKAO_CLIENT_SECRET,
+  KAKAO_LOGIN_REDIRECT_URL,
+} from '@/utils/const';
 
 export type ResponseByCode = {
   access_token: string;
@@ -40,7 +45,7 @@ export const issueAccessToken = async (code: string) => {
 export const reissueAccessToken = async (refresh_token: string) => {
   // 엑세스 토큰 재발급
   const requestData = {
-    grant_type: 'refresh_token',
+    grant_type: COOKIE_KAKAO_REFRESH_TOKEN_NAME,
     refresh_token,
     client_id: KAKAO_CLIENT_ID,
     client_secret: KAKAO_CLIENT_SECRET,
