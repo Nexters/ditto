@@ -1,26 +1,11 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
-import { object, string, number } from 'joi';
 import { createDefaultBucketFolder, createGroup, joinGroup } from '@/lib/supabase/apis/group';
 import { API_PRIVATE_KEY } from '@/utils/const';
 
 export const config = {
   runtime: 'edge',
 };
-
-const bodySchema = object<{
-  private_key: string;
-  group_name: string;
-  user_id: number;
-}>({
-  private_key: string()
-    .valid(API_PRIVATE_KEY)
-    .required()
-    // @note: private_key field가 있다는 걸 숨기기 위함
-    .error(() => new Error()),
-  group_name: string().required(),
-  user_id: number().required(),
-});
 
 const edgeFunction: EdgeFunction = async (req) => {
   try {
@@ -31,8 +16,8 @@ const edgeFunction: EdgeFunction = async (req) => {
     //   3-1. 해당 그룹에 참여시키기
     //   3-2. 해당 그룹에 기본 버킷리스트 생성
 
-    const body = await req.json();
-    const { group_name, user_id } = await bodySchema.validateAsync(body);
+    const { group_name, user_id, private_key } = await req.json();
+    if (private_key !== API_PRIVATE_KEY) throw null;
 
     const group = await createGroup(user_id, group_name);
 
