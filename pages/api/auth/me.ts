@@ -2,6 +2,7 @@ import { fetchUserInfo, reissueAccessToken } from '@/lib/auth/kakao';
 import { supabase } from '@/lib/supabase/client';
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
+import { COOKIE_KAKAO_REFRESH_TOKEN_NAME, COOKIE_KAKAO_ACCESS_TOKEN_NAME } from '@/utils/const';
 
 export const config = {
   runtime: 'edge',
@@ -9,8 +10,8 @@ export const config = {
 
 const edgeFunction: EdgeFunction = async (req) => {
   try {
-    const refreshToken = req.cookies.get('refresh_token')?.value;
-    let accessToken = req.cookies.get('access_token')?.value;
+    const refreshToken = req.cookies.get(COOKIE_KAKAO_REFRESH_TOKEN_NAME)?.value;
+    let accessToken = req.cookies.get(COOKIE_KAKAO_ACCESS_TOKEN_NAME)?.value;
     let expiresIn: number = 0;
 
     if (!refreshToken) throw 'empty refresh token';
@@ -58,7 +59,7 @@ const edgeFunction: EdgeFunction = async (req) => {
       }
     );
     if (expiresIn > 0) {
-      res.cookies.set('access_token', accessToken, {
+      res.cookies.set(COOKIE_KAKAO_ACCESS_TOKEN_NAME, accessToken, {
         path: '/',
         maxAge: expiresIn,
         httpOnly: true,
@@ -81,8 +82,8 @@ const edgeFunction: EdgeFunction = async (req) => {
       }
     );
     // clear cookie
-    // res.cookies.delete('refresh_token');
-    // res.cookies.delete('access_token');
+    // res.cookies.delete(COOKIE_KAKAO_REFRESH_TOKEN_NAME);
+    // res.cookies.delete(COOKIE_KAKAO_ACCESS_TOKEN_NAME);
     return res;
   }
 };
