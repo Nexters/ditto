@@ -1,9 +1,21 @@
+import React from 'react';
+import { useRouter } from 'next/router';
+import { NextPageWithLayout } from '@/pages/_app';
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
-import React from 'react';
-import { NextPageWithLayout } from '@/pages/_app';
+import { useFetchBucketItems } from '@/hooks/useFetchBucketItems';
 
 const BucketListItem: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { folderId } = router.query;
+
+  const { data, status } = useFetchBucketItems(Number(folderId));
+
+  if (status === 'loading') return <div>로딩중</div>;
+  if (status === 'error') return <div>에러 발생</div>;
+
+  console.log(data);
+
   return (
     <>
       <h1>Bucket Item</h1>
