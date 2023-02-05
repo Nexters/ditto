@@ -1,4 +1,4 @@
-import { User } from '@/lib/supabase/types';
+import { User } from '@/lib/supabase/type';
 import { create } from 'zustand';
 
 type UserState = (
