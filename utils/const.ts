@@ -9,3 +9,8 @@ export const KAKAO_LOGOUT_REDIRECT_URL =
 
 export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 export const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY as string;
+
+export const COOKIE_KAKAO_ACCESS_TOKEN_NAME = 'access_token';
+export const COOKIE_KAKAO_REFRESH_TOKEN_NAME = 'refresh_token';
+
+export const API_PRIVATE_KEY = process.env.NEXT_PUBLIC_API_PRIVATE_KEY as string;
