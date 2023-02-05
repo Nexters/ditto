@@ -7,7 +7,7 @@ export const useMutateBucketItems = () => {
 
   const createBucketItemMutation = useMutation(
     async (item: Omit<BucketItem, 'id' | 'created_at'>) => {
-      const { data, error } = await supabase.from('bucket_items').insert(item);
+      const { data, error } = await supabase.from('bucket_items').insert(item).select();
       if (error) throw new Error(error.message);
       return data;
     },
@@ -28,7 +28,8 @@ export const useMutateBucketItems = () => {
       const { data, error } = await supabase
         .from('bucket_items')
         .update({ title: bucketItem.title })
-        .eq('id', bucketItem.id);
+        .eq('id', bucketItem.id)
+        .select();
       if (error) throw new Error(error.message);
       return data;
     },
@@ -49,7 +50,7 @@ export const useMutateBucketItems = () => {
   );
   const deleteBucketItemMutation = useMutation(
     async (id: number) => {
-      const { data, error } = await supabase.from('bucket_items').delete().eq('id', id);
+      const { data, error } = await supabase.from('bucket_items').delete().eq('id', id).select();
       if (error) throw new Error(error.message);
       return data;
     },

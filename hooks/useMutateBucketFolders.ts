@@ -7,7 +7,7 @@ export const useMutateBucketFolders = () => {
 
   const createBucketFolderMutation = useMutation(
     async (folder: Omit<BucketFolder, 'id' | 'created_at'>) => {
-      const { data, error } = await supabase.from('bucket_folders').insert(folder);
+      const { data, error } = await supabase.from('bucket_folders').insert(folder).select();
       if (error) throw new Error(error.message);
       return data;
     },
@@ -28,7 +28,8 @@ export const useMutateBucketFolders = () => {
       const { data, error } = await supabase
         .from('bucket_folders')
         .update({ title: bucketFolder.title })
-        .eq('id', bucketFolder.id);
+        .eq('id', bucketFolder.id)
+        .select();
       if (error) throw new Error(error.message);
       return data;
     },
@@ -49,7 +50,7 @@ export const useMutateBucketFolders = () => {
   );
   const deleteBucketFolderMutation = useMutation(
     async (id: number) => {
-      const { data, error } = await supabase.from('bucket_folders').delete().eq('id', id);
+      const { data, error } = await supabase.from('bucket_folders').delete().eq('id', id).select();
       if (error) throw new Error(error.message);
       return data;
     },
