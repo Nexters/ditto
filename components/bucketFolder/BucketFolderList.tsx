@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react';
 import { useFetchBucketFolders } from '@/hooks/useFetchBucketFolders';
 import styled from '@emotion/styled';

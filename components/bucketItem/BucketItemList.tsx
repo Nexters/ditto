@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useFetchBucketItems } from '@/hooks/useFetchBucketItems';
 import BucketItem from '@/components/bucketItem/BucketItem';
-import { Button, Input, InputGroup, InputRightAddon, InputRightElement } from '@chakra-ui/react';
+import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 
 const BucketItemList = () => {
   const router = useRouter();

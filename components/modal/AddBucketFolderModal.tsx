@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalOverlay, ModalContent, Text, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 interface AddBucketFolderModalProps {
   isOpen: boolean;
