@@ -1,18 +1,5 @@
-export interface BucketFolder {
-  created_time: string;
-  creator_id: number;
-  group_id: number;
-  id: number;
-  title: string;
-}
+import { Database } from '@/lib/supabase/schema';
 
-export interface BucketItem {
-  bucket_folder_id: number;
-  created_time: string;
-  creator_id: number;
-  description: string | null;
-  group_id: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
+export type BucketFolder = Database['public']['Tables']['bucket_folders']['Row'];
+
+export type BucketItem = Database['public']['Tables']['bucket_items']['Row'];
