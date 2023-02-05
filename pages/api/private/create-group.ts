@@ -1,6 +1,6 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
-import joi from 'joi';
+import { object, string, number } from 'joi';
 import { createDefaultBucketFolder, createGroup, joinGroup } from '@/lib/supabase/apis/group';
 import { API_PRIVATE_KEY } from '@/utils/const';
 
@@ -8,19 +8,18 @@ export const config = {
   runtime: 'edge',
 };
 
-const bodySchema = joi.object<{
+const bodySchema = object<{
   private_key: string;
   group_name: string;
   user_id: number;
 }>({
-  private_key: joi
-    .string()
+  private_key: string()
     .valid(API_PRIVATE_KEY)
     .required()
     // @note: private_key field가 있다는 걸 숨기기 위함
     .error(() => new Error()),
-  group_name: joi.string().required(),
-  user_id: joi.number().required(),
+  group_name: string().required(),
+  user_id: number().required(),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {

@@ -1,6 +1,6 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
-import joi from 'joi';
+import { object, string } from 'joi';
 import { getInvitationInfo } from '@/lib/supabase/apis/invitation';
 import { addDays } from '@/utils/date';
 
@@ -8,10 +8,10 @@ export const config = {
   runtime: 'edge',
 };
 
-const bodySchema = joi.object<{
+const bodySchema = object<{
   code: string;
 }>({
-  code: joi.string().required(),
+  code: string().required(),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {

@@ -1,20 +1,20 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
-import joi from 'joi';
+import { object, number } from 'joi';
 import { joinGroup } from '@/lib/supabase/apis/group';
 
 export const config = {
   runtime: 'edge',
 };
 
-const bodySchema = joi.object<{
+const bodySchema = object<{
   group_id: number;
   user_id: number;
   joined_by: number;
 }>({
-  group_id: joi.number().required(),
-  user_id: joi.number().required(),
-  joined_by: joi.number().required(),
+  group_id: number().required(),
+  user_id: number().required(),
+  joined_by: number().required(),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {
