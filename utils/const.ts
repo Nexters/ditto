@@ -14,3 +14,5 @@ export const COOKIE_KAKAO_ACCESS_TOKEN_NAME = 'access_token';
 export const COOKIE_KAKAO_REFRESH_TOKEN_NAME = 'refresh_token';
 
 export const API_PRIVATE_KEY = process.env.NEXT_PUBLIC_API_PRIVATE_KEY as string;
+
+export const INVITATION_CODE_LENGTH = 10;

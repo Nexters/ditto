@@ -1,8 +1,9 @@
+import { INVITATION_CODE_LENGTH } from '@/utils/const';
 import { nanoid } from 'nanoid';
 import { supabase } from '../client';
 
 export const createInvitation = async (creator_id: number, group_id: number) => {
-  const code = nanoid(10);
+  const code = nanoid(INVITATION_CODE_LENGTH);
   const { data, error } = await supabase.from('invitations').insert({ code, creator_id, group_id }).select();
   const invitation = data?.[0];
 

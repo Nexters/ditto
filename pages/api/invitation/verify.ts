@@ -3,13 +3,14 @@ import { NextResponse } from 'next/server';
 import { getInvitationInfo } from '@/lib/supabase/apis/invitation';
 import { addDays } from '@/utils/date';
 import { z } from 'zod';
+import { INVITATION_CODE_LENGTH } from '@/utils/const';
 
 export const config = {
   runtime: 'edge',
 };
 
 const bodyScheme = z.object({
-  code: z.string().length(10),
+  code: z.string().length(INVITATION_CODE_LENGTH),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {
