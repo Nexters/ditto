@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, ModalOverlay, ModalContent, Text } from '@chakra-ui/react';
+import { Modal, ModalOverlay, ModalContent, FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 interface AddBucketFolderModalProps {
   isOpen: boolean;
@@ -10,9 +10,10 @@ const AddBucketFolderModal = (props: AddBucketFolderModalProps) => (
   <Modal {...props}>
     <ModalOverlay />
     <ModalContent bgColor="white" width={300} height={400}>
-      <Text color="black" textAlign="center">
-        hello world
-      </Text>
+      <FormControl>
+        <FormLabel>폴더 이름</FormLabel>
+        <Input placeholder="폴더명을 입력하세요." />
+      </FormControl>
     </ModalContent>
   </Modal>
 );

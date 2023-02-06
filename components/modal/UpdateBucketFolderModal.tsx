@@ -6,7 +6,7 @@ interface UpdateBucketModalProps {
   onClose: () => void;
 }
 
-const UpdateBucketModal = (props: UpdateBucketModalProps) => (
+const UpdateBucketFolderModal = (props: UpdateBucketModalProps) => (
   <Modal {...props}>
     <ModalOverlay />
     <ModalContent bgColor="white" width={300} height={400}>
@@ -17,4 +17,4 @@ const UpdateBucketModal = (props: UpdateBucketModalProps) => (
   </Modal>
 );
 
-export default UpdateBucketModal;
+export default UpdateBucketFolderModal;
