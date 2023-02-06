@@ -2,10 +2,15 @@ import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
 import { getInvitationInfo } from '@/lib/supabase/apis/invitation';
 import { addDays } from '@/utils/date';
+import { z } from 'zod';
 
 export const config = {
   runtime: 'edge',
 };
+
+const bodyScheme = z.object({
+  code: z.string(),
+});
 
 const edgeFunction: EdgeFunction = async (req) => {
   try {
@@ -14,7 +19,8 @@ const edgeFunction: EdgeFunction = async (req) => {
     // 3. 생성 시점이 유효기간을 넘었는지 체크
     // 4. 초대장 정보 반환
 
-    const { code } = await req.json();
+    const body = await req.json();
+    const { code } = bodyScheme.parse(body);
 
     const invitationInfo = await getInvitationInfo(code);
     const now = new Date();
