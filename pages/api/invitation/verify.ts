@@ -9,7 +9,7 @@ export const config = {
 };
 
 const bodyScheme = z.object({
-  code: z.string(),
+  code: z.string().length(10),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {
