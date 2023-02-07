@@ -8,7 +8,7 @@ import { NextPage } from 'next';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { useUser } from '@/store/useUser';
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   // eslint-disable-next-line no-unused-vars
   getLayout?: (page: ReactElement) => ReactNode;
 };

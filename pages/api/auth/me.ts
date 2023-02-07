@@ -12,7 +12,7 @@ const edgeFunction: EdgeFunction = async (req) => {
   try {
     const refreshToken = req.cookies.get(COOKIE_KAKAO_REFRESH_TOKEN_NAME)?.value;
     let accessToken = req.cookies.get(COOKIE_KAKAO_ACCESS_TOKEN_NAME)?.value;
-    let expiresIn: number = 0;
+    let expiresIn = 0;
 
     if (!refreshToken) throw 'empty refresh token';
     if (!accessToken) {
