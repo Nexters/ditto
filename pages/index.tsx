@@ -1,12 +1,12 @@
 import MainLayout from '@/components/layouts/MainLayout';
-import { getJoinedGroupList, joinGroup } from '@/lib/supabase/apis/group';
-import { getInvitationInfo } from '@/lib/supabase/apis/invitation';
+import { joinGroup } from '@/lib/supabase/apis/group';
 import { useUser } from '@/store/useUser';
 import { KAKAO_LOGIN_URL } from '@/utils/const';
 import { pickFirst } from '@/utils/array';
-import { useQuery } from '@tanstack/react-query';
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
+import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -24,22 +24,9 @@ const RootPage = () => {
   const code = pickFirst(router.query.code);
 
   const { user, isLoading: isLoadingUser, setGroupId } = useUser();
-  const invitationInfoQuery = useQuery(
-    ['code', code],
-    async () => {
-      if (!code) throw 'code is null';
-      return await getInvitationInfo(code);
-    },
-    { enabled: !!code }
-  );
-  const joinedGroupListQuery = useQuery(
-    ['groups', user],
-    async () => {
-      if (!user) throw 'need to login';
-      return await getJoinedGroupList(user.id);
-    },
-    { enabled: !!user }
-  );
+  const invitationInfoQuery = useFetchInvitationInfo(code);
+  const joinedGroupListQuery = useFetchJoinedGroupList(user);
+
   // @note: 유저 정보를 받아온 후에 root page를 보여줄 지 여부를 결정하기 위함
   const [showRootPage, setShowRootPage] = useState(false);
 
