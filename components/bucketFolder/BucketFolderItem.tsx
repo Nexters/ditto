@@ -5,9 +5,7 @@ import Link from 'next/link';
 const BucketFolderItem = ({ folder }: { folder: BucketFolder }) => {
   return (
     <li key={folder.id}>
-      <Link href={`/bucketlist/${folder.id}`}>
-        <a>{folder.title}</a>
-      </Link>
+      <Link href={`/bucketlist/${folder.id}`}>{folder.title}</Link>
     </li>
   );
 };
