@@ -2,11 +2,17 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import BottomNavigation from './BottomNavigation';
 
-const MainLayout = ({ children }: { children: ReactNode }) => {
+const MainLayout = ({
+  children,
+  hideBottomNavigation = false,
+}: {
+  children: ReactNode;
+  hideBottomNavigation?: boolean;
+}) => {
   return (
     <MainContainer>
       <MainSection>{children}</MainSection>
-      <BottomNavigation />
+      {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>
   );
 };
