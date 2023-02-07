@@ -34,7 +34,7 @@ const RootPage = () => {
     const run = async () => {
       if (isLoadingUser) return;
       if (code && invitationInfoQuery.isLoading) return;
-      if (joinedGroupListQuery.isLoading) return;
+      if (user && joinedGroupListQuery.isLoading) return;
 
       const invitationInfo = invitationInfoQuery.data;
       const joinedGroupList = joinedGroupListQuery.data ?? [];
