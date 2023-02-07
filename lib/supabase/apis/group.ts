@@ -36,7 +36,11 @@ export const createDefaultBucketFolder = async (user_id: number, group_id: numbe
 };
 
 export const getJoinedGroupList = async (user_id: number) => {
-  const { data, error } = await supabase.from('group_members').select(`*, groups (*)`).eq('user_id', user_id);
+  const { data, error } = await supabase
+    .from('group_members')
+    .select(`*, groups (*)`)
+    .eq('user_id', user_id)
+    .order('joined_time', { ascending: true });
   const joinedGroupList = (data ?? []).map((item) => pickFirst(item.groups)).filter(isNonNullable);
   if (error) throw error;
   return joinedGroupList;
