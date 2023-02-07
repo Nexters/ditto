@@ -1,6 +1,8 @@
 import { INVITATION_CODE_LENGTH } from '@/utils/const';
+import { addDays } from '@/utils/date';
 import { nanoid } from 'nanoid';
 import { supabase } from '../client';
+import { InvitationInfo } from '../type';
 
 export const createInvitation = async (creator_id: number, group_id: number) => {
   const code = nanoid(INVITATION_CODE_LENGTH);
@@ -12,12 +14,17 @@ export const createInvitation = async (creator_id: number, group_id: number) => 
 };
 
 export const getInvitationInfo = async (code: string) => {
+  if (code.length !== INVITATION_CODE_LENGTH) throw 'invalid code';
+
+  const minCreatedTime = addDays(new Date(), -1);
   const { data, error } = await supabase
     .from('invitations')
     .select(`*, groups ( name ), users ( nickname )`)
-    .eq('code', code);
+    .eq('code', code)
+    // @note: 생성시점이 min(= 현재 - 24시간) 보다 작다면 유효한 시점이라 판단.
+    .lt('created_time', minCreatedTime.toISOString());
   const invitationInfo = data?.[0];
 
   if (!invitationInfo || error) throw error;
-  return invitationInfo;
+  return invitationInfo as InvitationInfo;
 };
