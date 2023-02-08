@@ -4,7 +4,7 @@ import { useUser } from '@/store/useUser';
 import { KAKAO_LOGIN_URL } from '@/utils/const';
 import { pickFirst } from '@/utils/array';
 import Router, { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 
@@ -27,22 +27,14 @@ const RootPage = () => {
   const invitationInfoQuery = useFetchInvitationInfo(code);
   const joinedGroupListQuery = useFetchJoinedGroupList(user);
 
-  // @note: 유저 정보를 받아온 후에 root page를 보여줄 지 여부를 결정하기 위함
-  const [showRootPage, setShowRootPage] = useState(false);
-
   useEffect(() => {
     const run = async () => {
-      if (isLoadingUser) return;
+      if (isLoadingUser || !user) return;
+      if (joinedGroupListQuery.isLoading) return;
       if (code && invitationInfoQuery.isLoading) return;
-      if (user && joinedGroupListQuery.isLoading) return;
 
       const invitationInfo = invitationInfoQuery.data;
       const joinedGroupList = joinedGroupListQuery.data ?? [];
-
-      if (!user) {
-        setShowRootPage(true);
-        return;
-      }
 
       if (invitationInfo) {
         const needToJoin = joinedGroupList.every((group) => group.id !== invitationInfo.group_id);
@@ -58,7 +50,6 @@ const RootPage = () => {
         return Router.replace('/bucketlist');
       } else {
         // @todo: 에러 페이지로 이동
-        setShowRootPage(true);
       }
     };
     run();
@@ -75,19 +66,12 @@ const RootPage = () => {
 
   return (
     <MainLayout hideBottomNavigation>
-      {showRootPage ? (
-        <>
-          <p>
-            {invitationInfoQuery.data
-              ? `${invitationInfoQuery.data.users.nickname}님이 당신을\n${invitationInfoQuery.data.groups.name} 그룹으로 초대합니다.`
-              : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
-          </p>
-          <a href={KAKAO_LOGIN_URL}>카카오 로그인</a>
-        </>
-      ) : (
-        // @todo: 깜빡임 방지를 위해 적절한 로딩페이지로 변경할 것.
-        'loading'
-      )}
+      <p>
+        {invitationInfoQuery.data
+          ? `${invitationInfoQuery.data.users.nickname}님이 당신을\n${invitationInfoQuery.data.groups.name} 그룹으로 초대합니다.`
+          : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
+      </p>
+      <a href={KAKAO_LOGIN_URL}>카카오 로그인</a>
     </MainLayout>
   );
 };
