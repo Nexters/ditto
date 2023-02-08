@@ -23,7 +23,7 @@ const RootPage = () => {
   const router = useRouter();
   const code = pickFirst(router.query.code);
 
-  const { user, isLoading: isLoadingUser, setGroupId } = useUser();
+  const { user, isLoading: isLoadingUser, selectedGroupId, setGroupId } = useUser();
   const invitationInfoQuery = useFetchInvitationInfo(code);
   const joinedGroupListQuery = useFetchJoinedGroupList(user);
 
@@ -46,10 +46,12 @@ const RootPage = () => {
       }
 
       if (joinedGroupList.length > 0) {
-        setGroupId(joinedGroupList[0].id);
+        if (!selectedGroupId) {
+          setGroupId(joinedGroupList[0].id);
+        }
         return Router.replace('/bucketlist');
       } else {
-        // @todo: 에러 페이지로 이동
+        return Router.replace('/no-group');
       }
     };
     run();
@@ -62,6 +64,7 @@ const RootPage = () => {
     invitationInfoQuery.isLoading,
     joinedGroupListQuery.isLoading,
     setGroupId,
+    selectedGroupId,
   ]);
 
   return (
