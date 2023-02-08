@@ -1,4 +1,6 @@
+import { supabase } from '@/lib/supabase/client';
 import { User } from '@/lib/supabase/type';
+import { createCredentials } from '@/utils/auth';
 import { create } from 'zustand';
 
 type UserState = {
@@ -19,8 +21,11 @@ export const useUser = create<UserState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await fetch('/api/auth/me');
-      const user = (await res.json())?.data?.user;
+      const user: User | null = (await res.json())?.data?.user;
       if (!user) throw 'empty user info';
+      // @note: authorized 유저만 supabase를 직접 호출할 때 원하는 데이터를 얻을 수 있음.
+      await supabase.auth.signInWithPassword(createCredentials(user.id, user.oauth_id));
+
       set({ user, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
@@ -30,6 +35,9 @@ export const useUser = create<UserState>((set) => ({
   logout: async () => {
     // @note: 카카오 로그아웃 url 방문없이, 세션에 담긴 쿠키를 제거합니다.
     await fetch('/api/auth/kakao-logout');
+    // @note: supabase에서도 로그아웃 처리합니다.
+    await supabase.auth.signOut();
+
     set({ user: null, currentGroupId: null });
   },
   setGroupId: (groupId: number) => {
