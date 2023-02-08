@@ -1,12 +1,14 @@
+import { getJoinedGroupList } from '@/lib/supabase/apis/group';
 import { supabase } from '@/lib/supabase/client';
-import { User } from '@/lib/supabase/type';
+import { Group, User } from '@/lib/supabase/type';
 import { createCredentials } from '@/utils/auth';
+import { LOCAL_STORAGE__GROUP_ID } from '@/utils/const';
 import { create } from 'zustand';
 
 type UserState = {
   user: User | null;
   isLoading: boolean;
-  currentGroupId: number | null;
+  selectedGroupId: number | null;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   setGroupId: (groupId: number) => void;
@@ -15,7 +17,7 @@ type UserState = {
 export const useUser = create<UserState>((set) => ({
   user: null,
   isLoading: false,
-  currentGroupId: null,
+  selectedGroupId: null,
   login: async () => {
     // @note: 세션에 담긴 쿠키를 통해 자신의 유저 정보를 가져옵니다.
     set({ isLoading: true });
@@ -26,7 +28,12 @@ export const useUser = create<UserState>((set) => ({
       // @note: authorized 유저만 supabase를 직접 호출할 때 원하는 데이터를 얻을 수 있음.
       await supabase.auth.signInWithPassword(createCredentials(user.id, user.oauth_id));
 
-      set({ user, isLoading: false });
+      // @note: 속한 그룹 중 하나를 선택한다. 최근에 방문한 그룹 정보가 있다면 그걸 선택한다.
+      const groupList = await getJoinedGroupList(user.id);
+      const latestGroupId = Number(localStorage.getItem(LOCAL_STORAGE__GROUP_ID));
+      const selectedGroup: Group | undefined = groupList.find((g) => g.id === latestGroupId) ?? groupList[0];
+
+      set({ user, isLoading: false, selectedGroupId: selectedGroup?.id ?? null });
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -38,9 +45,15 @@ export const useUser = create<UserState>((set) => ({
     // @note: supabase에서도 로그아웃 처리합니다.
     await supabase.auth.signOut();
 
-    set({ user: null, currentGroupId: null });
+    set({ user: null, selectedGroupId: null });
   },
   setGroupId: (groupId: number) => {
-    set({ currentGroupId: groupId });
+    set({ selectedGroupId: groupId });
   },
 }));
+
+// @note: 선택한 그룹 id를 localStorage에 저장
+useUser.subscribe(({ selectedGroupId }) => {
+  if (selectedGroupId) localStorage.setItem(LOCAL_STORAGE__GROUP_ID, String(selectedGroupId));
+  else localStorage.removeItem(LOCAL_STORAGE__GROUP_ID);
+});
