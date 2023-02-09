@@ -28,11 +28,11 @@ const RootPage = () => {
   const { data: joinedGroupList = [], isLoading: isLoadingJoinedGroupList } = useFetchJoinedGroupList(user);
 
   useEffect(() => {
-    const run = async () => {
-      if (isLoadingUser || !user) return;
-      if (isLoadingJoinedGroupList) return;
-      if (code && isLoadingInvitationInfo) return;
+    if (isLoadingUser || !user) return;
+    if (isLoadingJoinedGroupList) return;
+    if (code && isLoadingInvitationInfo) return;
 
+    (async () => {
       if (invitationInfo) {
         const needToJoin = joinedGroupList.every((group) => group.id !== invitationInfo.group_id);
         if (needToJoin) {
@@ -50,8 +50,7 @@ const RootPage = () => {
       } else {
         return Router.replace('/no-group');
       }
-    };
-    run();
+    })();
   }, [
     code,
     user,
