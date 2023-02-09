@@ -24,17 +24,14 @@ const RootPage = () => {
   const code = pickFirst(router.query.code);
 
   const { user, isLoading: isLoadingUser, selectedGroupId, setGroupId } = useUser();
-  const invitationInfoQuery = useFetchInvitationInfo(code);
-  const joinedGroupListQuery = useFetchJoinedGroupList(user);
+  const { data: invitationInfo, isLoading: isLoadingInvitationInfo } = useFetchInvitationInfo(code);
+  const { data: joinedGroupList = [], isLoading: isLoadingJoinedGroupList } = useFetchJoinedGroupList(user);
 
   useEffect(() => {
     const run = async () => {
       if (isLoadingUser || !user) return;
-      if (joinedGroupListQuery.isLoading) return;
-      if (code && invitationInfoQuery.isLoading) return;
-
-      const invitationInfo = invitationInfoQuery.data;
-      const joinedGroupList = joinedGroupListQuery.data ?? [];
+      if (isLoadingJoinedGroupList) return;
+      if (code && isLoadingInvitationInfo) return;
 
       if (invitationInfo) {
         const needToJoin = joinedGroupList.every((group) => group.id !== invitationInfo.group_id);
@@ -58,11 +55,11 @@ const RootPage = () => {
   }, [
     code,
     user,
-    invitationInfoQuery.data,
-    joinedGroupListQuery.data,
     isLoadingUser,
-    invitationInfoQuery.isLoading,
-    joinedGroupListQuery.isLoading,
+    isLoadingJoinedGroupList,
+    isLoadingInvitationInfo,
+    joinedGroupList,
+    invitationInfo,
     setGroupId,
     selectedGroupId,
   ]);
@@ -70,8 +67,8 @@ const RootPage = () => {
   return (
     <MainLayout hideBottomNavigation>
       <p>
-        {invitationInfoQuery.data
-          ? `${invitationInfoQuery.data.users.nickname}님이 당신을\n${invitationInfoQuery.data.groups.name} 그룹으로 초대합니다.`
+        {invitationInfo
+          ? `${invitationInfo.users.nickname}님이 당신을\n${invitationInfo.groups.name} 그룹으로 초대합니다.`
           : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
       </p>
       <a href={KAKAO_LOGIN_URL}>카카오 로그인</a>
