@@ -8,8 +8,7 @@ import { NextPage } from 'next';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import { useUser } from '@/store/useUser';
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  // eslint-disable-next-line no-unused-vars
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -18,7 +17,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const { login } = useUser();
+  const { login, isLoading } = useUser();
   const queryClient = new QueryClient();
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -41,11 +40,16 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme} resetCSS>
-          {getLayout(
-            <ErrorBoundary fallback={<div>에러 페이지</div>}>
-              <Component {...pageProps} />
-            </ErrorBoundary>
-          )}
+          {/* @note: 로그인 되기 전에 supabase를 통해 api 호출하면
+              signIn이 되어있지 않아 아무값을 못 얻게되므로 
+              일단은 로딩 문구를 보여줍니다... */}
+          {isLoading
+            ? 'loading...'
+            : getLayout(
+                <ErrorBoundary fallback={<div>에러 페이지</div>}>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
+              )}
         </ChakraProvider>
       </QueryClientProvider>
     </>

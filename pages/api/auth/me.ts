@@ -1,8 +1,9 @@
 import { fetchUserInfo, reissueAccessToken } from '@/lib/auth/kakao';
-import { supabase } from '@/lib/supabase/client';
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
 import { COOKIE_KAKAO_REFRESH_TOKEN_NAME, COOKIE_KAKAO_ACCESS_TOKEN_NAME } from '@/utils/const';
+import { createOauthId } from '@/utils/auth';
+import { adminApi } from '@/lib/supabase/admin';
 
 export const config = {
   runtime: 'edge',
@@ -12,7 +13,7 @@ const edgeFunction: EdgeFunction = async (req) => {
   try {
     const refreshToken = req.cookies.get(COOKIE_KAKAO_REFRESH_TOKEN_NAME)?.value;
     let accessToken = req.cookies.get(COOKIE_KAKAO_ACCESS_TOKEN_NAME)?.value;
-    let expiresIn: number = 0;
+    let expiresIn = 0;
 
     if (!refreshToken) throw 'empty refresh token';
     if (!accessToken) {
@@ -26,24 +27,16 @@ const edgeFunction: EdgeFunction = async (req) => {
       properties: { nickname, profile_image },
     } = await fetchUserInfo(accessToken);
 
-    const oauth_id = `kakao:${id}`;
+    const oauth_id = createOauthId('kakao', id);
 
-    let found = (await supabase.from('users').select().eq('oauth_id', oauth_id)).data?.[0];
+    let found = await adminApi.findUserByOauthId(oauth_id);
 
     if (!found) {
       // 없으면 회원가입
-      const { data, error } = await supabase.from('users').insert({ oauth_id, nickname, profile_image }).select();
-      found = data?.[0];
-      if (error || !found) throw error;
+      found = await adminApi.signUpUser(oauth_id, nickname, profile_image);
     } else if (found.nickname !== nickname || found.profile_image !== profile_image) {
       // 있는데 프로필 정보가 변경되면 업데이트
-      const { data, error } = await supabase
-        .from('users')
-        .update({ nickname, profile_image })
-        .eq('id', found.id)
-        .select();
-      found = data?.[0];
-      if (error || !found) throw error;
+      found = await adminApi.updateUserInfo(found.id, nickname, profile_image);
     }
 
     const res = new NextResponse(

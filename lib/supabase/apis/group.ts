@@ -1,3 +1,4 @@
+import { isNonNullable, pickFirst } from '@/utils/array';
 import { supabase } from '../client';
 
 export const createGroup = async (user_id: number, group_name: string) => {
@@ -32,4 +33,15 @@ export const createDefaultBucketFolder = async (user_id: number, group_id: numbe
   ]);
   if (error) throw error;
   return;
+};
+
+export const getJoinedGroupList = async (user_id: number) => {
+  const { data, error } = await supabase
+    .from('group_members')
+    .select(`*, groups (*)`)
+    .eq('user_id', user_id)
+    .order('joined_time', { ascending: true });
+  const joinedGroupList = (data ?? []).map((item) => pickFirst(item.groups)).filter(isNonNullable);
+  if (error) throw error;
+  return joinedGroupList;
 };
