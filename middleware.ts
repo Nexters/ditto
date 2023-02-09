@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
   if (!refresh_token && request.nextUrl.pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.url));
   }
+  return NextResponse.next();
 }
 
 export const config = {
