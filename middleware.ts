@@ -7,11 +7,10 @@ export function middleware(request: NextRequest) {
   if (!refresh_token && request.nextUrl.pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.url));
   }
-  return NextResponse.next();
 }
 
 export const config = {
-  runtime: 'edge',
+  runtime: 'experimental-edge',
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
