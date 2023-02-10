@@ -27,6 +27,6 @@ Event.getLayout = (page) => (
     {page}
   </MainLayout>
 );
-Event.needProtected = true;
+Event.isProtectedPage = true;
 
 export default Event;

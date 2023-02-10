@@ -21,6 +21,6 @@ BucketListItem.getLayout = (page) => (
     {page}
   </MainLayout>
 );
-BucketListItem.needProtected = true;
+BucketListItem.isProtectedPage = true;
 
 export default BucketListItem;
