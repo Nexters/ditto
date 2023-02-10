@@ -16,11 +16,10 @@ type UserState = {
 
 export const useUser = create<UserState>((set) => ({
   user: null,
-  isLoading: false,
+  isLoading: true,
   selectedGroupId: null,
   login: async () => {
     // @note: 세션에 담긴 쿠키를 통해 자신의 유저 정보를 가져옵니다.
-    set({ isLoading: true });
     try {
       const res = await fetch('/api/auth/me');
       const user: User | null = (await res.json())?.data?.user;
