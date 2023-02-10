@@ -10,6 +10,7 @@ import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
+  needProtected?: boolean;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -19,7 +20,7 @@ type AppPropsWithLayout = AppProps & {
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const queryClient = new QueryClient();
   const getLayout = Component.getLayout ?? ((page) => page);
-  const { showLoadingPage } = useProtectedRoute(pageProps?.protected, '/');
+  const { showLoadingPage } = useProtectedRoute(Component?.needProtected, '/');
 
   return (
     <>

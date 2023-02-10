@@ -34,12 +34,6 @@ MyPage.getLayout = (page) => (
   </MainLayout>
 );
 
-export default MyPage;
+MyPage.needProtected = true;
 
-export const getStaticProps = () => {
-  return {
-    props: {
-      protected: true,
-    },
-  };
-};
+export default MyPage;

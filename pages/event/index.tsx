@@ -27,13 +27,6 @@ Event.getLayout = (page) => (
     {page}
   </MainLayout>
 );
+Event.needProtected = true;
 
 export default Event;
-
-export const getStaticProps = () => {
-  return {
-    props: {
-      protected: true,
-    },
-  };
-};

@@ -21,13 +21,6 @@ BucketListItem.getLayout = (page) => (
     {page}
   </MainLayout>
 );
+BucketListItem.needProtected = true;
 
 export default BucketListItem;
-
-export const getStaticProps = () => {
-  return {
-    props: {
-      protected: true,
-    },
-  };
-};
