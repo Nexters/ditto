@@ -23,3 +23,11 @@ BucketList.getLayout = (page) => (
 );
 
 export default BucketList;
+
+export const getStaticProps = () => {
+  return {
+    props: {
+      protected: true,
+    },
+  };
+};

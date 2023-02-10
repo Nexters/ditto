@@ -35,3 +35,11 @@ MyPage.getLayout = (page) => (
 );
 
 export default MyPage;
+
+export const getStaticProps = () => {
+  return {
+    props: {
+      protected: true,
+    },
+  };
+};

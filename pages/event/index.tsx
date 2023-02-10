@@ -7,7 +7,7 @@ import AddBucketFolderModal from '@/components/modal/AddBucketFolderModal';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   return (
     <>
       <h1>일정</h1>
@@ -29,3 +29,11 @@ Event.getLayout = (page) => (
 );
 
 export default Event;
+
+export const getStaticProps = () => {
+  return {
+    props: {
+      protected: true,
+    },
+  };
+};

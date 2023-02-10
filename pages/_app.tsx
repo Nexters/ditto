@@ -1,12 +1,12 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
 import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
-import { useUser } from '@/store/useUser';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -17,17 +17,9 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const { login, isLoading } = useUser();
   const queryClient = new QueryClient();
   const getLayout = Component.getLayout ?? ((page) => page);
-
-  useEffect(() => {
-    // @note:
-    // getServerSideProps에서 edge function을 호출해도 그 응답에 접근할 수 없기에
-    // 로그인 여부를 client side에서 최초 mount된 시점에 체크합니다.
-    // https://nextjs.org/docs/api-routes/edge-api-routes#differences-between-api-routes
-    login().catch(() => null);
-  }, [login]);
+  const { showLoadingPage } = useProtectedRoute(pageProps?.protected, '/');
 
   return (
     <>
@@ -40,16 +32,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme} resetCSS>
-          {/* @note: 로그인 되기 전에 supabase를 통해 api 호출하면
-              signIn이 되어있지 않아 아무값을 못 얻게되므로 
-              일단은 로딩 문구를 보여줍니다... */}
-          {isLoading
-            ? 'loading...'
-            : getLayout(
-                <ErrorBoundary fallback={<div>에러 페이지</div>}>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
-              )}
+          <ErrorBoundary fallback={<div>에러 페이지</div>}>
+            {showLoadingPage ? 'loading...' : getLayout(<Component {...pageProps} />)}
+          </ErrorBoundary>
         </ChakraProvider>
       </QueryClientProvider>
     </>
