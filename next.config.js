@@ -1,4 +1,7 @@
 const nextConfig = {
+  experimental: {
+    runtime: 'experimental-edge',
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
