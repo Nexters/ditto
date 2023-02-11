@@ -19,7 +19,7 @@ const Event: NextPageWithLayout = () => {
         <h2>일정</h2>
       </section>
 
-      <div style={{ width: '100%', height: 1000 }}></div>
+      <div style={{ width: '100%', height: 3000 }}></div>
 
       <FixedContainer>
         <Button
@@ -27,7 +27,7 @@ const Event: NextPageWithLayout = () => {
           height="64px"
           borderRadius={50}
           bgColor="black"
-          filter="drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2));"
+          filter="drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2))"
           onClick={onOpen}
         >
           <Image src={Plus} alt="plus" />
@@ -51,9 +51,9 @@ export default Event;
 const FixedContainer = styled.div`
   position: fixed;
   bottom: ${BottomNavBarHeight + 13}px;
-  transform: translateX(341px);
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   max-width: 420px;
   width: 100%;
   margin: 0 auto;
