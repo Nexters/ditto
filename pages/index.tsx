@@ -7,6 +7,7 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
+import { Button, Heading, VStack } from '@chakra-ui/react';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -65,12 +66,27 @@ const RootPage = () => {
 
   return (
     <MainLayout hideBottomNavigation>
-      <p>
-        {invitationInfo
-          ? `${invitationInfo.users.nickname}님이 당신을\n${invitationInfo.groups.name} 그룹으로 초대합니다.`
-          : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
-      </p>
-      <a href={KAKAO_LOGIN_URL(code)}>카카오 로그인</a>
+      <VStack flex={1} justifyContent={'center'} spacing={30}>
+        <Heading as="h2" whiteSpace={'pre-line'} fontSize={16} textAlign={'center'} fontWeight={400}>
+          {invitationInfo ? (
+            <>
+              <b>{invitationInfo?.users.nickname}</b>
+              {'님이 당신을\n'}
+              <b>{invitationInfo?.groups.name}</b>
+              {'으로 초대합니다.'}
+            </>
+          ) : (
+            '가까운 사람들과 일정, 버킷리스트를\n함께 작성하고 관리해보세요.'
+          )}
+        </Heading>
+
+        <div style={{ width: '248px', height: '460px', backgroundColor: '#eee' }}></div>
+
+        <Button width={280} height={50} backgroundColor="#FEE500" color="#000" as="a" href={KAKAO_LOGIN_URL(code)}>
+          카카오 로그인
+        </Button>
+      </VStack>
+      {/* </Center> */}
     </MainLayout>
   );
 };

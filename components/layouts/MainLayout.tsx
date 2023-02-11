@@ -27,6 +27,8 @@ const MainContainer = styled.main`
 
 const MainSection = styled.section`
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `;
 
 export default MainLayout;
