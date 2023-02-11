@@ -13,7 +13,7 @@ const MainLayout = ({
 }) => {
   return (
     <MainContainer>
-      <MainSection>{children}</MainSection>
+      <MainSection hideBottomNavigation={hideBottomNavigation}>{children}</MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
       {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>
@@ -27,12 +27,12 @@ const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-const MainSection = styled.section`
+const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: ${BottomNavBarHeight}px;
+  bottom: ${(props) => (props.hideBottomNavigation ? 0 : BottomNavBarHeight)}px;
   overflow: auto;
 `;
 
