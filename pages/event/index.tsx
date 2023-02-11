@@ -3,11 +3,10 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
-import Image from 'next/image';
-import Plus from 'public/plus.svg';
 import { BottomNavBarHeight } from '@/components/layouts/BottomNavigation';
 import styled from '@emotion/styled';
-import EventModal from '@/components/modal/EventModal';
+import EventModal from '@/components/modals/EventModal';
+import { PlusWhiteIcon } from '@/components/icons';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,7 +29,7 @@ const Event: NextPageWithLayout = () => {
           filter="drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2))"
           onClick={onOpen}
         >
-          <Image src={Plus} alt="plus" />
+          <PlusWhiteIcon />
         </Button>
       </FixedContainer>
       <EventModal isOpen={isOpen} onClose={onClose} />
