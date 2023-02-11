@@ -21,8 +21,8 @@ export const getInvitationInfo = async (code: string) => {
     .from('invitations')
     .select(`*, groups ( name ), users ( nickname )`)
     .eq('code', code)
-    // @note: 생성시점이 min(= 현재 - 24시간) 보다 작다면 유효한 시점이라 판단.
-    .lt('created_time', minCreatedTime.toISOString());
+    // @note: 생성시점이 min(= 현재 - 24시간) 보다 커야 유효한 시점
+    .gt('created_time', minCreatedTime.toISOString());
   const invitationInfo = data?.[0];
 
   if (!invitationInfo || error) throw error;
