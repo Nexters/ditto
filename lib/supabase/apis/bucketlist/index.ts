@@ -1,10 +1,5 @@
 import { supabase } from '@/lib/supabase/client';
-import {
-  ICreateBucketFolderParams,
-  ICreateBucketItemParams,
-  TCreateBucketFolderParams,
-  TCreateBucketItemParams,
-} from '@/lib/supabase/apis/bucketlist/type';
+import { TCreateBucketFolderParams, TCreateBucketItemParams } from '@/lib/supabase/apis/bucketlist/type';
 import { BucketFolder, BucketItem } from '@/lib/supabase/type';
 
 //Bucket Item
