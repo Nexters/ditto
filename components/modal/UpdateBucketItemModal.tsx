@@ -1,20 +1,22 @@
 import React from 'react';
-import { Modal, ModalOverlay, ModalContent, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
+import BaseModal from '@/components/modal/BaseModal';
 
-interface UpdateBucketModalProps {
+interface UpdateBucketItemModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const UpdateBucketItemModal = (props: UpdateBucketModalProps) => (
-  <Modal {...props}>
-    <ModalOverlay />
-    <ModalContent bgColor="white" width={300} height={400}>
-      <Text color="black" textAlign="center">
-        hello world
-      </Text>
-    </ModalContent>
-  </Modal>
+const ModalContent = () => {
+  return (
+    <Text color="black" textAlign="center">
+      hello world
+    </Text>
+  );
+};
+
+const UpdateBucketItemModal = ({ isOpen, onClose }: UpdateBucketItemModalProps) => (
+  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />
 );
 
 export default UpdateBucketItemModal;

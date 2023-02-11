@@ -1,29 +1,15 @@
 import React from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  FormControl,
-  FormLabel,
-  Input,
-  // Button,
-  ModalFooter,
-  ModalBody,
-} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input, ModalFooter, ModalBody } from '@chakra-ui/react';
+import BaseModal from '@/components/modal/BaseModal';
 
 interface AddBucketFolderModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// const handleClickAdd = () => {
-//   console.log('add');
-// };
-
-const AddBucketFolderModal = (props: AddBucketFolderModalProps) => (
-  <Modal {...props}>
-    <ModalOverlay />
-    <ModalContent bgColor="white" width={300} height={200}>
+const ModalContent = () => {
+  return (
+    <>
       <ModalBody>
         <FormControl>
           <FormLabel>폴더 이름</FormLabel>
@@ -31,8 +17,11 @@ const AddBucketFolderModal = (props: AddBucketFolderModalProps) => (
         </FormControl>
       </ModalBody>
       <ModalFooter>test</ModalFooter>
-    </ModalContent>
-  </Modal>
-);
+    </>
+  );
+};
 
+const AddBucketFolderModal = ({ isOpen, onClose }: AddBucketFolderModalProps) => (
+  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />
+);
 export default AddBucketFolderModal;
