@@ -1,8 +1,15 @@
+export { default as ArrowRightIcon } from './ArrowRightIcon';
 export { default as CalendarIcon } from './CalendarIcon';
+export { default as CheckIcon } from './CheckIcon';
+export { default as DownIcon } from './DownIcon';
 export { default as ErrorRabbitIcon } from './ErrorRabbitIcon';
 export { default as FlagIcon } from './FlagIcon';
+export { default as FolderIcon } from './FolderIcon';
+export { default as GrayPawIcon } from './GrayPawIcon';
 export { default as KakaoIcon } from './KakaoIcon';
 export { default as MainLogoIcon } from './MainLogoIcon';
+export { default as PawIcon } from './PawIcon';
+export { default as PlusWhiteIcon } from './PlusWhiteIcon';
 export { default as RabbitWithCarIcon } from './RabbitWithCarIcon';
 export { default as SplashLogoIcon } from './SplashLogoIcon';
 export { default as TrashCanIcon } from './TrashCanIcon';
