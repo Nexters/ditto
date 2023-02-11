@@ -1,22 +1,29 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useFetchBucketItems } from '@/hooks/useFetchBucketItems';
+import { useFetchBucketItems } from '@/hooks/bucketlist/useFetchBucketItems';
 import BucketItem from '@/components/bucketItem/BucketItem';
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
+import { useUser } from '@/store/useUser';
 
 const BucketItemList = () => {
   const router = useRouter();
   const { folderId } = router.query;
 
   const { data, status } = useFetchBucketItems(Number(folderId));
+  const { createBucketItemMutation } = useMutateBucketItems();
+  const { mutate: createBucket } = createBucketItemMutation;
 
   if (status === 'loading') return <div>로딩중</div>;
   if (status === 'error') return <div>에러 발생</div>;
 
-  console.log(data);
-
   const handleClick = () => {
-    console.log('click');
+    createBucket({
+      bucket_folder_id: Number(folderId),
+      description: 'test4',
+      completed: false,
+      title: 'test4',
+    });
   };
 
   return (
