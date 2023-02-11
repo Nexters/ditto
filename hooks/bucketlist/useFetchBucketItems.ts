@@ -1,20 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase/client';
 import { BucketItem } from '@/lib/supabase/type';
+import { getBucketItems } from '@/lib/supabase/apis/bucketlist';
 
 export const useFetchBucketItems = (folderId: number) => {
-  const getBucketItems = async () => {
-    const { data, error } = await supabase
-      .from('bucket_items')
-      .select('*')
-      .order('created_time', { ascending: true })
-      .eq('bucket_folder_id', folderId);
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+  const fetcher = async () => {
+    const response = await getBucketItems(folderId);
+    return response;
   };
-  return useQuery<BucketItem[], Error>(['bucketItems', folderId], getBucketItems, {
+  return useQuery<BucketItem[], Error>(['bucketItems', folderId], fetcher, {
     staleTime: Infinity,
     enabled: !!folderId,
   });

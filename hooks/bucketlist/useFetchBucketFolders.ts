@@ -1,26 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase/client';
 import { BucketFolder } from '@/lib/supabase/type';
+import { getBucketFolders } from '@/lib/supabase/apis/bucketlist';
+import { useUser } from '@/store/useUser';
 
 export const useFetchBucketFolders = () => {
-  const getBucketFolders = async () => {
-    const { data, error } = await supabase
-      .from('bucket_folders')
-      .select('*')
-      .eq('group_id', 1)
-      .order('created_time', { ascending: true });
+  const { selectedGroupId } = useUser();
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    return data;
+  if (!selectedGroupId) throw new Error('selectedGroupId is null');
+
+  const fetcher = async () => {
+    const response = await getBucketFolders(selectedGroupId);
+    return response;
   };
-  return useQuery<BucketFolder[], Error>(
-    ['bucketFolders'],
-    getBucketFolders,
-
-    {
-      staleTime: Infinity,
-    }
-  );
+  return useQuery<BucketFolder[], Error>(['bucketFolders'], fetcher, {
+    staleTime: Infinity,
+  });
 };
