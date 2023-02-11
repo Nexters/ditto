@@ -21,7 +21,7 @@ import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 
 const RootPage = () => {
   const router = useRouter();
-  const code = pickFirst(router.query.code);
+  const code = pickFirst(router.query.code) ?? pickFirst(router.query.state);
 
   const { user, isLoading: isLoadingUser, selectedGroupId, setGroupId } = useUser();
   const { data: invitationInfo, isLoading: isLoadingInvitationInfo } = useFetchInvitationInfo(code);
@@ -70,7 +70,7 @@ const RootPage = () => {
           ? `${invitationInfo.users.nickname}님이 당신을\n${invitationInfo.groups.name} 그룹으로 초대합니다.`
           : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
       </p>
-      <a href={KAKAO_LOGIN_URL}>카카오 로그인</a>
+      <a href={KAKAO_LOGIN_URL(code)}>카카오 로그인</a>
     </MainLayout>
   );
 };

@@ -7,16 +7,20 @@ export const config = {
   runtime: 'edge',
 };
 
+const withState = (url: string, state?: string | null) => `${url}/?state=${state}`;
+
 const edgeFunction: EdgeFunction = async (req) => {
   try {
     const { searchParams } = new URL(req.url);
     const code = searchParams.get('code');
+    const state = searchParams.get('state');
+
     if (!code) throw 'empty code';
 
     const responseByCode = await issueAccessToken(code);
     const { access_token, expires_in, refresh_token, refresh_token_expires_in } = responseByCode;
 
-    const res = NextResponse.redirect(HOSTING_URL, 302);
+    const res = NextResponse.redirect(withState(HOSTING_URL, state), 302);
 
     // @note: edge runtime에선 현재 쿠키가 두개 이상 set하면 첫번째꺼만 반영되는 이슈가 있음
     // 임시로 refresh_token을 먼저 쓰도록 하고, access_token set은 /api/auth/me 에서 진행되도록 한다.
