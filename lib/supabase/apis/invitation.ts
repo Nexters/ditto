@@ -25,6 +25,6 @@ export const getInvitationInfo = async (code: string) => {
     .gt('created_time', minCreatedTime.toISOString());
   const invitationInfo = data?.[0];
 
-  if (!invitationInfo || error) throw error;
-  return invitationInfo as InvitationInfo;
+  if (error) throw error;
+  return invitationInfo as InvitationInfo | undefined;
 };
