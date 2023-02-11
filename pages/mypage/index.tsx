@@ -34,4 +34,6 @@ MyPage.getLayout = (page) => (
   </MainLayout>
 );
 
+MyPage.isProtectedPage = true;
+
 export default MyPage;
