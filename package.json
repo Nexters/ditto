@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "husky-install": "husky install",
+    "prepare": "husky install",
     "gen-schema": "npx supabase gen types typescript --project-id nmudcjshynedjpjithxj --schema public > lib/supabase/schema.ts"
   },
   "dependencies": {
