@@ -1,24 +1,21 @@
 import React from 'react';
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
-import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import { BottomNavBarHeight } from '@/components/layouts/BottomNavigation';
 import styled from '@emotion/styled';
 import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
+import EventHeader from '@/components/header/EventHeader';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <h1>일정</h1>
       <section>
         <h2>일정</h2>
       </section>
-
-      <div style={{ width: '100%', height: 3000 }}></div>
 
       <FixedContainer>
         <Button
@@ -39,7 +36,7 @@ const Event: NextPageWithLayout = () => {
 
 Event.getLayout = (page) => (
   <MainLayout>
-    <PageHeader />
+    <EventHeader />
     {page}
   </MainLayout>
 );

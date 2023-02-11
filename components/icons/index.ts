@@ -1,10 +1,13 @@
 export { default as ArrowRightIcon } from './ArrowRightIcon';
+export { default as BlackDownIcon } from './BlackDownIcon';
 export { default as CalendarIcon } from './CalendarIcon';
-export { default as CheckIcon } from './CheckIcon';
-export { default as DownIcon } from './DownIcon';
+export { default as CheckIcon20 } from './CheckIcon20';
+export { default as CheckIcon24 } from './CheckIcon24';
+export { default as CheckIcon32 } from './CheckIcon32';
 export { default as ErrorRabbitIcon } from './ErrorRabbitIcon';
 export { default as FlagIcon } from './FlagIcon';
 export { default as FolderIcon } from './FolderIcon';
+export { default as GrayDownIcon } from './GrayDownIcon';
 export { default as GrayPawIcon } from './GrayPawIcon';
 export { default as KakaoIcon } from './KakaoIcon';
 export { default as MainLogoIcon } from './MainLogoIcon';
