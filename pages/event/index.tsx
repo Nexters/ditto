@@ -3,7 +3,7 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
-import AddBucketFolderModal from '@/components/modal/AddBucketFolderModal';
+import AddBucketFolderModal from '@/components/modals/AddBucketFolderModal';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '@chakra-ui/react';
-import BaseModal from '@/components/modal/BaseModal';
+import BaseModal from '@/components/modals/BaseModal';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
