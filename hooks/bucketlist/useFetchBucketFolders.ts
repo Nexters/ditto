@@ -7,6 +7,7 @@ export const useFetchBucketFolders = () => {
     const { data, error } = await supabase
       .from('bucket_folders')
       .select('*')
+      .eq('group_id', 1)
       .order('created_time', { ascending: true });
 
     if (error) {
