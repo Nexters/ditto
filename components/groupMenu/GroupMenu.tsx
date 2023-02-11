@@ -8,19 +8,19 @@ const GroupMenu = () => {
   const { user, selectedGroupId, setGroupId } = useUser();
   const { data: groupList } = useFetchJoinedGroupList(user);
 
+  const currentGroupName = groupList?.filter(({ id }) => id === selectedGroupId)[0].name;
+
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<GrayDownIcon />}>
-        {groupList?.filter((v) => v.id === selectedGroupId)[0].name}
+        {currentGroupName}
       </MenuButton>
       <MenuList>
         {groupList?.map(({ name, id }) => (
-          <>
-            <MenuItem key={id} onClick={() => setGroupId(id)}>
-              {id === selectedGroupId ? <CheckIcon20 /> : null}
-              {name}
-            </MenuItem>
-          </>
+          <MenuItem key={id} onClick={() => setGroupId(id)}>
+            {id === selectedGroupId ? <CheckIcon20 /> : null}
+            {name}
+          </MenuItem>
         ))}
       </MenuList>
     </Menu>
