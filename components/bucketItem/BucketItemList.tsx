@@ -4,7 +4,6 @@ import { useFetchBucketItems } from '@/hooks/bucketlist/useFetchBucketItems';
 import BucketItem from '@/components/bucketItem/BucketItem';
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
-import { useUser } from '@/store/useUser';
 
 const BucketItemList = () => {
   const router = useRouter();
