@@ -39,7 +39,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme} resetCSS cssVarsRoot="body">
+        <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
           <ErrorBoundary fallback={<div>에러 페이지</div>}>
             {showLoadingPage ? 'loading...' : getLayout(<Component {...pageProps} />)}
           </ErrorBoundary>
