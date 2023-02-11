@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFetchBucketFolders } from '@/hooks/useFetchBucketFolders';
+import { useFetchBucketFolders } from '@/hooks/bucketlist/useFetchBucketFolders';
 import styled from '@emotion/styled';
 import { BucketFolder } from '@/lib/supabase/type';
 import { Button, useDisclosure } from '@chakra-ui/react';
