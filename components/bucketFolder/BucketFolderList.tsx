@@ -25,7 +25,7 @@ const BucketFolderList = () => {
       {emptyDataLength > 0 &&
         Array.from({ length: emptyDataLength }).map((_, index) => (
           <li key={index}>
-            <Button onClick={onOpen}>+</Button>
+            <AddFolderButton onClick={onOpen}>+</AddFolderButton>
             <AddBucketFolderModal isOpen={isOpen} onClose={onClose} />
           </li>
         ))}
@@ -36,6 +36,17 @@ const BucketFolderList = () => {
 const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
+  height: 100%;
+  gap: 10px;
+  padding: 16px 20px;
+`;
+
+const AddFolderButton = styled(Button)`
+  width: 100%;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  border-radius: 12px;
+  height: 70px;
 `;
 
 export default BucketFolderList;
