@@ -3,14 +3,14 @@ import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import { NextPageWithLayout } from '@/pages/_app';
 import BucketFolderList from '@/components/bucketFolder/BucketFolderList';
-import { Flag } from '@/components/icons';
+import { FlagIcon } from '@/components/icons';
 
 const BucketList: NextPageWithLayout = () => {
   return (
     <>
       <h1>Bucket List</h1>
       <section>
-        <Flag />
+        <FlagIcon />
         <BucketFolderList />
       </section>
     </>
