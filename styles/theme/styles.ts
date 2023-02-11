@@ -12,12 +12,15 @@ const styles = {
       color: 'inherit',
       textDecoration: 'none',
     },
-    'textarea: focus, input: focus, button: focus':{
-      outline: 'none',
+    'textarea: focus, input: focus, button: focus': {
+      outline: 'none !important',
     },
-    'ul': {
+    'textarea: focus-visible, input: focus-visible, button: focus-visible': {
+      outline: 'none !important',
+    },
+    ul: {
       listStyle: 'none',
-    }
+    },
   },
 };
 
