@@ -3,6 +3,16 @@ import { TCreateBucketFolderParams, TCreateBucketItemParams } from '@/lib/supaba
 import { BucketFolder, BucketItem } from '@/lib/supabase/type';
 
 //Bucket Item
+export const getBucketItems = async (folderId: number) => {
+  const { data, error } = await supabase
+    .from('bucket_items')
+    .select('*')
+    .order('created_time', { ascending: true })
+    .eq('bucket_folder_id', folderId);
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const createBucketItem = async (params: TCreateBucketItemParams) => {
   const { item, user, selectedGroupId } = params;
 
@@ -35,6 +45,16 @@ export const completeBucketItem = async (id: number) => {
 };
 
 //Bucket Folder
+export const getBucketFolders = async (groupId: number) => {
+  const { data, error } = await supabase
+    .from('bucket_folders')
+    .select('*')
+    .order('created_time', { ascending: true })
+    .eq('group_id', groupId);
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const createBucketFolder = async (params: TCreateBucketFolderParams) => {
   const { folder, user, selectedGroupId } = params;
 

@@ -6,7 +6,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Button,
+  // Button,
   ModalFooter,
   ModalBody,
 } from '@chakra-ui/react';
@@ -16,9 +16,9 @@ interface AddBucketFolderModalProps {
   onClose: () => void;
 }
 
-const handleClickAdd = () => {
-  console.log('add');
-};
+// const handleClickAdd = () => {
+//   console.log('add');
+// };
 
 const AddBucketFolderModal = (props: AddBucketFolderModalProps) => (
   <Modal {...props}>
