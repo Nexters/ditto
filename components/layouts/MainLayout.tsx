@@ -26,6 +26,7 @@ const MainContainer = styled.main`
 `;
 
 const MainSection = styled.section`
+  position: relative;
   flex: 1;
 `;
 
