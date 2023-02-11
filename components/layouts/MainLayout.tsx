@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import BottomNavigation from './BottomNavigation';
+import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
 
 const MainLayout = ({
   children,
@@ -18,16 +18,19 @@ const MainLayout = ({
 };
 
 const MainContainer = styled.main`
-  display: flex;
-  flex-direction: column;
+  position: relative;
   max-width: 420px;
-  margin: 0 auto;
   min-height: 100vh;
+  margin: 0 auto;
 `;
 
 const MainSection = styled.section`
-  position: relative;
-  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: ${BottomNavBarHeight}px;
+  overflow: auto;
 `;
 
 export default MainLayout;
