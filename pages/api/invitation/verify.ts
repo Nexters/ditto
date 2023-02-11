@@ -24,6 +24,8 @@ const edgeFunction: EdgeFunction = async (req) => {
     const { code } = bodyScheme.parse(body);
 
     const invitationInfo = await getInvitationInfo(code);
+    if (!invitationInfo) throw 'invitation is empty';
+
     const now = new Date();
     const expired = addDays(invitationInfo.created_time, 1);
 

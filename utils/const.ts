@@ -9,14 +9,16 @@ export const KAKAO_LOGIN_REDIRECT_URL =
 export const KAKAO_LOGOUT_REDIRECT_URL =
   process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL || 'http://localhost:3000/api/auth/kakao-logout';
 
-export const KAKAO_LOGIN_URL = queryString.stringifyUrl({
-  url: 'https://kauth.kakao.com/oauth/authorize',
-  query: {
-    client_id: KAKAO_CLIENT_ID,
-    redirect_uri: KAKAO_LOGIN_REDIRECT_URL,
-    response_type: 'code',
-  },
-});
+export const KAKAO_LOGIN_URL = (state?: string | null) =>
+  queryString.stringifyUrl({
+    url: 'https://kauth.kakao.com/oauth/authorize',
+    query: {
+      client_id: KAKAO_CLIENT_ID,
+      redirect_uri: KAKAO_LOGIN_REDIRECT_URL,
+      response_type: 'code',
+      state,
+    },
+  });
 export const KAKAO_LOGOUT_URL = queryString.stringifyUrl({
   url: 'https://kauth.kakao.com/oauth/logout',
   query: {
