@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 import { Button, Heading, VStack } from '@chakra-ui/react';
+import { TutorialSwiper } from '@/components/login/TutorialSwiper';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -80,7 +81,7 @@ const RootPage = () => {
           )}
         </Heading>
 
-        <div style={{ width: '248px', height: '460px', backgroundColor: '#eee' }}></div>
+        <TutorialSwiper />
 
         <Button width={280} height={50} backgroundColor="#FEE500" color="#000" as="a" href={KAKAO_LOGIN_URL(code)}>
           카카오 로그인
