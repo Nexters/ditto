@@ -15,8 +15,6 @@ const BucketFolderList = () => {
   if (status === 'loading') return <div>로딩중</div>;
   if (status === 'error') return <div>에러 발생</div>;
 
-  console.log(data);
-
   const emptyDataLength = MAX_LIST_LENGTH - data?.length;
 
   return (

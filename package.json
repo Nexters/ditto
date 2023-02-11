@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "gen-schema": "npx supabase gen types typescript --project-id nmudcjshynedjpjithxj --schema public > lib/supabase/schema.ts"
+    "gen-schema": "npx supabase gen types typescript --project-id nmudcjshynedjpjithxj --schema public > lib/supabase/schema.ts",
+    "icon": "npx @svgr/cli --out-dir components/icons --typescript --ignore-existing public/assets"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.2",
+    "@svgr/webpack": "^6.5.1",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint-config-prettier": "^8.6.0",
