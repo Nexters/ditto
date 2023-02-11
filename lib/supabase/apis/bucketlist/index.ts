@@ -32,6 +32,12 @@ export const deleteBucketItem = async (id: number) => {
   return data;
 };
 
+export const completeBucketItem = async (id: number) => {
+  const { data, error } = await supabase.from('bucket_items').update({ completed: true }).eq('id', id).select();
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 //Bucket Folder
 export const createBucketFolder = async (params: ICreateBucketFolderParams) => {
   const { folder, user, selectedGroupId } = params;
