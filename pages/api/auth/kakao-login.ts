@@ -7,7 +7,7 @@ export const config = {
   runtime: 'edge',
 };
 
-const withState = (url: string, state?: string | null) => `${url}/?state=${state}`;
+const withState = (url: string, state?: string | null) => (state ? `${url}/?state=${state}` : url);
 
 const edgeFunction: EdgeFunction = async (req) => {
   try {
