@@ -22,14 +22,11 @@ const BottomNavigation = () => {
 };
 
 const BottomNavBar = styled.nav`
-  position: fixed;
+  position: absolute;
   bottom: 0;
-  right: 0;
   left: 0;
-  width: 100%;
-  max-width: 420px;
+  right: 0;
   height: ${BottomNavBarHeight}px;
-  margin: 0 auto;
   background-color: #fff;
   border: 1px solid #000000;
 `;
