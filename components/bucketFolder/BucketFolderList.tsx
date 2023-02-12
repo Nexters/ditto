@@ -3,7 +3,7 @@ import { useFetchBucketFolders } from '@/hooks/bucketlist/useFetchBucketFolders'
 import styled from '@emotion/styled';
 import { BucketFolder } from '@/lib/supabase/type';
 import { Button, useDisclosure } from '@chakra-ui/react';
-import AddBucketFolderModal from '@/components/modal/AddBucketFolderModal';
+import AddBucketFolderModal from '@/components/modals/AddBucketFolderModal';
 import BucketFolderItem from '@/components/bucketFolder/BucketFolderItem';
 
 const MAX_LIST_LENGTH = 10;
