@@ -14,12 +14,10 @@ export const TutorialSwiper = () => {
       pagination={{ clickable: true }}
     >
       <SwiperSlide>
-        <Box height={'calc(100% - 44px)'} backgroundColor={'black'} color={'white'}>
-          Slide 1
-        </Box>
+        <Box height={'calc(100% - 44px)'} backgroundColor={'#E2E2E2'} />
       </SwiperSlide>
       <SwiperSlide>
-        <Box height={'calc(100% - 44px)'}>Slide 2</Box>
+        <Box height={'calc(100% - 44px)'} backgroundColor={'#E2E2E2'} />
       </SwiperSlide>
     </Swiper>
   );
