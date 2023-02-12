@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
-import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
+import EventHeader from '@/components/header/EventHeader';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,12 +36,6 @@ const Event: NextPageWithLayout = () => {
   );
 };
 
-// Event.getLayout = (page) => (
-//   <MainLayout>
-//     <PageHeader />
-//     {page}
-//   </MainLayout>
-// );
 Event.isProtectedPage = true;
 
 export default Event;
