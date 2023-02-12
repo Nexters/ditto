@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
-import ErrorBoundary from '@/components/errorBoundary/ErrorBoundary';
+import ErrorBoundary from '@/components/errors/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
