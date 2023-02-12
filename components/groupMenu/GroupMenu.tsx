@@ -8,7 +8,7 @@ const GroupMenu = () => {
   const { user, selectedGroupId, setGroupId } = useUser();
   const { data: groupList } = useFetchJoinedGroupList(user);
 
-  const currentGroupName = groupList?.filter(({ id }) => id === selectedGroupId)[0].name;
+  const currentGroupName = groupList?.find(({ id }) => id === selectedGroupId)?.name || '';
 
   return (
     <Menu>

@@ -16,7 +16,7 @@ const MainLayout = ({
   return (
     <MainContainer>
       {header}
-      <MainSection header={header} hideBottomNavigation={hideBottomNavigation}>
+      <MainSection hideBottomNavigation={hideBottomNavigation}>
         {children}
       </MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
@@ -32,7 +32,7 @@ const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-const MainSection = styled.section<{ header?: ReactNode; hideBottomNavigation?: boolean }>`
+const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
