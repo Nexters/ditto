@@ -7,8 +7,9 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
-import { Button, Heading, VStack } from '@chakra-ui/react';
+import { Button, Heading, Text, VStack } from '@chakra-ui/react';
 import { TutorialSwiper } from '@/components/login/TutorialSwiper';
+import { KakaoIcon } from '@/components/icons';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -83,8 +84,19 @@ const RootPage = () => {
 
         <TutorialSwiper />
 
-        <Button width={280} height={50} backgroundColor="#FEE500" color="#000" as="a" href={KAKAO_LOGIN_URL(code)}>
-          카카오 로그인
+        <Button
+          width={280}
+          height={50}
+          backgroundColor="#FEE500"
+          borderRadius={'8px'}
+          color="#000"
+          as="a"
+          href={KAKAO_LOGIN_URL(code)}
+        >
+          <KakaoIcon />
+          <Text paddingLeft={'4px'} fontSize={'16px'} lineHeight={'1'}>
+            카카오 로그인
+          </Text>
         </Button>
       </VStack>
       {/* </Center> */}
