@@ -11,6 +11,7 @@ const Event: NextPageWithLayout = () => {
 
   return (
     <MainLayout
+      header={<EventHeader />}
       floatButton={
         <Button
           width="64px"
@@ -24,13 +25,8 @@ const Event: NextPageWithLayout = () => {
         </Button>
       }
     >
-      <PageHeader />
-      <h1>일정</h1>
-      <section>
-        <h2>일정</h2>
-      </section>
-
-      <div style={{ width: '100%', height: 3000 }}></div>
+      
+      <div style={{ width: '100%', height: 3000 ,marginTop:98 }}>asvsav</div>
       <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );

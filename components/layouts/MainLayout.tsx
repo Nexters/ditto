@@ -4,16 +4,21 @@ import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
 
 const MainLayout = ({
   children,
+  header,
   floatButton,
   hideBottomNavigation = false,
 }: {
   children: ReactNode;
+  header?: ReactNode;
   floatButton?: ReactNode;
   hideBottomNavigation?: boolean;
 }) => {
   return (
     <MainContainer>
-      <MainSection hideBottomNavigation={hideBottomNavigation}>{children}</MainSection>
+      {header}
+      <MainSection header={header} hideBottomNavigation={hideBottomNavigation}>
+        {children}
+      </MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
       {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>
@@ -27,7 +32,7 @@ const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
+const MainSection = styled.section<{ header?: ReactNode; hideBottomNavigation?: boolean }>`
   position: absolute;
   top: 0;
   left: 0;

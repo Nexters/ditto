@@ -23,9 +23,15 @@ export default Object.assign(CommonHeader, {
 });
 
 const CommonHeaderContainer = styled.header`
+  position: absolute;
+  top: 0;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  max-width: 420px;
+  background-color: #fff;
   padding: 17px 20px;
+  z-index: 10;
 `;
 
 const LeftContainer = styled.div`
