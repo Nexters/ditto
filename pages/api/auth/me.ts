@@ -73,9 +73,6 @@ const edgeFunction: EdgeFunction = async (req) => {
         },
       }
     );
-    // clear cookie
-    // res.cookies.delete(COOKIE_KAKAO_REFRESH_TOKEN_NAME);
-    // res.cookies.delete(COOKIE_KAKAO_ACCESS_TOKEN_NAME);
     return res;
   }
 };
