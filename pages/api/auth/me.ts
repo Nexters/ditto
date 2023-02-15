@@ -56,7 +56,6 @@ const edgeFunction: EdgeFunction = async (req) => {
         path: '/',
         maxAge: expiresIn,
         httpOnly: true,
-        secure: true,
         sameSite: 'strict',
       });
     }
