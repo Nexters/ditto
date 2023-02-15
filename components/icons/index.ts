@@ -1,4 +1,5 @@
-export { default as ArrowRightIcon } from './ArrowRightIcon';
+export { default as ArrowRightIcon20 } from './ArrowRightIcon20';
+export { default as ArrowRightIcon32 } from './ArrowRightIcon32';
 export { default as BlackDownIcon } from './BlackDownIcon';
 export { default as CalendarIcon } from './CalendarIcon';
 export { default as CheckIcon20 } from './CheckIcon20';
