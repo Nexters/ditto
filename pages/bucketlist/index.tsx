@@ -5,16 +5,17 @@ import { NextPageWithLayout } from '@/pages/_app';
 import BucketFolderList from '@/components/bucketFolder/BucketFolderList';
 import { FlagIcon } from '@/components/icons';
 import { Box, Divider, Text } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 
 const BucketList: NextPageWithLayout = () => {
   return (
     <>
-      <Box style={HeaderStyle}>
+      <StyledHeader>
         <Text textStyle={'h2'} alignSelf={'flex-end'}>
           버킷리스트
         </Text>
         <FlagIcon />
-      </Box>
+      </StyledHeader>
       <Box bg={'grey.1'}>
         <Divider borderColor={'divider'} marginTop={'20px'} />
         <BucketFolderList />
@@ -23,11 +24,11 @@ const BucketList: NextPageWithLayout = () => {
   );
 };
 
-const HeaderStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-};
+const StyledHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 BucketList.getLayout = (page) => (
   <MainLayout>

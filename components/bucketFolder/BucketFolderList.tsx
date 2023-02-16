@@ -26,9 +26,9 @@ const BucketFolderList = () => {
         Array.from({ length: emptyDataLength }).map((_, index) => (
           <li key={index}>
             <AddFolderButton onClick={onOpen}>+</AddFolderButton>
-            <AddBucketFolderModal isOpen={isOpen} onClose={onClose} />
           </li>
         ))}
+      <AddBucketFolderModal isOpen={isOpen} onClose={onClose} />
     </StyledList>
   );
 };

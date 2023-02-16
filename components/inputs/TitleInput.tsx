@@ -1,5 +1,6 @@
 import { Textarea, TextareaProps } from '@chakra-ui/react';
 import theme from '@/styles/theme';
+import styled from '@emotion/styled';
 
 export type CustomTextareaProps = {
   textarea?: TextareaProps;
@@ -12,7 +13,7 @@ export type CustomTextareaProps = {
 const TitleInput = ({ textarea, ...props }: CustomTextareaProps) => {
   const { height, placeholder, handleInputChange, isDisabled } = props;
   return (
-    <Textarea
+    <StyledTextarea
       {...textarea}
       {...props}
       onChange={handleInputChange}
@@ -21,20 +22,19 @@ const TitleInput = ({ textarea, ...props }: CustomTextareaProps) => {
       isDisabled={isDisabled}
       variant={'unstyled'}
       textStyle={'h3'}
-      style={TextareaStyle}
       resize={'none'}
       _focusVisible={{ outline: 'none' }}
-      _hover={{ border: `1px solid ${theme.semanticTokens.colors.divider}` }}
+      _hover={{ border: `1px solid ${theme.colors.grey[2]}` }}
     />
   );
 };
 
-const TextareaStyle = {
-  overflow: 'hidden',
-  border: `1px solid ${theme.semanticTokens.colors.divider}`,
-  borderRadius: '6px',
-  padding: '20px 20px',
-  caretColor: theme.colors.primary,
-};
+const StyledTextarea = styled(Textarea)`
+  overflow: hidden;
+  border: 1px solid ${theme.colors.grey[2]};
+  border-radius: 6px;
+  padding: 20px 20px;
+  caret-color: ${theme.colors.primary};
+`;
 
 export default TitleInput;

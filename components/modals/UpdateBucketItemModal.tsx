@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Divider, ModalBody, ModalHeader, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import TitleInput from '@/components/inputs/TitleInput';
-import theme from '@/styles/theme';
 import ContentInput from '@/components/inputs/ContentInput';
+import styled from '@emotion/styled';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
@@ -13,11 +13,9 @@ interface UpdateBucketItemModalProps {
 const ModalContent = () => {
   return (
     <>
-      <ModalHeader style={modalHeaderStyle}>
-        <Text textAlign={'center'} textStyle={'body1'} style={headerTextStyle}>
-          Modal header
-        </Text>
-      </ModalHeader>
+      <StyledModalHeader>
+        <StyledModalHeaderText textStyle={'body1'}>Modal header</StyledModalHeaderText>
+      </StyledModalHeader>
       <ModalBody padding={0}>
         <TitleInput placeholder={'제목을 입력하세요'} height={94} />
         <Divider borderWidth={4} borderColor={'divider'} />
@@ -33,16 +31,17 @@ const UpdateBucketItemModal = ({ isOpen, onClose }: UpdateBucketItemModalProps) 
   <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} width={335} height={384} />
 );
 
-const modalHeaderStyle = {
-  background: `${theme.colors.grey[8]}`,
-  borderRadius: '12px 12px 0px 0px',
-  color: `${theme.colors.grey[1]}`,
-  height: 56,
-};
+const StyledModalHeader = styled(ModalHeader)`
+  background-color: ${({ theme }) => theme.colors.grey[8]};
+  border-radius: 12px 12px 0px 0px;
+  color: ${({ theme }) => theme.colors.grey[1]};
+  height: 56px;
+`;
 
-const headerTextStyle = {
-  paddingTop: 4,
-  paddingBottom: 4,
-};
+const StyledModalHeaderText = styled(Text)`
+  padding-top: 4px;
+  padding-bottom: 4px;
+  text-align: center;
+`;
 
 export default UpdateBucketItemModal;

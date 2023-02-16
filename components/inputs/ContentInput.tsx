@@ -1,5 +1,6 @@
 import { Textarea, TextareaProps } from '@chakra-ui/react';
 import theme from '@/styles/theme';
+import styled from '@emotion/styled';
 
 export type CustomTextareaProps = {
   textarea?: TextareaProps;
@@ -12,13 +13,12 @@ export type CustomTextareaProps = {
 const ContentInput = ({ textarea, ...props }: CustomTextareaProps) => {
   const { height, placeholder, handleInputChange, isDisabled } = props;
   return (
-    <Textarea
+    <StyledTextarea
       {...textarea}
       {...props}
       onChange={handleInputChange}
-      placeholder={placeholder ? placeholder : '설명을 입력하세요 (선택)'}
+      placeholder={placeholder || '설명을 입력하세요 (선택)'}
       height={height ? height : 92}
-      style={TextareaStyle}
       resize={'none'}
       isDisabled={isDisabled}
       textStyle={'body1'}
@@ -28,11 +28,11 @@ const ContentInput = ({ textarea, ...props }: CustomTextareaProps) => {
   );
 };
 
-const TextareaStyle = {
-  overflow: 'hidden',
-  border: `1px solid ${theme.semanticTokens.colors.divider}`,
-  borderRadius: '6px',
-  padding: '10px',
-};
+const StyledTextarea = styled(Textarea)`
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  border-radius: 6px;
+  padding: 10px;
+`;
 
 export default ContentInput;
