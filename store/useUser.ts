@@ -44,7 +44,7 @@ export const useUser = create<UserState>((set) => ({
     // @note: supabase에서도 로그아웃 처리합니다.
     await supabase.auth.signOut();
 
-    set({ user: null, selectedGroupId: null });
+    location.replace('/');
   },
   setGroupId: (groupId: number) => {
     set({ selectedGroupId: groupId });

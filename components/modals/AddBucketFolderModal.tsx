@@ -1,6 +1,8 @@
 import React from 'react';
-import { FormControl, FormLabel, Input, ModalFooter, ModalBody } from '@chakra-ui/react';
+import { ModalFooter, ModalBody } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
+import ContentInput from '@/components/inputs/ContentInput';
+import BaseButton from '@/components/buttons/BaseButton';
 
 interface AddBucketFolderModalProps {
   isOpen: boolean;
@@ -11,12 +13,11 @@ const ModalContent = () => {
   return (
     <>
       <ModalBody>
-        <FormControl>
-          <FormLabel>폴더 이름</FormLabel>
-          <Input placeholder="폴더명을 입력하세요." />
-        </FormControl>
+        <ContentInput placeholder={'폴더명을 입력하세요'} />
       </ModalBody>
-      <ModalFooter>test</ModalFooter>
+      <ModalFooter>
+        <BaseButton />
+      </ModalFooter>
     </>
   );
 };

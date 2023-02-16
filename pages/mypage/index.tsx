@@ -3,16 +3,9 @@ import MainLayout from '@/components/layouts/MainLayout';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useUser } from '@/store/useUser';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 const MyPage: NextPageWithLayout = () => {
-  const router = useRouter();
   const { user, logout } = useUser();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push('/');
-  };
 
   return (
     <>
@@ -21,7 +14,7 @@ const MyPage: NextPageWithLayout = () => {
         <h2>마이페이지</h2>
         <Image src={user?.profile_image || ''} alt="profile image" width={60} height={60} />
         <h3>{user?.nickname}</h3>
-        <button onClick={handleLogout}>로그아웃</button>
+        <button onClick={logout}>로그아웃</button>
       </section>
     </>
   );

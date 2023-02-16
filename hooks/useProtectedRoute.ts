@@ -1,10 +1,13 @@
 import { useUser } from '@/store/useUser';
+import { useTimeout } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useProtectedRoute = (isProtectedPage = false, redirectUrl = '/') => {
   const router = useRouter();
-  const { user, isLoading, login } = useUser();
+  const { user, isLoading: isLoadingUser, login } = useUser();
+  const [isMinTimePassed, setIsMinTimePassed] = useState(false);
+  const isLoading = isLoadingUser || !isMinTimePassed;
 
   // @note:
   // 1. 로그인 전에 로딩 페이지를 보여주는 이유는
@@ -26,6 +29,10 @@ export const useProtectedRoute = (isProtectedPage = false, redirectUrl = '/') =>
       router.replace(redirectUrl);
     }
   }, [isLoading, isProtectedPage, redirectUrl, router, user]);
+
+  // @note: 너무 짧은 시간 동안 스플래시 페이지가 보여지면 깜빡거리는 느낌을 받을 수 있기 때문에
+  // 최소 1초 동안은 스플래시 페이지를 보여주기 위해 useTimeout를 사용합니다.
+  useTimeout(() => setIsMinTimePassed(true), 1000);
 
   return { showLoadingPage };
 };

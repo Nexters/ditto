@@ -29,14 +29,12 @@ const edgeFunction: EdgeFunction = async (req) => {
       path: '/',
       maxAge: refresh_token_expires_in,
       httpOnly: true,
-      secure: true,
       sameSite: 'strict',
     });
     res.cookies.set(COOKIE_KAKAO_ACCESS_TOKEN_NAME, access_token, {
       path: '/',
       maxAge: expires_in,
       httpOnly: true,
-      secure: true,
       sameSite: 'strict',
     });
 
