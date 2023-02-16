@@ -7,9 +7,10 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
-import { Button, Heading, Text, VStack } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { TutorialSwiper } from '@/components/login/TutorialSwiper';
 import { KakaoIcon } from '@/components/icons';
+import styled from '@emotion/styled';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -68,8 +69,8 @@ const RootPage = () => {
 
   return (
     <MainLayout hideBottomNavigation>
-      <VStack flex={1} justifyContent={'center'} spacing={30}>
-        <Heading as="h2" whiteSpace={'pre-line'} fontSize={16} textAlign={'center'} fontWeight={400}>
+      <Container>
+        <WelcomeMessage>
           {invitationInfo ? (
             <>
               <b>{invitationInfo?.users.nickname}</b>
@@ -80,9 +81,11 @@ const RootPage = () => {
           ) : (
             '가까운 사람들과 일정, 버킷리스트를\n함께 작성하고 관리해보세요.'
           )}
-        </Heading>
+        </WelcomeMessage>
 
-        <TutorialSwiper />
+        <SwiperWrapper>
+          <TutorialSwiper />
+        </SwiperWrapper>
 
         <Button
           width={280}
@@ -98,10 +101,24 @@ const RootPage = () => {
             카카오 로그인
           </Text>
         </Button>
-      </VStack>
-      {/* </Center> */}
+      </Container>
     </MainLayout>
   );
 };
+
+const Container = styled.section`
+  flex: 1;
+  padding: 68px 0 40px;
+  text-align: center;
+`;
+const WelcomeMessage = styled.h2`
+  font-size: 16px;
+  font-weight: 400;
+  white-space: pre-line;
+  text-align: center;
+`;
+const SwiperWrapper = styled.div`
+  padding: 30px 0 24px;
+`;
 
 export default RootPage;

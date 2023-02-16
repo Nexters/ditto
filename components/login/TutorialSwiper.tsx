@@ -8,7 +8,7 @@ export const TutorialSwiper = () => {
   return (
     <Swiper
       modules={[Pagination]}
-      style={{ width: 248, height: 460 }}
+      style={{ width: 248, height: 420 }}
       spaceBetween={50}
       slidesPerView={1}
       pagination={{ clickable: true }}
