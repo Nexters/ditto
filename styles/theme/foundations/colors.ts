@@ -7,7 +7,7 @@ const colors = {
   white: '#fff',
   grey: {
     1: '#F6F8F9',
-    2: '#EDEEEE',
+    2: '#E2E2E2',
     3: '#DDDDDD',
     4: '#9A9A9A',
     5: '#777777',
