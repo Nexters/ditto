@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 
+export const BottomNavBarHeight = 60;
+
 const BottomNavigation = () => {
   return (
     <BottomNavBar>
@@ -20,7 +22,11 @@ const BottomNavigation = () => {
 };
 
 const BottomNavBar = styled.nav`
-  height: 60px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: ${BottomNavBarHeight}px;
   background-color: #fff;
   border: 1px solid #000000;
 `;
