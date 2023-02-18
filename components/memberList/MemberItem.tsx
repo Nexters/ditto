@@ -21,7 +21,7 @@ const MemberItemWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 10px 0 12px;
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey['2']};
+  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
 `;
 const MemberItemProfileImage = styled(Image)`
   width: 48px;
@@ -37,7 +37,7 @@ const MemberItemIsMe = styled.span`
 
   width: 17px;
   height: 17px;
-  background-color: ${(props) => props.theme.colors.grey['9']};
+  background-color: ${(props) => props.theme.colors.grey[9]};
   border-radius: 50%;
   margin-right: 4px;
 

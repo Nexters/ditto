@@ -41,7 +41,7 @@ const MyPageHeader = styled.h1`
   height: 58px;
   padding: 0 20px;
   ${(props) => props.theme.textStyles.h3}
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey['2']};
+  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
 `;
 const MyPageContent = styled.section`
   position: absolute;
