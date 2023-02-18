@@ -3,12 +3,17 @@ import { NextPageWithLayout } from '@/pages/_app';
 import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import BucketItemList from '@/components/bucketItem/BucketItemList';
+import { Text } from '@chakra-ui/react';
+import { RabbitWithCarIcon } from '@/components/icons';
 
 const BucketListItem: NextPageWithLayout = () => {
   return (
     <>
-      <h1>Bucket Item</h1>
+      <Text textStyle={'h1'} marginBottom={'12px'}>
+        Bucket Item
+      </Text>
       <section>
+        <RabbitWithCarIcon />
         <BucketItemList />
       </section>
     </>

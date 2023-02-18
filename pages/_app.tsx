@@ -7,6 +7,7 @@ import theme from '@/styles/theme';
 import { NextPage } from 'next';
 import ErrorBoundary from '@/components/errorBoundary/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { SplashPage } from '@/components/loading/SplashPage';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -39,9 +40,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme} resetCSS cssVarsRoot="body">
+        <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
           <ErrorBoundary fallback={<div>에러 페이지</div>}>
-            {showLoadingPage ? 'loading...' : getLayout(<Component {...pageProps} />)}
+            {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
           </ErrorBoundary>
         </ChakraProvider>
       </QueryClientProvider>
