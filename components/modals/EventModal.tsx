@@ -69,8 +69,6 @@ const ModalContent = () => {
     setEndDate(isAllDay ? yyyyMMdd : yyyyMMddThhmm);
   }, [isAllDay]);
 
-  console.log({ startDate, endDate})
-
   return (
     <form onSubmit={handleSubmit}>
       <TitleInput placeholder={'제목을 입력하세요'} onChange={handleChangeTitle} value={title} />
@@ -113,8 +111,10 @@ const ModalContent = () => {
         </Box> */}
       </ModalBody>
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
-        <TrashCanIcon cursor='pointer' onClick={() => console.log("z")} />
-        <Button type="submit" isDisabled={startDate > endDate}>추가하기</Button>
+        <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
+        <Button type="submit" isDisabled={startDate > endDate}>
+          추가하기
+        </Button>
       </ModalFooter>
     </form>
   );
