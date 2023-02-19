@@ -7,6 +7,8 @@ import { TrashCanIcon } from '../icons';
 import { css } from '@emotion/react';
 import { useToggleState } from '@/hooks/useToggleState';
 import ContentInput from '@/components/inputs/ContentInput';
+import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
+import { useUser } from '@/store/useUser';
 
 interface EventModalProps {
   isOpen: boolean;
@@ -42,6 +44,9 @@ const ModalContent = () => {
   const [startDate, setStartDate] = useState(() => yyyyMMdd);
   const [endDate, setEndDate] = useState(() => yyyyMMddThhmm);
 
+  const { user, selectedGroupId } = useUser();
+  const { mutate: createEvent } = useCreateEvent();
+
   const handleChangeDate = (isStartDate: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
@@ -61,7 +66,18 @@ const ModalContent = () => {
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ isAllDay, isAnnual, title, description, startDate, endDate });
+    const creatorId = user?.id;
+    if (!title.trim() || !creatorId || !selectedGroupId) return;
+    createEvent({
+      isAllDay,
+      isAnnual,
+      title,
+      description,
+      startTime: startDate,
+      endTime: endDate,
+      creatorId,
+      groupId: selectedGroupId,
+    });
   };
 
   useEffect(() => {
@@ -113,7 +129,7 @@ const ModalContent = () => {
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
         <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
         <Button type="submit" isDisabled={startDate > endDate}>
-          추가하기
+          저장하기
         </Button>
       </ModalFooter>
     </form>
