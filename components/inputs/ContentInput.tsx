@@ -1,22 +1,22 @@
-import { Textarea, TextareaProps } from '@chakra-ui/react';
+import { HTMLChakraProps, Textarea, TextareaProps } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export type CustomTextareaProps = {
+export interface CustomTextareaProps extends HTMLChakraProps<'textarea'> {
   textarea?: TextareaProps;
   placeholder?: string;
   height?: number;
-  handleInputChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isDisabled?: boolean;
-};
+}
 
 const ContentInput = ({ textarea, ...props }: CustomTextareaProps) => {
-  const { height, placeholder, handleInputChange, isDisabled } = props;
+  const { height, placeholder, onChange, isDisabled } = props;
   return (
     <StyledTextarea
       {...textarea}
       {...props}
-      onChange={handleInputChange}
+      onChange={onChange}
       placeholder={placeholder || '설명을 입력하세요 (선택)'}
       height={height ? height : 92}
       resize={'none'}
