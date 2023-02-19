@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
+import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 import { useUser } from '@/store/useUser';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 import { CheckIcon20, GrayDownIcon } from '../icons';

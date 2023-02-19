@@ -5,8 +5,8 @@ import { KAKAO_LOGIN_URL } from '@/utils/const';
 import { pickFirst } from '@/utils/array';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
-import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
+import { useFetchInvitationInfo } from '@/hooks/invitation/useFetchInvitationInfo';
+import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인

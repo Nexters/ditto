@@ -1,4 +1,4 @@
-import { useFetchMemberList } from '@/hooks/useFetchMemberList';
+import { useFetchMemberList } from '@/hooks/member/useFetchMemberList';
 import { useUser } from '@/store/useUser';
 import { Button } from '@chakra-ui/button';
 import styled from '@emotion/styled';
