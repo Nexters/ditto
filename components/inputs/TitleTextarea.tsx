@@ -2,7 +2,7 @@ import { Textarea, TextareaProps } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 
-const TitleITextarea = (props: TextareaProps) => {
+const TitleTextarea = (props: TextareaProps) => {
   const { value, height, placeholder, onChange, isDisabled } = props;
   return (
     <StyledTextarea
@@ -29,4 +29,4 @@ const StyledTextarea = styled(Textarea)`
   caret-color: ${theme.colors.primary};
 `;
 
-export default TitleITextarea;
+export default TitleTextarea;

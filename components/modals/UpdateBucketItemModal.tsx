@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Divider, ModalBody, ModalHeader, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
-import TitleITextarea from '@/components/inputs/TitleITextarea';
+import TitleTextarea from '@/components/inputs/TitleTextarea';
 import ContentTextarea from '@/components/inputs/ContentTextarea';
 import styled from '@emotion/styled';
 
@@ -20,7 +20,7 @@ const ModalContent = () => {
         <StyledModalHeaderText textStyle={'body1'}>Modal header</StyledModalHeaderText>
       </StyledModalHeader>
       <ModalBody padding={0}>
-        <TitleITextarea
+        <TitleTextarea
           placeholder={'제목을 입력하세요'}
           height={94}
           value={itemTitle}

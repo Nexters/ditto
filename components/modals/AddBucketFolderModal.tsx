@@ -23,7 +23,14 @@ const ModalContent = () => {
         />
       </ModalBody>
       <ModalFooter>
-        <BaseButton label={'추가'} />
+        <BaseButton
+          isDisabled={!folderName.length}
+          onClick={() => {
+            console.log('here');
+          }}
+        >
+          추가
+        </BaseButton>
       </ModalFooter>
     </>
   );
