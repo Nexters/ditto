@@ -2,24 +2,16 @@ import { Textarea, TextareaProps } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 
-export type CustomTextareaProps = {
-  textarea?: TextareaProps;
-  placeholder?: string;
-  height?: number;
-  handleInputChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  isDisabled?: boolean;
-};
-
-const TitleInput = ({ textarea, ...props }: CustomTextareaProps) => {
-  const { height, placeholder, handleInputChange, isDisabled } = props;
+const TitleTextarea = (props: TextareaProps) => {
+  const { value, height, placeholder, onChange, isDisabled } = props;
   return (
     <StyledTextarea
-      {...textarea}
       {...props}
-      onChange={handleInputChange}
+      onChange={onChange}
       placeholder={placeholder ? placeholder : '제목을 입력하세요'}
       height={height ? height : 86}
       isDisabled={isDisabled}
+      value={value}
       variant={'unstyled'}
       textStyle={'h3'}
       resize={'none'}
@@ -37,4 +29,4 @@ const StyledTextarea = styled(Textarea)`
   caret-color: ${theme.colors.primary};
 `;
 
-export default TitleInput;
+export default TitleTextarea;
