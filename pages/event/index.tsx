@@ -1,16 +1,20 @@
 import React from 'react';
-import { Button, Flex, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
 import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
+import { useFetchEventList } from '@/hooks/Event/useCreateEvent';
+import styled from '@emotion/styled';
+import { dateChangeToEventFormat } from '@/utils/date';
 
 const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data } = useFetchEventList();
 
   return (
     <MainLayout
@@ -29,7 +33,26 @@ const Event: NextPageWithLayout = () => {
       }
     >
       <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
-        asc
+        <ListContainer>
+          {data?.map(
+            ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
+              <ListItem key={id}>
+                <Flex flexDirection="column" gap="8px">
+                  <Text textStyle="buttonMedium" color={theme.colors.secondary}>
+                    {title}
+                  </Text>
+                  <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
+                    {dateChangeToEventFormat(startTime, endTime)}
+                  </Text>
+                </Flex>
+                <Flex>
+                  {isAllDay ? <Chip>오늘</Chip> : null}
+                  {isAnnual ? <Chip>매년</Chip> : null}
+                </Flex>
+              </ListItem>
+            )
+          )}
+        </ListContainer>
       </Flex>
       <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
@@ -39,3 +62,30 @@ const Event: NextPageWithLayout = () => {
 Event.isProtectedPage = true;
 
 export default Event;
+
+const ListContainer = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 12px 20px;
+`;
+
+const ListItem = styled.li`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  border-radius: 12px;
+  padding: 16px 15px 19px 16px;
+  cursor: pointer;
+`;
+
+const Chip = styled.div`
+  display: inline-block;
+
+  padding: 6px 10px;
+`;

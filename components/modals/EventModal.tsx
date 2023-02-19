@@ -9,34 +9,21 @@ import { useToggleState } from '@/hooks/useToggleState';
 import ContentInput from '@/components/inputs/ContentInput';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
 import { useUser } from '@/store/useUser';
+import { yyyyMMdd, yyyyMMddThhmm } from '@/utils/date';
 
 interface EventModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const now = new Date();
-const offset = now.getTimezoneOffset() * 60 * 1000;
-const KST = new Date(now.getTime() - offset);
-
-// yyyy-mm-ddThh:mm:ss.SSSZ
-
-// asis yyyy-mm-ddThh:mm
-const yyyyMMddThhmm = KST.toISOString().split('.')[0].slice(0, -3);
-
-// tobe yyyy-mm-ddThh:mm:00Z
-// const yyyyMMddThhmm = `${KST.toISOString().split('.')[0].slice(0, -3)}:00Z`;
-
-// asis yyyy-mm-dd
-const yyyyMMdd = KST.toISOString().split('T')[0];
-
-// tobe yyyy-mm-ddT00:00:00Z
-// const yyyyMMdd = `${KST.toISOString().split('T')[0]}T00:00:00Z`;
+interface ModalContentProps {
+  onClose: () => void;
+}
 
 /**
  * 일정 추가, 수정 모달
  */
-const ModalContent = () => {
+const ModalContent = ({ onClose }: ModalContentProps) => {
   const [isAllDay, toggleAllDay] = useToggleState();
   const [isAnnual, toggleAnnual] = useToggleState();
   const [title, setTitle] = useState('');
@@ -78,6 +65,7 @@ const ModalContent = () => {
       creatorId,
       groupId: selectedGroupId,
     });
+    onClose();
   };
 
   useEffect(() => {
@@ -87,7 +75,7 @@ const ModalContent = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <TitleInput placeholder={'제목을 입력하세요'} onChange={handleChangeTitle} value={title} />
+      <TitleInput placeholder="제목을 입력하세요" onChange={handleChangeTitle} value={title} />
       <Divider height={6} />
       <ModalBody padding="16px 20px">
         <Flex justifyContent="space-between" marginBottom="26px">
@@ -115,7 +103,7 @@ const ModalContent = () => {
         </Flex>
         <Divider />
         <ContentInput
-          placeholder={'설명을 입력하세요 (선택)'}
+          placeholder="설명을 입력하세요 (선택)"
           height={68}
           marginTop="16px"
           onChange={handleChangeDescription}
@@ -128,7 +116,7 @@ const ModalContent = () => {
       </ModalBody>
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
         <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
-        <Button type="submit" isDisabled={startDate > endDate}>
+        <Button type="submit" isDisabled={startDate > endDate || !title.trim()}>
           저장하기
         </Button>
       </ModalFooter>
@@ -137,7 +125,13 @@ const ModalContent = () => {
 };
 
 const EventModal = ({ isOpen, onClose }: EventModalProps) => (
-  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} width={300} height={500} />
+  <BaseModal
+    isOpen={isOpen}
+    onClose={onClose}
+    modalContent={<ModalContent onClose={onClose} />}
+    width={300}
+    height={500}
+  />
 );
 
 const Divider = styled.div<{ height?: number }>`
