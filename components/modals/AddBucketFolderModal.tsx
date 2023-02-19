@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModalFooter, ModalBody } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
-import ContentInput from '@/components/inputs/ContentInput';
+import ContentTextarea from '@/components/inputs/ContentTextarea';
 import BaseButton from '@/components/buttons/BaseButton';
 
 interface AddBucketFolderModalProps {
@@ -10,13 +10,20 @@ interface AddBucketFolderModalProps {
 }
 
 const ModalContent = () => {
+  const [folderName, setFolderName] = React.useState('');
   return (
     <>
       <ModalBody>
-        <ContentInput placeholder={'폴더명을 입력하세요'} />
+        <ContentTextarea
+          placeholder={'폴더명을 입력하세요'}
+          value={folderName}
+          onChange={(e) => {
+            setFolderName(e.target.value);
+          }}
+        />
       </ModalBody>
       <ModalFooter>
-        <BaseButton />
+        <BaseButton label={'추가'} />
       </ModalFooter>
     </>
   );

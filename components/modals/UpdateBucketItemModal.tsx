@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Divider, ModalBody, ModalHeader, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
-import TitleInput from '@/components/inputs/TitleInput';
-import ContentInput from '@/components/inputs/ContentInput';
+import TitleITextarea from '@/components/inputs/TitleITextarea';
+import ContentTextarea from '@/components/inputs/ContentTextarea';
 import styled from '@emotion/styled';
 
 interface UpdateBucketItemModalProps {
@@ -11,16 +11,33 @@ interface UpdateBucketItemModalProps {
 }
 
 const ModalContent = () => {
+  const [itemTitle, setItemTitle] = React.useState('');
+  const [itemContent, setItemContent] = React.useState('');
+
   return (
     <>
       <StyledModalHeader>
         <StyledModalHeaderText textStyle={'body1'}>Modal header</StyledModalHeaderText>
       </StyledModalHeader>
       <ModalBody padding={0}>
-        <TitleInput placeholder={'제목을 입력하세요'} height={94} />
+        <TitleITextarea
+          placeholder={'제목을 입력하세요'}
+          height={94}
+          value={itemTitle}
+          onChange={(e) => {
+            setItemTitle(e.target.value);
+          }}
+        />
         <Divider borderWidth={4} borderColor={'divider'} />
         <Box padding={'20px'}>
-          <ContentInput placeholder={'설명을 입력하세요'} height={94} />
+          <ContentTextarea
+            placeholder={'설명을 입력하세요'}
+            height={94}
+            value={itemContent}
+            onChange={(e) => {
+              setItemContent(e.target.value);
+            }}
+          />
         </Box>
       </ModalBody>
     </>
