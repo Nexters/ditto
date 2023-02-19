@@ -7,6 +7,7 @@ import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
+import { Heading } from '@chakra-ui/react';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -65,11 +66,11 @@ const RootPage = () => {
 
   return (
     <MainLayout hideBottomNavigation>
-      <p>
+      <Heading>
         {invitationInfo
           ? `${invitationInfo.users.nickname}님이 당신을\n${invitationInfo.groups.name} 그룹으로 초대합니다.`
           : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
-      </p>
+      </Heading>
       <a href={KAKAO_LOGIN_URL(code)}>카카오 로그인</a>
     </MainLayout>
   );
