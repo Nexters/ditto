@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 import { Button, Text } from '@chakra-ui/react';
-import { TutorialSwiper } from '@/components/login/TutorialSwiper';
 import { KakaoIcon } from '@/components/icons';
 import styled from '@emotion/styled';
 import { Heading } from '@chakra-ui/react';
@@ -84,10 +83,6 @@ const RootPage = () => {
           )}
         </WelcomeMessage>
 
-        <SwiperWrapper>
-          <TutorialSwiper />
-        </SwiperWrapper>
-
         <Button
           width={280}
           height={50}
@@ -117,9 +112,6 @@ const WelcomeMessage = styled(Heading)`
   font-weight: 400;
   white-space: pre-line;
   text-align: center;
-`;
-const SwiperWrapper = styled.div`
-  padding: 30px 0 24px;
 `;
 
 export default RootPage;
