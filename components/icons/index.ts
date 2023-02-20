@@ -10,6 +10,8 @@ export { default as FolderIcon } from './FolderIcon';
 export { default as GrayDownIcon } from './GrayDownIcon';
 export { default as GrayPawIcon } from './GrayPawIcon';
 export { default as KakaoIcon } from './KakaoIcon';
+export { default as LoginChecklistIcon } from './LoginChecklistIcon';
+export { default as LoginInvitationIcon } from './LoginInvitationIcon';
 export { default as MainLogoIcon } from './MainLogoIcon';
 export { default as PawIcon } from './PawIcon';
 export { default as PlusWhiteIcon } from './PlusWhiteIcon';

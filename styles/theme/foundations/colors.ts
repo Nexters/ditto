@@ -20,6 +20,7 @@ const colors = {
   green: {
     1: '#23CF69',
   },
+  kakaoBgColor: '#fee500',
 };
 
 export default colors;
