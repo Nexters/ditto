@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { ErrorRabbitIcon } from '../icons';
 
-export type ErrorTemplateProps = {
+export type ErrorPageTemplateProps = {
   title: string;
   description: ReactNode;
   children: ReactNode;
 };
 
-export const ErrorTemplate = ({ title, description, children }: ErrorTemplateProps) => {
+export const ErrorPageTemplate = ({ title, description, children }: ErrorPageTemplateProps) => {
   return (
     <Container>
       <ErrorRabbitIcon />

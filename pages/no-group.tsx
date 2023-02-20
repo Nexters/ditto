@@ -1,4 +1,4 @@
-import { ErrorTemplate } from '@/components/errors/ErrorTemplate';
+import { ErrorPageTemplate } from '@/components/errors/ErrorPageTemplate';
 import MainLayout from '@/components/layouts/MainLayout';
 import { KAKAO_LOGOUT_URL } from '@/utils/const';
 import { Button } from '@chakra-ui/button';
@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 const NoGroupPage = () => {
   return (
     <MainLayout hideBottomNavigation>
-      <ErrorTemplate
+      <ErrorPageTemplate
         title={'참여한 그룹이 없습니다.'}
         description={
           <>
@@ -33,7 +33,7 @@ const NoGroupPage = () => {
         >
           {'카카오 계정 로그아웃'}
         </Button>
-      </ErrorTemplate>
+      </ErrorPageTemplate>
     </MainLayout>
   );
 };
