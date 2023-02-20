@@ -1,12 +1,15 @@
 import { useFetchMemberList } from '@/hooks/member/useFetchMemberList';
 import { useUser } from '@/store/useUser';
 import { Button } from '@chakra-ui/button';
+import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import AddMemberModal from '../modals/AddMemberModal';
 import { MemberItem } from './MemberItem';
 
 export const MemberList = () => {
   const { user, selectedGroupId } = useUser();
   const { data } = useFetchMemberList(user, selectedGroupId);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return null;
   return (
@@ -16,7 +19,8 @@ export const MemberList = () => {
       {data?.map((member) => (
         <MemberItem key={member.id} nickname={member.nickname} profileImage={member.profile_image} />
       ))}
-      <AddMemberButton>멤버 추가하기</AddMemberButton>
+      <AddMemberButton onClick={onOpen}>멤버 추가하기</AddMemberButton>
+      <AddMemberModal isOpen={isOpen} onClose={onClose} />
     </MemberListWrap>
   );
 };
