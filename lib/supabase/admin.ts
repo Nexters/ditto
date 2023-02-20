@@ -1,7 +1,9 @@
 import { createCredentials } from '@/utils/auth';
-import { SUPABASE_URL } from '@/utils/const';
+import { INVITATION_CODE_LENGTH, SUPABASE_URL } from '@/utils/const';
+import { addDays } from '@/utils/date';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from './schema';
+import { InvitationInfo } from './type';
 
 // @note: 절대 노출되면 안되는 키
 const secret = process.env.NEXT_PUBLIC_SUPABASE_SECRET as string;
@@ -44,6 +46,22 @@ const updateUserInfo = async (user_id: number, nickname: string, profile_image?:
   return updatedUser;
 };
 
+const getInvitationInfo = async (code: string) => {
+  if (code.length !== INVITATION_CODE_LENGTH) throw 'invalid code';
+
+  const minCreatedTime = addDays(new Date(), -1);
+  const { data, error } = await adminSupabaseClient
+    .from('invitations')
+    .select(`*, groups ( name ), users ( nickname )`)
+    .eq('code', code)
+    // @note: 생성시점이 min(= 현재 - 24시간) 보다 커야 유효한 시점
+    .gt('created_time', minCreatedTime.toISOString());
+  const invitationInfo = data?.[0];
+
+  if (error) throw error;
+  return invitationInfo as InvitationInfo | undefined;
+};
+
 /**
  * @note 오직 server side에서만 호출되어야 함
  */
@@ -51,4 +69,5 @@ export const adminApi = {
   findUserByOauthId,
   signUpUser,
   updateUserInfo,
+  getInvitationInfo,
 };
