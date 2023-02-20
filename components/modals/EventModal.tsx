@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Flex, ModalBody, ModalFooter, Switch, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, ModalBody, ModalFooter, Switch, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
-import TitleInput from '@/components/inputs/TitleInput';
 import styled from '@emotion/styled';
 import { TrashCanIcon } from '../icons';
-import { css } from '@emotion/react';
 import { useToggleState } from '@/hooks/useToggleState';
-import ContentInput from '@/components/inputs/ContentInput';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
 import { useUser } from '@/store/useUser';
+import theme from '@/styles/theme';
+import TitleTextarea from '../inputs/TitleTextarea';
+import ContentTextarea from '../inputs/ContentTextarea';
 import { yyyyMMdd, yyyyMMddThhmm } from '@/utils/date';
 
 interface EventModalProps {
@@ -74,13 +74,15 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   }, [isAllDay]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TitleInput placeholder="제목을 입력하세요" onChange={handleChangeTitle} value={title} />
+    <Form onSubmit={handleSubmit}>
+      <TitleTextarea placeholder={'제목을 입력하세요'} onChange={handleChangeTitle} value={title} />
       <Divider height={6} />
-      <ModalBody padding="16px 20px">
-        <Flex justifyContent="space-between" marginBottom="26px">
-          하루종일
-          <Switch isChecked={isAllDay} onChange={toggleAllDay} />
+      <ModalBody padding="16px 20px 0px">
+        <Flex justifyContent="space-between" alignItems="center" marginBottom="20px">
+          <Text textStyle="body1" fontWeight={600} color="grey.10">
+            하루종일
+          </Text>
+          <CustomSwitch isChecked={isAllDay} onChange={toggleAllDay} />
         </Flex>
         <Flex flexDirection="column" marginBottom="18px">
           <Flex justifyContent="space-between" alignItems="center" marginBottom="10px">
@@ -97,30 +99,36 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
           </Flex>
         </Flex>
         <Divider />
-        <Flex justifyContent="space-between" margin="16px 0">
-          매년 반복
-          <Switch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
+        <Flex justifyContent="space-between" alignItems="center" margin="16px 0">
+          <Text textStyle="body1" fontWeight={600} color="grey.10">
+            매년 반복
+          </Text>
+          <CustomSwitch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
         </Flex>
         <Divider />
-        <ContentInput
+        <ContentTextarea
           placeholder="설명을 입력하세요 (선택)"
           height={68}
           marginTop="16px"
           onChange={handleChangeDescription}
           value={description}
         />
-        {/* <Box display="inline-flex" flexDirection="column">
-          <Text>팜하니 작성</Text>
-          <Text>2023.01.12 12:43</Text>
-        </Box> */}
       </ModalBody>
+      <Box position="absolute" bottom="66px" left="20px">
+        <Text textStyle="caption" fontSize="13px" color="grey.4" marginBottom="6px">
+          팜하니 작성
+        </Text>
+        <Text textStyle="caption" fontSize="13px" color="grey.4">
+          2023.01.12 12:43
+        </Text>
+      </Box>
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
         <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
         <Button type="submit" isDisabled={startDate > endDate || !title.trim()}>
           저장하기
         </Button>
       </ModalFooter>
-    </form>
+    </Form>
   );
 };
 
@@ -134,13 +142,19 @@ const EventModal = ({ isOpen, onClose }: EventModalProps) => (
   />
 );
 
+export default EventModal;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
 const Divider = styled.div<{ height?: number }>`
   width: 100%;
   height: ${({ height }) => height || 2}px;
   background-color: #f3f5f5;
 `;
-
-export default EventModal;
 
 export const DateInput = styled.input`
   box-sizing: border-box;
@@ -160,18 +174,17 @@ export const DateInput = styled.input`
   border-radius: 6px;
 `;
 
-export const a11y = css`
-  display: flex;
-  width: 100%;
-  border-radius: 15px;
-  height: 26px;
-  padding: 7px 15px;
-  outline: none;
-
-  &::placeholder {
-    color: rgba(255, 2, 2, 0.5);
+const CustomSwitch = styled(Switch)`
+  --switch-track-width: 34px;
+  & > span {
+    width: 32px;
+    height: 14px;
+    &[data-checked] {
+      --switch-bg: ${theme.colors.orange};
+    }
+    & > span {
+      width: 14px;
+      height: 14px;
+    }
   }
-
-  background: gray;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 `;

@@ -2,7 +2,6 @@ const styles = {
   global: {
     '*': {
       boxSizing: 'border-box',
-      flexShrink: 0,
     },
     'html, body': {
       margin: 0,
