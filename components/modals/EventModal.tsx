@@ -1,14 +1,14 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Button, Flex, ModalBody, ModalFooter, Switch, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
-import TitleInput from '@/components/inputs/TitleInput';
 import styled from '@emotion/styled';
 import { TrashCanIcon } from '../icons';
 import { useToggleState } from '@/hooks/useToggleState';
-import ContentInput from '@/components/inputs/ContentInput';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
 import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
+import TitleTextarea from '../inputs/TitleTextarea';
+import ContentTextarea from '../inputs/ContentTextarea';
 
 interface EventModalProps {
   isOpen: boolean;
@@ -87,7 +87,7 @@ const ModalContent = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TitleInput placeholder={'제목을 입력하세요'} onChange={handleChangeTitle} value={title} />
+      <TitleTextarea placeholder={'제목을 입력하세요'} onChange={handleChangeTitle} value={title} />
       <Divider height={6} />
       <ModalBody padding="16px 20px 0px">
         <Flex justifyContent="space-between" alignItems="center" marginBottom="20px">
@@ -118,7 +118,7 @@ const ModalContent = () => {
           <CustomSwitch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
         </Flex>
         <Divider />
-        <ContentInput
+        <ContentTextarea
           placeholder={'설명을 입력하세요 (선택)'}
           height={68}
           marginTop="16px"
