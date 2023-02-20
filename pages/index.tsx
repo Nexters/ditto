@@ -11,6 +11,7 @@ import { Button, Text } from '@chakra-ui/react';
 import { TutorialSwiper } from '@/components/login/TutorialSwiper';
 import { KakaoIcon } from '@/components/icons';
 import styled from '@emotion/styled';
+import { Heading } from '@chakra-ui/react';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -111,7 +112,7 @@ const Container = styled.section`
   padding: 68px 0 40px;
   text-align: center;
 `;
-const WelcomeMessage = styled.h2`
+const WelcomeMessage = styled(Heading)`
   font-size: 16px;
   font-weight: 400;
   white-space: pre-line;
