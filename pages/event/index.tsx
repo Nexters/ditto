@@ -9,6 +9,7 @@ import theme from '@/styles/theme';
 import { useFetchEventList } from '@/hooks/Event/useCreateEvent';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
+import { css } from '@emotion/react';
 
 const EVENT_HEADER_HEIGHT = 98;
 
@@ -46,8 +47,8 @@ const Event: NextPageWithLayout = () => {
                   </Text>
                 </Flex>
                 <Flex>
-                  {isAllDay ? <Chip>오늘</Chip> : null}
-                  {isAnnual ? <Chip>매년</Chip> : null}
+                  {isAllDay ? <Chip type="allDay">오늘</Chip> : null}
+                  {isAnnual ? <Chip type="annual">매년</Chip> : null}
                 </Flex>
               </ListItem>
             )
@@ -75,6 +76,7 @@ const ListContainer = styled.ul`
 const ListItem = styled.li`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   background: ${({ theme }) => theme.colors.white};
@@ -84,8 +86,26 @@ const ListItem = styled.li`
   cursor: pointer;
 `;
 
-const Chip = styled.div`
+const Chip = styled.div<{ type: 'allDay' | 'annual' }>`
   display: inline-block;
-
+  width: 100%;
   padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid ${theme.colors.orange};
+  font-weight: 600;
+  ${theme.textStyles.caption};
+  & + div {
+    margin-left: 6px;
+  }
+
+  ${({ type }) =>
+    type === 'allDay'
+      ? css`
+          color: ${theme.colors.white};
+          background-color: ${theme.colors.orange};
+        `
+      : css`
+          color: ${theme.colors.orange};
+          background: rgba(255, 84, 30, 0.1);
+        `}
 `;
