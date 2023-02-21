@@ -6,10 +6,10 @@ import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
-import { useFetchEventList } from '@/hooks/Event/useCreateEvent';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
 import { css } from '@emotion/react';
+import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 
 const EVENT_HEADER_HEIGHT = 98;
 
