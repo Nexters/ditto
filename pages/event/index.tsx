@@ -1,10 +1,13 @@
 import React from 'react';
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
 import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
+import theme from '@/styles/theme';
+
+const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,8 +28,9 @@ const Event: NextPageWithLayout = () => {
         </Button>
       }
     >
-      
-      <div style={{ width: '100%', height: 3000 ,marginTop:98 }}>asvsav</div>
+      <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
+        asc
+      </Flex>
       <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );

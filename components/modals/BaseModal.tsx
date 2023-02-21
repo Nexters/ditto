@@ -1,31 +1,24 @@
 import React, { ReactNode } from 'react';
 import { Modal, ModalOverlay, ModalContent } from '@chakra-ui/react';
-import styled from '@emotion/styled';
 
 interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
   modalContent: ReactNode;
-  height?: number;
   width?: number;
+  height?: number;
 }
 
 const BaseModal = (props: BaseModalProps) => {
   const { isOpen, onClose, modalContent, width, height } = props;
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay bg="blackAlpha.300" />
-      <StyledModalContent width={width ? width : 300} height={height ? height : 230}>
+      <ModalOverlay bg="blackAlpha.700" />
+      <ModalContent bgColor="white" boxShadow="none" marginTop={138} width={width || 300} height={height || 230}>
         {modalContent}
-      </StyledModalContent>
+      </ModalContent>
     </Modal>
   );
 };
-
-const StyledModalContent = styled(ModalContent)`
-  background-color: white;
-  box-shadow: none;
-  margin-top: 138px;
-`;
 
 export default BaseModal;

@@ -25,7 +25,7 @@ const StyledTextarea = styled(Textarea)`
   overflow: hidden;
   border: 1px solid ${theme.colors.grey[2]};
   border-radius: 6px;
-  padding: 20px 20px;
+  padding: 16px 20px;
   caret-color: ${theme.colors.primary};
 `;
 

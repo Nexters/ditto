@@ -6,6 +6,8 @@ export type BucketFolder = Database['public']['Tables']['bucket_folders']['Row']
 
 export type BucketItem = Database['public']['Tables']['bucket_items']['Row'];
 
+export type Event = Database['public']['Tables']['events']['Row'];
+
 export type Invitation = Database['public']['Tables']['invitations']['Row'];
 
 export type Group = Database['public']['Tables']['groups']['Row'];
