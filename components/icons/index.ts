@@ -1,4 +1,5 @@
-export { default as ArrowRightIcon } from './ArrowRightIcon';
+export { default as ArrowRightIcon20 } from './ArrowRightIcon20';
+export { default as ArrowRightIcon32 } from './ArrowRightIcon32';
 export { default as BlackDownIcon } from './BlackDownIcon';
 export { default as CalendarIcon } from './CalendarIcon';
 export { default as CheckIcon20 } from './CheckIcon20';
@@ -17,4 +18,6 @@ export { default as PawIcon } from './PawIcon';
 export { default as PlusWhiteIcon } from './PlusWhiteIcon';
 export { default as RabbitWithCarIcon } from './RabbitWithCarIcon';
 export { default as SplashLogoIcon } from './SplashLogoIcon';
+export { default as ToastAlertIcon } from './ToastAlertIcon';
+export { default as ToastSuccessIcon } from './ToastSuccessIcon';
 export { default as TrashCanIcon } from './TrashCanIcon';
