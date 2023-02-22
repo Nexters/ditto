@@ -26,8 +26,8 @@ export const createEvent = async ({
   return;
 };
 
-export const getEventsList = async () => {
-  const { data, error } = await supabase.from('events').select('*');
+export const getEventsList = async (currentGroupId: number) => {
+  const { data, error } = await supabase.from('events').select('*').eq('group_id', currentGroupId);
   if (error) throw new Error(error.message);
   return data;
 };

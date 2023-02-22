@@ -10,12 +10,14 @@ import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
 import { css } from '@emotion/react';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
+import { useUser } from '@/store/useUser';
 
 const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data } = useFetchEventList();
+  const { selectedGroupId } = useUser();
+  const { data } = useFetchEventList(Number(selectedGroupId));
 
   return (
     <MainLayout
@@ -37,7 +39,7 @@ const Event: NextPageWithLayout = () => {
         <ListContainer>
           {data?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
-              <ListItem key={id}>
+              <ListItem key={id} onClick={onOpen}>
                 <Flex flexDirection="column" gap="8px">
                   <Text textStyle="buttonMedium" color={theme.colors.secondary}>
                     {title}
