@@ -48,8 +48,5 @@ const MemberItemIsMe = styled.span`
   letter-spacing: 0.025em;
 `;
 const MemberItemNickname = styled.span`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 100%;
-  letter-spacing: 0.015em;
+  ${(props) => props.theme.textStyles.body1}
 `;
