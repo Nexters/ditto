@@ -9,6 +9,7 @@ import ErrorBoundary from '@/components/errorBoundary/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { SplashPage } from '@/components/loading/SplashPage';
 import Fonts from '@/styles/Font';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -19,8 +20,9 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const queryClient = new QueryClient();
+
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const queryClient = new QueryClient();
   const getLayout = Component.getLayout ?? ((page) => page);
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
 
@@ -47,6 +49,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
           </ErrorBoundary>
         </ChakraProvider>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
       </QueryClientProvider>
     </>
   );
