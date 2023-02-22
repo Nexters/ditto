@@ -5,11 +5,11 @@ import { KAKAO_LOGIN_URL } from '@/utils/const';
 import { pickFirst } from '@/utils/array';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
-import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
 import { Button } from '@chakra-ui/react';
 import { KakaoIcon, LoginChecklistIcon, LoginInvitationIcon } from '@/components/icons';
 import styled from '@emotion/styled';
+import { useFetchInvitationInfo } from '@/hooks/invitation/useFetchInvitationInfo';
+import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 import { Heading } from '@chakra-ui/react';
 
 // @note: root page flow

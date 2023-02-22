@@ -1,9 +1,8 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { NextResponse } from 'next/server';
-import { getInvitationInfo } from '@/lib/supabase/apis/invitation';
-import { addDays } from '@/utils/date';
 import { z } from 'zod';
 import { INVITATION_CODE_LENGTH } from '@/utils/const';
+import { adminApi } from '@/lib/supabase/admin';
 
 export const config = {
   runtime: 'edge',
@@ -23,15 +22,9 @@ const edgeFunction: EdgeFunction = async (req) => {
     const body = await req.json();
     const { code } = bodyScheme.parse(body);
 
-    const invitationInfo = await getInvitationInfo(code);
-    if (!invitationInfo) throw 'invitation is empty';
+    const invitationInfo = await adminApi.getInvitationInfo(code);
 
-    const now = new Date();
-    const expired = addDays(invitationInfo.created_time, 1);
-
-    if (expired < now) throw 'expired code';
-
-    return new NextResponse(JSON.stringify({ message: 'ok', data: { invitationInfo: invitationInfo } }), {
+    return new NextResponse(JSON.stringify({ message: 'ok', data: { invitationInfo } }), {
       status: 200,
       headers: {
         'content-type': 'application/json;charset=UTF-8',

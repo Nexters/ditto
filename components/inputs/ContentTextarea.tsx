@@ -10,7 +10,7 @@ const ContentTextarea = (props: TextareaProps) => {
       value={value}
       onChange={onChange}
       placeholder={placeholder || '설명을 입력하세요 (선택)'}
-      height={height ? height : 92}
+      minHeight={height ? height : 92}
       resize={'none'}
       isDisabled={isDisabled}
       textStyle={'body1'}
