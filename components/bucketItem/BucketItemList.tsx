@@ -13,22 +13,26 @@ const BucketItemList = () => {
   const { createBucketItemMutation } = useMutateBucketItems();
   const { mutate: createBucket } = createBucketItemMutation;
 
+  const [itemTitle, setItemTitle] = React.useState<string>('');
+
   if (status === 'loading') return <div>로딩중</div>;
   if (status === 'error') return <div>에러 발생</div>;
 
   const handleClick = () => {
+    if (!itemTitle) return;
+
     createBucket({
       bucket_folder_id: Number(folderId),
-      description: 'test4',
+      description: '',
       completed: false,
-      title: 'test4',
+      title: itemTitle,
     });
   };
 
   return (
     <>
       <InputGroup size="lg">
-        <Input placeholder="이 곳에 입력해보세요." />
+        <Input placeholder="이 곳에 입력해보세요." value={itemTitle} onChange={(e) => setItemTitle(e.target.value)} />
         <InputRightElement width="4.5rem">
           <Button h="1.75rem" size="sm" onClick={handleClick}>
             추가
