@@ -1,19 +1,8 @@
 import { useToast as useChakraToast } from '@chakra-ui/react';
 import Toast from '@/components/toasts/Toast';
+import { CustomToastProps } from '@/hooks/shared/useCustomToast/type';
 
-export const TOAST_DURATION = 2000;
-
-export const TOAST_TYPE = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-} as const;
-
-export type ToastType = (typeof TOAST_TYPE)[keyof typeof TOAST_TYPE];
-
-export interface CustomToastProps {
-  message: string;
-  type: ToastType;
-}
+const TOAST_DURATION = 2000;
 
 export const useCustomToast = () => {
   const toast = useChakraToast();
