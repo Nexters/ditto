@@ -1,7 +1,6 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { BucketFolder } from '@/lib/supabase/type';
 import { createBucketFolder, deleteBucketFolder, updateBucketFolder } from '@/lib/supabase/apis/bucketlist';
-import { TCreateBucketFolder } from '@/lib/supabase/apis/bucketlist/type';
+import { TCreateBucketFolder, TUpdateBucketFolder } from '@/lib/supabase/apis/bucketlist/type';
 import { useUser } from '@/store/useUser';
 
 export const useMutateBucketFolders = () => {
@@ -22,8 +21,8 @@ export const useMutateBucketFolders = () => {
     }
   );
   const updateBucketFolderMutation = useMutation(
-    async (bucketFolder: BucketFolder) => {
-      await updateBucketFolder(bucketFolder);
+    async (folder: TUpdateBucketFolder) => {
+      await updateBucketFolder({ user, selectedGroupId, folder });
     },
     {
       onSuccess: () => {
