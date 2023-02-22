@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, Button, Flex, ModalBody, ModalFooter, Switch, Text } from '@chakra-ui/react';
-import BaseModal from '@/components/modals/BaseModal';
+import BaseModal, { BaseModalProps } from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
-import { TrashCanIcon } from '../icons';
+// import { TrashCanIcon } from '../icons';
 import { useToggleState } from '@/hooks/useToggleState';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
 import { useUser } from '@/store/useUser';
@@ -10,11 +10,6 @@ import theme from '@/styles/theme';
 import TitleTextarea from '../inputs/TitleTextarea';
 import ContentTextarea from '../inputs/ContentTextarea';
 import { yyyyMMdd, yyyyMMddThhmm } from '@/utils/date';
-
-interface EventModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 interface ModalContentProps {
   onClose: () => void;
@@ -114,16 +109,17 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
           value={description}
         />
       </ModalBody>
-      <Box position="absolute" bottom="66px" left="20px">
+      {/* <Box position="absolute" bottom="66px" left="20px">
         <Text textStyle="caption" fontSize="13px" color="grey.4" marginBottom="6px">
           팜하니 작성
         </Text>
         <Text textStyle="caption" fontSize="13px" color="grey.4">
           2023.01.12 12:43
         </Text>
-      </Box>
+      </Box> */}
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
-        <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
+        {/* <TrashCanIcon cursor="pointer" onClick={() => console.log('z')} /> */}
+        <Box width="32px" height="32px" />
         <Button type="submit" isDisabled={startDate > endDate || !title.trim()}>
           저장하기
         </Button>
@@ -132,10 +128,11 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   );
 };
 
-const EventModal = ({ isOpen, onClose }: EventModalProps) => (
+const EventModal = ({ isOpen, onClose }: BaseModalProps) => (
   <BaseModal
     isOpen={isOpen}
     onClose={onClose}
+    closeOnOverlayClick={false}
     modalContent={<ModalContent onClose={onClose} />}
     width={300}
     height={500}
@@ -158,20 +155,15 @@ const Divider = styled.div<{ height?: number }>`
 
 export const DateInput = styled.input`
   box-sizing: border-box;
-
   width: 224px;
   height: 36px;
   padding: 11px 12px 11px 16px;
   background: #f6f8f9;
-  font-style: normal;
-
-  // FIXME: theme.textStyles.buttonSmall 로 변경해야함
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 100%;
-
   border: 1px solid #e2e2e2;
   border-radius: 6px;
+  ${theme.textStyles.buttonSmall};
+  color: ${theme.colors.black};
+  cursor: pointer;
 `;
 
 const CustomSwitch = styled(Switch)`
