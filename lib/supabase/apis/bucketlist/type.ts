@@ -17,15 +17,3 @@ export type TCreateBucketFolderParams = {
   user: User | null;
   selectedGroupId: number | null;
 };
-
-export type TUpdateBucketFolderParams = {
-  folder: TUpdateBucketFolder;
-  user: User | null;
-  selectedGroupId: number | null;
-};
-
-export type TUpdateBucketItemParams = {
-  item: TUpdateBucketItem;
-  user: User | null;
-  selectedGroupId: number | null;
-};

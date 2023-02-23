@@ -2,8 +2,8 @@ import { supabase } from '@/lib/supabase/client';
 import {
   TCreateBucketFolderParams,
   TCreateBucketItemParams,
-  TUpdateBucketFolderParams,
-  TUpdateBucketItemParams,
+  TUpdateBucketFolder,
+  TUpdateBucketItem,
 } from '@/lib/supabase/apis/bucketlist/type';
 import { BucketFolder } from '@/lib/supabase/type';
 
@@ -31,12 +31,10 @@ export const createBucketItem = async (params: TCreateBucketItemParams) => {
   return;
 };
 
-export const updateBucketItem = async (params: TUpdateBucketItemParams) => {
-  const { item, user } = params;
-
+export const updateBucketItem = async (item: TUpdateBucketItem) => {
   const { error } = await supabase
     .from('bucket_items')
-    .update({ title: item.title, creator_id: user?.id, description: item.description })
+    .update({ title: item.title, description: item.description })
     .eq('id', item.id);
   if (error) throw new Error(error.message);
   return;
@@ -83,12 +81,8 @@ export const createBucketFolder = async (params: TCreateBucketFolderParams) => {
   return;
 };
 
-export const updateBucketFolder = async (params: TUpdateBucketFolderParams) => {
-  const { folder, user } = params;
-  const { error } = await supabase
-    .from('bucket_folders')
-    .update({ title: folder.title, creator_id: user?.id })
-    .eq('id', folder.id);
+export const updateBucketFolder = async (folder: TUpdateBucketFolder) => {
+  const { error } = await supabase.from('bucket_folders').update({ title: folder.title }).eq('id', folder.id);
 
   if (error) throw new Error(error.message);
   return;
