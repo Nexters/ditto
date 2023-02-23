@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useRouter } from 'next/router';
 import { useFetchBucketItems } from '@/hooks/bucketlist/useFetchBucketItems';
 import BucketItem from '@/components/bucketItem/BucketItem';
 import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
+import styled from '@emotion/styled';
+import PartialLoader from '@/components/loading/PartialLoader';
 
 const BucketItemList = () => {
   const router = useRouter();
   const { folderId } = router.query;
 
-  const { data, status } = useFetchBucketItems(Number(folderId));
+  const { data = [], isLoading } = useFetchBucketItems(Number(folderId));
   const { createBucketItemMutation } = useMutateBucketItems();
   const { mutate: createBucket } = createBucketItemMutation;
 
   const [itemTitle, setItemTitle] = React.useState<string>('');
-
-  if (status === 'loading') return <div>로딩중</div>;
-  if (status === 'error') return <div>에러 발생</div>;
 
   const handleClick = () => {
     if (!itemTitle) return;
@@ -39,13 +38,24 @@ const BucketItemList = () => {
           </Button>
         </InputRightElement>
       </InputGroup>
-      <ul>
-        {data?.map((item) => (
-          <BucketItem key={item.id} item={item} />
-        ))}
-      </ul>
+      <ListWrapper>
+        {isLoading ? (
+          <PartialLoader />
+        ) : (
+          <>
+            {data?.length === 0 && <div>아직 아이템이 없습니다.</div>}
+            {data?.map((item) => (
+              <BucketItem key={item.id} item={item} />
+            ))}
+          </>
+        )}
+      </ListWrapper>
     </>
   );
 };
 
-export default BucketItemList;
+const ListWrapper = styled.ul`
+  min-height: calc(100vh - 30%);
+`;
+
+export default memo(BucketItemList);
