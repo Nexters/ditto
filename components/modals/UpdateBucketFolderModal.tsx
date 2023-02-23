@@ -4,6 +4,7 @@ import BaseModal from '@/components/modals/BaseModal';
 import ContentTextarea from '@/components/inputs/ContentTextarea';
 import BaseButton from '@/components/buttons/BaseButton';
 import { useMutateBucketFolders } from '@/hooks/bucketlist/useMutateBucketFolders';
+import { TrashCanIcon } from '@/components/icons';
 
 interface UpdateBucketFolderModalProps {
   isOpen: boolean;
@@ -16,8 +17,9 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
   const ModalContent = () => {
     const [folderName, setFolderName] = React.useState(initialName);
 
-    const { updateBucketFolderMutation } = useMutateBucketFolders();
+    const { updateBucketFolderMutation, deleteBucketFolderMutation } = useMutateBucketFolders();
     const { mutate: updateBucketFolder } = updateBucketFolderMutation;
+    const { mutate: deleteBucketFolder } = deleteBucketFolderMutation;
 
     const handleClickEditButton = () => {
       updateBucketFolder(
@@ -34,6 +36,14 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
       );
     };
 
+    const handleClickDeleteButton = () => {
+      deleteBucketFolder(id, {
+        onSuccess: () => {
+          onClose();
+        },
+      });
+    };
+
     return (
       <>
         <ModalBody>
@@ -45,7 +55,8 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
             }}
           />
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter justifyContent={'space-between'}>
+          <TrashCanIcon cursor="pointer" onClick={handleClickDeleteButton} />
           <BaseButton isDisabled={!folderName.length} onClick={handleClickEditButton}>
             저장하기
           </BaseButton>
@@ -56,4 +67,5 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
 
   return <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />;
 };
+
 export default UpdateBucketFolderModal;
