@@ -6,6 +6,7 @@ import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import styled from '@emotion/styled';
 import PartialLoader from '@/components/loading/PartialLoader';
+import EmptyItem from '@/components/bucketItem/EmptyItem';
 
 const BucketItemList = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const BucketItemList = () => {
           <PartialLoader />
         ) : (
           <>
-            {data?.length === 0 && <div>아직 아이템이 없습니다.</div>}
+            {data?.length === 0 && <EmptyItem />}
             {data?.map((item) => (
               <BucketItem key={item.id} item={item} />
             ))}
