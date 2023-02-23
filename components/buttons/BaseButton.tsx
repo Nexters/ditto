@@ -14,6 +14,7 @@ const BaseButton = (props: BaseButtonProps) => {
       color={'white'}
       _hover={{ bgColor: isDisabled ? 'disabled' : 'secondary' }}
       onClick={onClick}
+      isDisabled={isDisabled}
     >
       {children}
     </Button>
