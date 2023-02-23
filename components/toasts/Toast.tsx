@@ -2,13 +2,13 @@ import { Box, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import theme from '@/styles/theme';
 import { ToastAlertIcon, ToastSuccessIcon } from '@/components/icons';
-import { CustomToastProps, TOAST_TYPE } from '@/hooks/shared/useCustomToast/type';
+import { CustomToastProps } from '@/hooks/shared/useCustomToast/type';
 
 const Toast = ({ message, type }: CustomToastProps) => {
   return (
     <ToastWrapper>
-      {type === TOAST_TYPE.ERROR && <ToastAlertIcon />}
-      {type === TOAST_TYPE.SUCCESS && <ToastSuccessIcon />}
+      {type === 'error' && <ToastAlertIcon />}
+      {type === 'success' && <ToastSuccessIcon />}
       <Text textStyle={'body2'} color={'white'}>
         {message}
       </Text>
