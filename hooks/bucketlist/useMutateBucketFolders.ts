@@ -22,7 +22,7 @@ export const useMutateBucketFolders = () => {
   );
   const updateBucketFolderMutation = useMutation(
     async (folder: TUpdateBucketFolder) => {
-      await updateBucketFolder({ user, selectedGroupId, folder });
+      await updateBucketFolder(folder);
     },
     {
       onSuccess: () => {

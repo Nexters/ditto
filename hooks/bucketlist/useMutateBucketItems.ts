@@ -29,7 +29,7 @@ export const useMutateBucketItems = () => {
 
   const updateBucketItemMutation = useMutation(
     async (item: TUpdateBucketItem) => {
-      await updateBucketItem({ user, selectedGroupId, item });
+      await updateBucketItem(item);
     },
     {
       onSuccess: () => {
