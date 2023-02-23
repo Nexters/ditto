@@ -1,8 +1,7 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
-import { BucketItem } from '@/lib/supabase/type';
 import { useUser } from '@/store/useUser';
-import { TCreateBucketItem } from '@/lib/supabase/apis/bucketlist/type';
+import { TCreateBucketItem, TUpdateBucketItem } from '@/lib/supabase/apis/bucketlist/type';
 import {
   completeBucketItem,
   createBucketItem,
@@ -29,8 +28,8 @@ export const useMutateBucketItems = () => {
   );
 
   const updateBucketItemMutation = useMutation(
-    async (bucketItem: BucketItem) => {
-      await updateBucketItem(bucketItem);
+    async (item: TUpdateBucketItem) => {
+      await updateBucketItem(item);
     },
     {
       onSuccess: () => {
@@ -41,6 +40,7 @@ export const useMutateBucketItems = () => {
       },
     }
   );
+
   const deleteBucketItemMutation = useMutation(
     async (id: number) => {
       await deleteBucketItem(id);
@@ -56,8 +56,8 @@ export const useMutateBucketItems = () => {
   );
 
   const completeBucketItemMutation = useMutation(
-    async (id: number) => {
-      await completeBucketItem(id);
+    async ({ id, completed }: { id: number; completed: boolean }) => {
+      await completeBucketItem({ id, completed });
     },
     {
       onSuccess: () => {

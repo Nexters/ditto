@@ -5,12 +5,22 @@ import MainLayout from '@/components/layouts/MainLayout';
 import BucketItemList from '@/components/bucketItem/BucketItemList';
 import { Text } from '@chakra-ui/react';
 import { RabbitWithCarIcon } from '@/components/icons';
+import { useRouter } from 'next/router';
+import { useFetchBucketFolderById } from '@/hooks/bucketlist/useFetchBucketFolderById';
 
 const BucketListItem: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { folderId } = router.query;
+
+  const { data, status } = useFetchBucketFolderById(Number(folderId));
+
+  if (status === 'loading') return <div>로딩중</div>;
+  if (status === 'error') return <div>에러 발생</div>;
+
   return (
     <>
       <Text textStyle={'h1'} marginBottom={'12px'}>
-        Bucket Item
+        {data?.title}
       </Text>
       <section>
         <RabbitWithCarIcon />

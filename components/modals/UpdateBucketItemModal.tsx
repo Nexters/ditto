@@ -1,56 +1,86 @@
 import React from 'react';
-import { Box, Divider, ModalBody, ModalHeader, Text } from '@chakra-ui/react';
+import { Box, Divider, ModalBody, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import TitleTextarea from '@/components/inputs/TitleTextarea';
 import ContentTextarea from '@/components/inputs/ContentTextarea';
 import styled from '@emotion/styled';
+import BaseButton from '@/components/buttons/BaseButton';
+import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
   onClose: () => void;
+  title: string;
+  description: string | null;
+  id: number;
 }
 
-const ModalContent = () => {
-  const [itemTitle, setItemTitle] = React.useState('');
-  const [itemContent, setItemContent] = React.useState('');
+const UpdateBucketItemModal = ({ isOpen, onClose, description, title, id }: UpdateBucketItemModalProps) => {
+  const ModalContent = () => {
+    const [itemTitle, setItemTitle] = React.useState(title);
+    const [itemDesc, setItemDesc] = React.useState(description);
 
-  return (
-    <>
-      <StyledModalHeader>
-        <StyledModalHeaderText textStyle={'body1'}>Modal header</StyledModalHeaderText>
-      </StyledModalHeader>
-      <ModalBody padding={0}>
-        <TitleTextarea
-          placeholder={'제목을 입력하세요'}
-          height={94}
-          value={itemTitle}
-          onChange={(e) => {
-            setItemTitle(e.target.value);
-          }}
-        />
-        <Divider borderWidth={4} borderColor={'divider'} />
-        <Box padding={'20px'}>
-          <ContentTextarea
-            placeholder={'설명을 입력하세요'}
+    const { updateBucketItemMutation } = useMutateBucketItems();
+    const { mutate: updateBucketItem } = updateBucketItemMutation;
+
+    const handleClickEditButton = () => {
+      updateBucketItem(
+        {
+          title: itemTitle,
+          description: itemDesc,
+          id,
+        },
+        {
+          onSuccess: () => {
+            setItemTitle('');
+            setItemDesc('');
+            onClose();
+          },
+        }
+      );
+    };
+
+    return (
+      <>
+        <StyledModalHeader>
+          <StyledModalHeaderText textStyle={'body1'}>Modal header</StyledModalHeaderText>
+        </StyledModalHeader>
+        <ModalBody padding={0}>
+          <TitleTextarea
+            placeholder={'제목을 입력하세요'}
             height={94}
-            value={itemContent}
+            value={itemTitle}
             onChange={(e) => {
-              setItemContent(e.target.value);
+              setItemTitle(e.target.value);
             }}
           />
-        </Box>
-      </ModalBody>
-    </>
-  );
-};
+          <Divider borderWidth={4} borderColor={'divider'} />
+          <Box padding={'20px'}>
+            <ContentTextarea
+              placeholder={'설명을 입력하세요'}
+              height={94}
+              value={itemDesc ?? ''}
+              onChange={(e) => {
+                setItemDesc(e.target.value);
+              }}
+            />
+          </Box>
+        </ModalBody>
+        <ModalFooter>
+          <BaseButton isDisabled={!itemTitle.length} onClick={handleClickEditButton}>
+            수정하기
+          </BaseButton>
+        </ModalFooter>
+      </>
+    );
+  };
 
-const UpdateBucketItemModal = ({ isOpen, onClose }: UpdateBucketItemModalProps) => (
-  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} width={335} height={384} />
-);
+  return <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} width={335} height={384} />;
+};
 
 const StyledModalHeader = styled(ModalHeader)`
   background-color: ${({ theme }) => theme.colors.grey[8]};
-  border-radius: 12px 12px 0px 0px;
+  border-radius: 6px 6px 0px 0px;
   color: ${({ theme }) => theme.colors.grey[1]};
   height: 56px;
 `;

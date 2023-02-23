@@ -1,22 +1,59 @@
-import React from 'react';
-import { Text } from '@chakra-ui/react';
+import React, { ChangeEvent } from 'react';
+import { ModalFooter, ModalBody } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
+import ContentTextarea from '@/components/inputs/ContentTextarea';
+import BaseButton from '@/components/buttons/BaseButton';
+import { useMutateBucketFolders } from '@/hooks/bucketlist/useMutateBucketFolders';
 
-interface UpdateBucketModalProps {
+interface UpdateBucketFolderModalProps {
   isOpen: boolean;
   onClose: () => void;
+  id: number;
+  name: string;
 }
 
-const ModalContent = () => {
-  return (
-    <Text color="black" textAlign="center">
-      hello world
-    </Text>
-  );
+const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: UpdateBucketFolderModalProps) => {
+  const ModalContent = () => {
+    const [folderName, setFolderName] = React.useState(initialName);
+
+    const { updateBucketFolderMutation } = useMutateBucketFolders();
+    const { mutate: updateBucketFolder } = updateBucketFolderMutation;
+
+    const handleClickEditButton = () => {
+      updateBucketFolder(
+        {
+          title: folderName,
+          id,
+        },
+        {
+          onSuccess: () => {
+            setFolderName('');
+            onClose();
+          },
+        }
+      );
+    };
+
+    return (
+      <>
+        <ModalBody>
+          <ContentTextarea
+            placeholder={'폴더명을 입력하세요'}
+            value={folderName}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+              setFolderName(e.target.value);
+            }}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <BaseButton isDisabled={!folderName.length} onClick={handleClickEditButton}>
+            저장하기
+          </BaseButton>
+        </ModalFooter>
+      </>
+    );
+  };
+
+  return <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />;
 };
-
-const UpdateBucketFolderModal = ({ isOpen, onClose }: UpdateBucketModalProps) => (
-  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />
-);
-
 export default UpdateBucketFolderModal;
