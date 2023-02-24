@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
-const SvgTrashCanIcon = (props: SVGProps<SVGSVGElement> & { disabled: boolean }) => (
+const SvgTrashCanIcon = (props: SVGProps<SVGSVGElement> & { disabled?: boolean }) => (
   <svg
     width={32}
     height={32}

@@ -21,12 +21,19 @@ const BucketItemList = () => {
   const handleClick = () => {
     if (!itemTitle) return;
 
-    createBucket({
-      bucket_folder_id: Number(folderId),
-      description: '',
-      completed: false,
-      title: itemTitle,
-    });
+    createBucket(
+      {
+        bucket_folder_id: Number(folderId),
+        description: '',
+        completed: false,
+        title: itemTitle,
+      },
+      {
+        onSuccess: () => {
+          setItemTitle('');
+        },
+      }
+    );
   };
 
   return (

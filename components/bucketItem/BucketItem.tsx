@@ -47,6 +47,7 @@ const Item = styled.li`
   height: 64px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey[2]};
   padding: 8px 20px;
+  cursor: pointer;
 `;
 
 const TitleSection = styled.section`

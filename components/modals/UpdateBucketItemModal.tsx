@@ -6,6 +6,7 @@ import ContentTextarea from '@/components/inputs/ContentTextarea';
 import styled from '@emotion/styled';
 import BaseButton from '@/components/buttons/BaseButton';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
+import { TrashCanIcon } from '@/components/icons';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
@@ -20,8 +21,9 @@ const UpdateBucketItemModal = ({ isOpen, onClose, description, title, id }: Upda
     const [itemTitle, setItemTitle] = React.useState(title);
     const [itemDesc, setItemDesc] = React.useState(description);
 
-    const { updateBucketItemMutation } = useMutateBucketItems();
+    const { updateBucketItemMutation, deleteBucketItemMutation } = useMutateBucketItems();
     const { mutate: updateBucketItem } = updateBucketItemMutation;
+    const { mutate: deleteBucketItem } = deleteBucketItemMutation;
 
     const handleClickEditButton = () => {
       updateBucketItem(
@@ -38,6 +40,14 @@ const UpdateBucketItemModal = ({ isOpen, onClose, description, title, id }: Upda
           },
         }
       );
+    };
+
+    const handleClickDeleteButton = () => {
+      deleteBucketItem(id, {
+        onSuccess: () => {
+          onClose();
+        },
+      });
     };
 
     return (
@@ -66,7 +76,8 @@ const UpdateBucketItemModal = ({ isOpen, onClose, description, title, id }: Upda
             />
           </Box>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter justifyContent={'space-between'}>
+          <TrashCanIcon cursor="pointer" onClick={handleClickDeleteButton} />
           <BaseButton isDisabled={!itemTitle.length} onClick={handleClickEditButton}>
             수정하기
           </BaseButton>
