@@ -11,13 +11,23 @@ import { dateChangeToEventFormat } from '@/utils/date';
 import { css } from '@emotion/react';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
+import useChangeMode from '@/store/useChangeMode';
 
 const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { selectedGroupId } = useUser();
-  const { data } = useFetchEventList(Number(selectedGroupId));
+  const { data } = useFetchEventList(Number(selectedGroupId), {
+    enabled: !!selectedGroupId,
+  });
+  
+  const { setMode } = useChangeMode();
+
+  const handleClickEvent = (id: number) => () => {
+    setMode('update', id);
+    onOpen();
+  };
 
   return (
     <MainLayout
@@ -37,9 +47,10 @@ const Event: NextPageWithLayout = () => {
     >
       <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
         <ListContainer>
+          {/* TODO: 일정잉 없을떄 화면 추가해야함 */}
           {data?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
-              <ListItem key={id} onClick={onOpen}>
+              <ListItem key={id} onClick={handleClickEvent(id)}>
                 <Flex flexDirection="column" gap="8px">
                   <Text textStyle="buttonMedium" color={theme.colors.secondary}>
                     {title}
