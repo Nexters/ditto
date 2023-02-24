@@ -4,7 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const EVENT_KEY = {
   all: ['event'],
-  allByGroupId: (params: { currentGroupId: number } ) => [...EVENT_KEY.all, params],
+  allByGroupId: (currentGroupId: number) => [...EVENT_KEY.all, currentGroupId],
+  eventById: (eventId: number) => [...EVENT_KEY.all, eventId],
 } as const;
 
 export const useCreateEvent = () => {

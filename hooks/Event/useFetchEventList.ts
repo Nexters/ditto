@@ -5,7 +5,7 @@ import { EVENT_KEY } from './useCreateEvent';
 
 export const useFetchEventList = (currentGroupId: number, options?: UseQueryOptions<Event[], Error>) => {
   return useQuery<Event[], Error>(
-    EVENT_KEY.allByGroupId({ currentGroupId }),
+    EVENT_KEY.allByGroupId(currentGroupId),
     async () => {
       const response = await getEventsList(currentGroupId);
       return response;
@@ -13,7 +13,6 @@ export const useFetchEventList = (currentGroupId: number, options?: UseQueryOpti
     {
       ...options,
       staleTime: Infinity,
-      enabled: !!currentGroupId,
     }
   );
 };
