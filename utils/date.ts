@@ -1,10 +1,13 @@
-const now = new Date();
-const offset = now.getTimezoneOffset() * 60 * 1000;
-const KST = new Date(now.getTime() - offset);
+// 항상 새로운 함수를 호출하여 현재 날짜를 가져오기 위함
+export const dateInit = () => {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60 * 1000;
+  const KST = new Date(now.getTime() - offset);
 
-export const yyyyMMddThhmm = KST.toISOString().split('.')[0].slice(0, -3);
-
-export const yyyyMMdd = KST.toISOString().split('T')[0];
+  const yyyyMMddThhmm = KST.toISOString().split('.')[0].slice(0, -3);
+  const yyyyMMdd = KST.toISOString().split('T')[0];
+  return { yyyyMMddThhmm, yyyyMMdd };
+};
 
 export const addDays = (date: string | number | Date, days: number) => {
   const result = new Date(date);
@@ -46,3 +49,6 @@ export const dateChangeToEventFormat = (startDate: string, endDate: string) => {
   if (startDate === endDate) return changedToMMdd || changedToHHmm;
   return `${changedToMMdd} - ${changedToHHmm}`;
 };
+
+export const dateChangeToyyyyMMddhhmm = (date: string) =>
+  new Date(date).toISOString().replace(/T/, ' ').replace(/\..+/, '').replace(/-/g, '.').slice(0, -3);
