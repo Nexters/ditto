@@ -12,14 +12,11 @@ const BucketListItem: NextPageWithLayout = () => {
   const router = useRouter();
   const { folderId } = router.query;
 
-  const { data, status } = useFetchBucketFolderById(Number(folderId));
-
-  if (status === 'loading') return <div>로딩중</div>;
-  if (status === 'error') return <div>에러 발생</div>;
+  const { data } = useFetchBucketFolderById(Number(folderId));
 
   return (
     <>
-      <Text textStyle={'h1'} marginBottom={'12px'}>
+      <Text textStyle={'h1'} marginBottom={'12px'} minHeight={'105px'}>
         {data?.title}
       </Text>
       <section>
