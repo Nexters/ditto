@@ -22,7 +22,6 @@ interface ModalContentProps {
  * 일정 추가, 수정 모달
  */
 const ModalContent = ({ onClose }: ModalContentProps) => {
-
   // 일정 추가 관련
   const [isAllDay, toggleAllDay] = useToggleState();
   const [isAnnual, toggleAnnual] = useToggleState();
@@ -39,7 +38,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-  console.log({ data, mode });
+  // console.log({ data, mode });
+  // console.log(new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3));
 
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent();
@@ -51,6 +51,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
 
   const handleChangeDate = (isStartDate: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    // console.log({ value });
     if (isStartDate) setStartDate(value);
     else setEndDate(value);
   };
@@ -99,7 +100,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       <TitleTextarea
         placeholder={'제목을 입력하세요'}
         onChange={handleChangeTitle}
-        value={title}
+        value={isUpdateMode ? prevData?.title : title}
         padding="13px 20px !important"
         height="80px"
         border="none !important"
@@ -110,7 +111,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             하루종일
           </Text>
-          <CustomSwitch isChecked={isAllDay} onChange={toggleAllDay} />
+          <CustomSwitch isChecked={isUpdateMode ? prevData?.is_all_day : isAllDay} onChange={toggleAllDay} />
         </Flex>
         <Flex flexDirection="column" marginBottom="16px">
           <Flex justifyContent="space-between" alignItems="center" marginBottom="10px">
@@ -118,26 +119,40 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
             <DateInput
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(true)}
-              value={startDate}
+              value={
+                isUpdateMode
+                  ? isAllDay
+                    ? new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3)
+                    : new Date(prevData?.start_time || Date.now()).toISOString().split('T')[0]
+                  : startDate
+              }
             />
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">
             <Text color="#FF541E">종료</Text>
-            <DateInput type={isAllDay ? 'date' : 'datetime-local'} onChange={handleChangeDate(false)} value={endDate} />
+            <DateInput
+              type={isAllDay ? 'date' : 'datetime-local'}
+              onChange={handleChangeDate(false)}
+              value={isUpdateMode ? prevData?.end_time : endDate}
+            />
           </Flex>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" padding="16px 0">
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             매년 반복
           </Text>
-          <CustomSwitch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
+          <CustomSwitch
+            isChecked={isUpdateMode ? prevData?.is_annual : isAnnual}
+            onChange={toggleAnnual}
+            color="#FF541E"
+          />
         </Flex>
         <ContentTextarea
           placeholder="설명을 입력하세요 (선택)"
           height={68}
           marginTop="12px"
           onChange={handleChangeDescription}
-          value={description}
+          value={isUpdateMode ? prevData?.description : description}
         />
         {isUpdateMode && prevData && (
           <Flex justifyContent="flex-end" marginTop="auto">
