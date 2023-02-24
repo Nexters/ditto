@@ -199,7 +199,10 @@ const CustomSwitch = styled(Switch)`
 `;
 
 const DeleteButton = styled.button`
-  &:disabled path {
-    stroke: #ddd;
+  &:disabled {
+    cursor: default;
+    path {
+      stroke: #ddd;
+    }
   }
 `;
