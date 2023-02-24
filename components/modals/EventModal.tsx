@@ -135,7 +135,10 @@ const ModalContent = () => {
         </Text>
       </Box>
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
-        <TrashCanIcon cursor="pointer" disabled={startDate > endDate} onClick={() => console.log('z')} />
+        <DeleteButton disabled={startDate > endDate} onClick={() => console.log('z')}>
+          <TrashCanIcon />
+        </DeleteButton>
+
         <Button type="submit" isDisabled={startDate > endDate}>
           저장하기
         </Button>
@@ -192,5 +195,11 @@ const CustomSwitch = styled(Switch)`
       width: 14px;
       height: 14px;
     }
+  }
+`;
+
+const DeleteButton = styled.button`
+  &:disabled path {
+    stroke: #ddd;
   }
 `;
