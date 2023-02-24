@@ -18,6 +18,7 @@ export { default as PawIcon } from './PawIcon';
 export { default as PlusWhiteIcon } from './PlusWhiteIcon';
 export { default as RabbitWithCarIcon } from './RabbitWithCarIcon';
 export { default as SplashLogoIcon } from './SplashLogoIcon';
+export { default as SplashLogoTextIcon } from './SplashLogoTextIcon';
 export { default as ToastAlertIcon } from './ToastAlertIcon';
 export { default as ToastSuccessIcon } from './ToastSuccessIcon';
 export { default as TrashCanIcon } from './TrashCanIcon';
