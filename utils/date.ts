@@ -1,11 +1,17 @@
-// 항상 새로운 함수를 호출하여 현재 날짜를 가져오기 위함
-export const dateInit = () => {
+/**
+ * 항상 새로운 함수를 호출하여 현재 날짜를 가져오기 위함
+ * datepicker와 9시간 차이가 나서 변환
+ */
+export const KSTDate = () => {
   const now = new Date();
   const offset = now.getTimezoneOffset() * 60 * 1000;
   const KST = new Date(now.getTime() - offset);
+  return KST;
+};
 
-  const yyyyMMddThhmm = KST.toISOString().split('.')[0].slice(0, -3);
-  const yyyyMMdd = KST.toISOString().split('T')[0];
+export const dateInit = () => {
+  const yyyyMMddThhmm = KSTDate().toISOString().split('.')[0].slice(0, -3);
+  const yyyyMMdd = KSTDate().toISOString().split('T')[0];
   return { yyyyMMddThhmm, yyyyMMdd };
 };
 
