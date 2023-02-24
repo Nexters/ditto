@@ -44,7 +44,7 @@ export interface Database {
           completed?: boolean;
           created_time?: string;
           creator_id: number;
-          description?: string | null;
+          description?: string;
           group_id: number;
           id?: number;
           title: string;
@@ -54,7 +54,7 @@ export interface Database {
           completed?: boolean;
           created_time?: string;
           creator_id?: number;
-          description?: string | null;
+          description?: string;
           group_id?: number;
           id?: number;
           title?: string;
@@ -64,12 +64,12 @@ export interface Database {
         Row: {
           created_time: string;
           creator_id: number;
-          description: string | null;
+          description: string;
           end_time: string;
           group_id: number;
           id: number;
-          is_all_day: boolean | null;
-          is_annual: boolean | null;
+          is_all_day: boolean;
+          is_annual: boolean;
           start_time: string;
           title: string;
         };
@@ -80,8 +80,8 @@ export interface Database {
           end_time: string;
           group_id: number;
           id?: number;
-          is_all_day?: boolean | null;
-          is_annual?: boolean | null;
+          is_all_day?: boolean;
+          is_annual?: boolean;
           start_time: string;
           title: string;
         };
@@ -92,8 +92,8 @@ export interface Database {
           end_time?: string;
           group_id?: number;
           id?: number;
-          is_all_day?: boolean | null;
-          is_annual?: boolean | null;
+          is_all_day?: boolean;
+          is_annual?: boolean;
           start_time?: string;
           title?: string;
         };
