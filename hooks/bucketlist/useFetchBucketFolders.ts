@@ -13,6 +13,8 @@ export const useFetchBucketFolders = () => {
     return response;
   };
   return useQuery<BucketFolder[], Error>(['bucketFolders'], fetcher, {
+    refetchOnMount: false,
+    keepPreviousData: true,
     staleTime: Infinity,
   });
 };

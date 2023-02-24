@@ -7,7 +7,8 @@ export const useFetchBucketFolderById = (id: number) => {
     const response = await getBucketFolderById(id);
     return response;
   };
-  return useQuery<BucketFolder, Error>(['bucketFolder'], fetcher, {
+  return useQuery<BucketFolder, Error>(['bucketFolder', id], fetcher, {
+    enabled: !!id,
     staleTime: Infinity,
   });
 };
