@@ -3,9 +3,9 @@ import BaseModal from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
 import ContentTextarea from '../inputs/ContentTextarea';
 import { useState } from 'react';
-import { createDefaultBucketFolder, createGroup, joinGroup } from '@/lib/supabase/apis/group';
 import { useUser } from '@/store/useUser';
 import useCustomToast from '@/hooks/shared/useCustomToast';
+import { useMutateCreateGroup } from '@/hooks/group/useMutateCreateGroup';
 
 interface CreateGroupModalProps {
   isOpen: boolean;
@@ -14,8 +14,10 @@ interface CreateGroupModalProps {
 
 const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
   const { user, setGroupId } = useUser();
-  const [groupName, setGroupName] = useState('');
   const { openToast } = useCustomToast();
+  const { mutateAsync } = useMutateCreateGroup();
+
+  const [groupName, setGroupName] = useState('');
 
   const disabledToCreate = groupName.trim().length === 0;
 
@@ -23,10 +25,7 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
     if (!user) return;
 
     try {
-      const group = await createGroup(user.id, groupName);
-      await joinGroup(user.id, group.id);
-      await createDefaultBucketFolder(user.id, group.id);
-
+      const group = await mutateAsync({ userId: user.id, groupName });
       setGroupId(group.id);
       onClose();
     } catch (error) {
