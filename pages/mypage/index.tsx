@@ -1,3 +1,4 @@
+import GroupMenu from '@/components/groupMenu/GroupMenu';
 import MainLayout from '@/components/layouts/MainLayout';
 import { MemberList } from '@/components/memberList/MemberList';
 import { NextPageWithLayout } from '@/pages/_app';
@@ -11,7 +12,7 @@ const MyPage: NextPageWithLayout = () => {
     <MainLayout>
       <MyPageHeader>
         My Page
-        <div>dropdown</div>
+        <GroupMenu />
       </MyPageHeader>
       <MyPageContent>
         <MemberList />
