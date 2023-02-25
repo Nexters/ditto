@@ -1,47 +1,39 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useRouter } from 'next/router';
 import { useFetchBucketItems } from '@/hooks/bucketlist/useFetchBucketItems';
 import BucketItem from '@/components/bucketItem/BucketItem';
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
+import styled from '@emotion/styled';
+import PartialLoader from '@/components/loading/PartialLoader';
+import EmptyItem from '@/components/bucketItem/EmptyItem';
+import BucketItemInput from '@/components/bucketItem/BucketItemInput';
 
 const BucketItemList = () => {
   const router = useRouter();
   const { folderId } = router.query;
 
-  const { data, status } = useFetchBucketItems(Number(folderId));
-  const { createBucketItemMutation } = useMutateBucketItems();
-  const { mutate: createBucket } = createBucketItemMutation;
-
-  if (status === 'loading') return <div>로딩중</div>;
-  if (status === 'error') return <div>에러 발생</div>;
-
-  const handleClick = () => {
-    createBucket({
-      bucket_folder_id: Number(folderId),
-      description: 'test4',
-      completed: false,
-      title: 'test4',
-    });
-  };
+  const { data = [], isLoading } = useFetchBucketItems(Number(folderId));
 
   return (
     <>
-      <InputGroup size="lg">
-        <Input placeholder="이 곳에 입력해보세요." />
-        <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
-            추가
-          </Button>
-        </InputRightElement>
-      </InputGroup>
-      <ul>
-        {data?.map((item) => (
-          <BucketItem key={item.id} item={item} />
-        ))}
-      </ul>
+      <BucketItemInput folderId={Number(folderId ?? '')} />
+      <ListWrapper>
+        {isLoading ? (
+          <PartialLoader />
+        ) : (
+          <>
+            {data?.length === 0 && <EmptyItem />}
+            {data?.map((item) => (
+              <BucketItem key={item.id} item={item} />
+            ))}
+          </>
+        )}
+      </ListWrapper>
     </>
   );
 };
 
-export default BucketItemList;
+const ListWrapper = styled.ul`
+  min-height: calc(100vh - 430px);
+`;
+
+export default memo(BucketItemList);

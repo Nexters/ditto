@@ -16,9 +16,7 @@ const MainLayout = ({
   return (
     <MainContainer>
       {header}
-      <MainSection hideBottomNavigation={hideBottomNavigation}>
-        {children}
-      </MainSection>
+      <MainSection hideBottomNavigation={hideBottomNavigation}>{children}</MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
       {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>

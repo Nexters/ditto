@@ -1,4 +1,4 @@
-const semanticTokens = {
+export const semanticTokens = {
   colors: {
     error: 'red.1',
     success: 'green.1',
@@ -7,5 +7,3 @@ const semanticTokens = {
     disabled: 'grey.3',
   },
 };
-
-export default semanticTokens;
