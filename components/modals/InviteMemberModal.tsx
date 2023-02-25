@@ -5,6 +5,7 @@ import { useFetchInvitations } from '@/hooks/invitation/useFetchInvitations';
 import { useUser } from '@/store/useUser';
 import styled from '@emotion/styled';
 import { addDays } from '@/utils/date';
+import { useFetchGroup } from '@/hooks/group/useFetchGroup';
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface InviteMemberModalProps {
 
 const ModalContent = () => {
   const { user, selectedGroupId } = useUser();
+  const { data: group } = useFetchGroup(selectedGroupId);
   const { data: invitations, isLoading } = useFetchInvitations(user?.id, selectedGroupId);
   const invitation = invitations?.[0];
   const invitationUrl = invitation ? `${HOSTING_URL}?code=${invitation.code}` : null;
@@ -21,7 +23,7 @@ const ModalContent = () => {
   const invitationExpiredAt = invitation ? addDays(invitation.created_time, 1) : null;
 
   const shareInvitation = () => {
-    const text = `👋(그룹명)에서 (클릭한 유저 이름)과 함께 일정과 버킷리스트를 편하게 공유해보세요.\n\n${invitationUrl}`;
+    const text = `👋${group?.name}에서 ${user?.nickname}님과 함께 일정과 버킷리스트를 편하게 공유해보세요.\n\n${invitationUrl}`;
     try {
       navigator.share({ text });
     } catch (error) {
