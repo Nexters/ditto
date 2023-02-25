@@ -57,10 +57,10 @@ const CustomMenuList = styled(MenuList)`
   min-width: 160px;
   padding: 0;
   margin-top: -4px;
-  border: none;
   border-radius: 8px;
   background-color: ${theme.colors.white};
   overflow: hidden;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.06);
 `;
 const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
   padding: 12px;
