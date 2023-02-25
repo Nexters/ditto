@@ -4,10 +4,15 @@ import { MemberList } from '@/components/memberList/MemberList';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
+import { INQUIRY_CHANNEL_URL } from '@/utils/const';
 import styled from '@emotion/styled';
 
 const MyPage: NextPageWithLayout = () => {
   const { logout } = useUser();
+
+  const goToOpenInquiryChannel = () => {
+    window.open(INQUIRY_CHANNEL_URL, '_blank');
+  };
 
   return (
     <MainLayout>
@@ -19,7 +24,7 @@ const MyPage: NextPageWithLayout = () => {
         <MemberList />
         <MyPageDivider />
         <OtherButton>새 그룹 만들기</OtherButton>
-        <OtherButton>문의하기</OtherButton>
+        <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
         <OtherButton onClick={logout}>로그아웃</OtherButton>
       </MyPageContent>
     </MainLayout>
