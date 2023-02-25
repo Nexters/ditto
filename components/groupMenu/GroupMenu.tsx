@@ -26,7 +26,7 @@ const GroupMenu = () => {
           const selected = id === selectedGroupId;
           return (
             <CustomMenuItem key={id} onClick={() => setGroupId(id)} selected={selected}>
-              {name}
+              <CustomGroupName>{name}</CustomGroupName>
               {selected && <PawIcon width={18} height={18} />}
             </CustomMenuItem>
           );
@@ -59,6 +59,7 @@ const CustomMenuList = styled(MenuList)`
 const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
   padding: 12px;
   justify-content: space-between;
+
   ${(props) => props.theme.textStyles.buttonSmall}
   ${(props) =>
     props.selected
@@ -68,10 +69,16 @@ const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
 
   svg {
     filter: invert(1);
+    flex-shrink: 0;
   }
 
   &:focus,
   &:active {
     --menu-bg: none;
   }
+`;
+const CustomGroupName = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
