@@ -18,13 +18,14 @@ const ConditionalRabbitIcon = ({ folderTitle }: { folderTitle: string }) => {
 
   if (!folderTitle) return <PartialLoader />;
 
-  return (
-    <Flex justifyContent={'flex-end'}>
-      {isPlace && <RabbitWithCarIcon />}
-      {isFood && <RabbitWithCakeIcon />}
-      {!isPlace && !isFood && <RandomRabbitIcon rabbitColor={getRandomColor()} />}
-    </Flex>
-  );
+  const conditionalRender = () => {
+    if (isPlace) return <RabbitWithCarIcon />;
+    if (isFood) return <RabbitWithCakeIcon />;
+
+    return <RandomRabbitIcon rabbitColor={getRandomColor()} />;
+  };
+
+  return <Flex justifyContent={'flex-end'}>{conditionalRender()}</Flex>;
 };
 
 export default ConditionalRabbitIcon;

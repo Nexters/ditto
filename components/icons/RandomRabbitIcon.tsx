@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { SVGProps } from 'react';
-import { RabbitColor } from '@/utils/getRandomColor';
+import { RabbitColor, rabbitPalette } from '@/utils/getRandomColor';
 
 type CustomSvgProps = SVGProps<SVGSVGElement> & {
   rabbitColor?: RabbitColor;
 };
 
-const SvgRandomRabbitIcon = ({
-  rabbitColor = { eyeColor: '#FF6F1E', bodyColor: '#222' },
-  ...props
-}: CustomSvgProps) => (
+const SvgRandomRabbitIcon = ({ rabbitColor = rabbitPalette[0], ...props }: CustomSvgProps) => (
   <svg width={144} height={117} viewBox="0 0 144 117" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <g clipPath="url(#RandomRabbitIcon_svg__a)">
       <path

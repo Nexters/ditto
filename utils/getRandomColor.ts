@@ -3,7 +3,7 @@ export type RabbitColor = {
   bodyColor: string;
 };
 
-const palette = [
+export const rabbitPalette: RabbitColor[] = [
   {
     eyeColor: '#FF6F1E',
     bodyColor: '#FFC977',
@@ -43,6 +43,6 @@ const palette = [
 ];
 
 export const getRandomColor = () => {
-  const randomIndex = Math.floor(Math.random() * palette.length);
-  return palette[randomIndex];
+  const randomIndex = Math.floor(Math.random() * rabbitPalette.length - 1);
+  return rabbitPalette[randomIndex];
 };
