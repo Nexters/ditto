@@ -4,7 +4,7 @@ import { HOSTING_URL } from '@/utils/const';
 import { useFetchInvitations } from '@/hooks/invitation/useFetchInvitations';
 import { useUser } from '@/store/useUser';
 
-interface AddMemberModalProps {
+interface InviteMemberModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -23,8 +23,8 @@ const ModalContent = () => {
   );
 };
 
-const AddMemberModal = ({ isOpen, onClose }: AddMemberModalProps) => (
+const InviteMemberModal = ({ isOpen, onClose }: InviteMemberModalProps) => (
   <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />
 );
 
-export default AddMemberModal;
+export default InviteMemberModal;
