@@ -42,36 +42,16 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const { mutate: createEvent } = useCreateEvent();
 
   useEffect(() => {
-    setStartDate(
-      isAllDay
-        ? isUpdateMode
-          ? eventDateForView(isAllDay, prevData?.start_time)
-          : eventDateForView(isAllDay)
-        : isUpdateMode
-        ? eventDateForView(isAllDay, prevData?.start_time)
-        : eventDateForView(isAllDay)
-    );
-    setEndDate(
-      isAllDay
-        ? isUpdateMode
-          ? eventDateForView(isAllDay, prevData?.end_time)
-          : eventDateForView(isAllDay)
-        : isUpdateMode
-        ? eventDateForView(isAllDay, prevData?.end_time)
-        : eventDateForView(isAllDay)
-    );
+    setStartDate(isUpdateMode ? eventDateForView(isAllDay, prevData?.start_time) : eventDateForView(isAllDay));
+    setEndDate(isUpdateMode ? eventDateForView(isAllDay, prevData?.end_time) : eventDateForView(isAllDay));
   }, [isAllDay, isUpdateMode, prevData?.end_time, prevData?.start_time]);
 
   useEffect(() => {
     if (isUpdateMode && prevData) {
       setTitle(prevData.title);
       setDescription(prevData.description);
-      setStartDate(
-        isAllDay ? eventDateForView(isAllDay, prevData?.start_time) : eventDateForView(isAllDay, prevData?.start_time)
-      );
-      setEndDate(
-        isAllDay ? eventDateForView(isAllDay, prevData?.end_time) : eventDateForView(isAllDay, prevData?.end_time)
-      );
+      setStartDate(eventDateForView(isAllDay, prevData?.start_time));
+      setEndDate(eventDateForView(isAllDay, prevData?.end_time));
       setAllDay(prevData?.is_all_day);
       setAnnual(prevData?.is_annual);
     }
