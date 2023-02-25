@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "gen-schema": "npx supabase gen types typescript --project-id nmudcjshynedjpjithxj --schema public > lib/supabase/schema.ts",
     "gen:theme-typings": "chakra-cli tokens ./styles/theme/index.ts",
-    "icon": "npx @svgr/cli --out-dir components/icons --typescript public/assets"
+    "icon": "npx @svgr/cli --out-dir components/icons --typescript --ignore-existing public/assets"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
