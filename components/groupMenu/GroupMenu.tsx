@@ -23,13 +23,17 @@ const GroupMenu = () => {
     <Menu>
       <MenuButton as={ForwardedCustomMenuButton} />
       <CustomMenuList>
-        {groupList?.map(({ name, id }) => {
+        {groupList?.map(({ name, id }, index) => {
           const selected = id === selectedGroupId;
+          const last = index === groupList.length - 1;
           return (
-            <CustomMenuItem key={id} onClick={() => setGroupId(id)} selected={selected}>
-              <CustomGroupName>{name}</CustomGroupName>
-              {selected && <PawIcon width={18} height={18} />}
-            </CustomMenuItem>
+            <>
+              <CustomMenuItem key={id} onClick={() => setGroupId(id)} selected={selected}>
+                <CustomGroupName>{name}</CustomGroupName>
+                {selected && <PawIcon width={18} height={18} />}
+              </CustomMenuItem>
+              {!last && <CustomMenuDivider />}
+            </>
           );
         })}
       </CustomMenuList>
@@ -53,6 +57,7 @@ const CustomMenuList = styled(MenuList)`
   min-width: 160px;
   padding: 0;
   margin-top: -4px;
+  border: none;
   border-radius: 8px;
   background-color: ${theme.colors.white};
   overflow: hidden;
@@ -82,4 +87,9 @@ const CustomGroupName = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`;
+const CustomMenuDivider = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${theme.colors.grey[2]};
 `;
