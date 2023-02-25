@@ -1,5 +1,5 @@
 import { BucketItem as TBucketItem } from '@/lib/supabase/type';
-import UpdateBucketItemModal from '@/components/modals/UpdateBucketItemModal';
+import UpdateBucketItemModal from '@/components/modals/bucketList/UpdateBucketItemModal';
 import { Text, useDisclosure } from '@chakra-ui/react';
 import PawButton from '@/components/buttons/PawButton';
 import styled from '@emotion/styled';

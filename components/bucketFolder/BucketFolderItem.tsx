@@ -3,7 +3,7 @@ import { BucketFolder } from '@/lib/supabase/type';
 import styled from '@emotion/styled';
 import { Text, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import UpdateBucketFolderModal from '@/components/modals/UpdateBucketFolderModal';
+import UpdateBucketFolderModal from '@/components/modals/bucketList/UpdateBucketFolderModal';
 
 const BucketFolderItem = ({ folder }: { folder: BucketFolder }) => {
   const router = useRouter();
