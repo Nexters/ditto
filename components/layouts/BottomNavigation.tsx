@@ -10,7 +10,7 @@ const BottomNavigation = () => {
 
   const createLinkProps = (href: string) => ({
     href,
-    selected: router.asPath.includes(href),
+    selected: router.asPath.startsWith(href),
   });
 
   return (
