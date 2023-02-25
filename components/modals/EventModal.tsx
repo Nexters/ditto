@@ -8,7 +8,7 @@ import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
 import TitleTextarea from '../inputs/TitleTextarea';
 import ContentTextarea from '../inputs/ContentTextarea';
-import { dateInit, dateChangeToyyyyMMddhhmm } from '@/utils/date';
+import { forViewEventDate, dateChangeToyyyyMMddhhmm, forSaveEventDate } from '@/utils/date';
 import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
@@ -28,8 +28,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [startDate, setStartDate] = useState(dateInit().yyyyMMdd);
-  const [endDate, setEndDate] = useState(dateInit().yyyyMMdd);
+  const [startDate, setStartDate] = useState(forViewEventDate().yyyyMMdd);
+  const [endDate, setEndDate] = useState(forViewEventDate().yyyyMMdd);
 
   // 일정 수정 관련
   const { mode, selectedEventId, resetMode } = useChangeMode();
@@ -38,20 +38,17 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-  // console.log({ data, mode });
-  // console.log(new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3));
 
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent();
 
   useEffect(() => {
-    setStartDate(isAllDay ? dateInit().yyyyMMdd : dateInit().yyyyMMddThhmm);
-    setEndDate(isAllDay ? dateInit().yyyyMMdd : dateInit().yyyyMMddThhmm);
+    setStartDate(isAllDay ? forViewEventDate().yyyyMMdd : forViewEventDate().yyyyMMddThhmm);
+    setEndDate(isAllDay ? forViewEventDate().yyyyMMdd : forViewEventDate().yyyyMMddThhmm);
   }, [isAllDay]);
 
   const handleChangeDate = (isStartDate: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    // console.log({ value });
     if (isStartDate) setStartDate(value);
     else setEndDate(value);
   };
@@ -75,8 +72,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       isAnnual,
       title,
       description,
-      startTime: startDate,
-      endTime: endDate,
+      startTime: isAllDay ? forSaveEventDate(startDate).yyyyMMdd : forSaveEventDate(startDate).yyyyMMddThhmm,
+      endTime: isAllDay ? forSaveEventDate(endDate).yyyyMMdd : forSaveEventDate(endDate).yyyyMMddThhmm,
       creatorId,
       groupId: selectedGroupId,
     });
@@ -98,7 +95,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
         <CloseIcon width={18} height={18} cursor="pointer" onClick={handleCloseModal} />
       </ModalHeader>
       <TitleTextarea
-        placeholder={'제목을 입력하세요'}
+        placeholder='제목을 입력하세요'
         onChange={handleChangeTitle}
         value={isUpdateMode ? prevData?.title : title}
         padding="13px 20px !important"
@@ -120,11 +117,12 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(true)}
               value={
-                isUpdateMode
-                  ? isAllDay
-                    ? new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3)
-                    : new Date(prevData?.start_time || Date.now()).toISOString().split('T')[0]
-                  : startDate
+                // isUpdateMode
+                //   ? isAllDay
+                //     ? new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3)
+                //     : new Date(prevData?.start_time || Date.now()).toISOString().split('T')[0]
+                //   : startDate
+                startDate
               }
             />
           </Flex>
@@ -133,7 +131,10 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
             <DateInput
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(false)}
-              value={isUpdateMode ? prevData?.end_time : endDate}
+              value={
+                // isUpdateMode ? prevData?.end_time : endDate
+                endDate
+              }
             />
           </Flex>
         </Flex>
