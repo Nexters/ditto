@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactElement, ReactNode } from 'react';
+import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
+import { ReactElement, ReactNode, useState } from 'react';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
@@ -20,7 +20,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
   const getLayout = Component.getLayout ?? ((page) => page);
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
 
@@ -41,12 +41,14 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
-          <Fonts />
-          <ErrorBoundary fallback={<div>에러 페이지</div>}>
-            {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
-          </ErrorBoundary>
-        </ChakraProvider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
+            <Fonts />
+            <ErrorBoundary fallback={<div>에러 페이지</div>}>
+              {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
+          </ChakraProvider>
+        </Hydrate>
       </QueryClientProvider>
     </>
   );
