@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Text, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import UpdateBucketFolderModal from '@/components/modals/bucketList/UpdateBucketFolderModal';
+import theme from '@/styles/theme';
 
 const BucketFolderItem = ({ folder }: { folder: BucketFolder }) => {
   const router = useRouter();
@@ -35,8 +36,8 @@ const BucketFolder = styled.li`
   justify-content: space-between;
   width: 100%;
   height: 70px;
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  background: ${theme.colors.white};
+  border: 1px solid ${theme.colors.grey[2]};
   border-radius: 12px;
   align-items: center;
   padding: 0 20px;

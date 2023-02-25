@@ -6,6 +6,7 @@ import { Button, useDisclosure } from '@chakra-ui/react';
 import AddBucketFolderModal from '@/components/modals/bucketList/AddBucketFolderModal';
 import BucketFolderItem from '@/components/bucketFolder/BucketFolderItem';
 import PartialLoader from '@/components/loading/PartialLoader';
+import theme from '@/styles/theme';
 
 const MAX_LIST_LENGTH = 10;
 
@@ -50,8 +51,8 @@ const StyledList = styled.ul`
 
 const AddFolderButton = styled(Button)`
   width: 100%;
-  background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  background: ${theme.colors.white};
+  border: 1px solid ${theme.colors.grey[2]};
   border-radius: 12px;
   height: 70px;
 `;
