@@ -1,6 +1,5 @@
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import Image from 'next/image';
 
 export type MemberItemProps = {
   nickname: string;
@@ -24,7 +23,7 @@ const MemberItemWrap = styled.div`
   padding: 10px 0 12px;
   border-bottom: 1px solid ${theme.colors.grey[2]};
 `;
-const MemberItemProfileImage = styled(Image)`
+const MemberItemProfileImage = styled.img`
   width: 48px;
   height: 48px;
   margin-right: 16px;
