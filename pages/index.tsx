@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { useFetchInvitationInfo } from '@/hooks/invitation/useFetchInvitationInfo';
 import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 import { Heading } from '@chakra-ui/react';
+import theme from '@/styles/theme';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -127,12 +128,12 @@ const KakaoLoginButton = styled(Button)`
   width: 100%;
   height: 50px;
   border-radius: 8px;
-  background-color: ${(props) => props.theme.colors.kakaoBgColor};
+  background-color: ${theme.colors.kakaoBgColor};
 `;
 const KakaoLoginButtonText = styled.span`
   margin-left: 4px;
-  ${(props) => props.theme.textStyles.buttonMedium}
-  color: ${(props) => props.theme.colors.black};
+  ${theme.textStyles.buttonMedium};
+  color: ${theme.colors.black};
 `;
 const Space = styled.div`
   flex: 1;
