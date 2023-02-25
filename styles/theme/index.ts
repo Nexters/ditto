@@ -1,4 +1,5 @@
-import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import type { Theme as ChakraTheme, ThemeConfig } from '@chakra-ui/react';
+import { extendTheme } from '@chakra-ui/react';
 
 // Global styles (overrides)
 import styles from './styles';
@@ -31,9 +32,9 @@ const theme = extendTheme({
       },
     },
   },
-});
+}) as Theme;
 
-type Theme = typeof theme & typeof foundations;
+type Theme = ChakraTheme & typeof foundations;
 
 export type { Theme };
 export default theme;
