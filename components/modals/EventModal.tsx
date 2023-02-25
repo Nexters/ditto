@@ -22,8 +22,8 @@ interface ModalContentProps {
  */
 const ModalContent = ({ onClose }: ModalContentProps) => {
   // 일정 추가 관련
-  const [isAllDay, toggleAllDay] = useToggleState();
-  const [isAnnual, toggleAnnual] = useToggleState();
+  const [isAllDay, toggleAllDay, setAllDay] = useToggleState();
+  const [isAnnual, toggleAnnual, setAnnual] = useToggleState();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -37,14 +37,38 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-  console.log({ prevData });
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent();
 
   useEffect(() => {
-    setStartDate(isAllDay ? forViewEventDate().yyyyMMdd : forViewEventDate().yyyyMMddThhmm);
-    setEndDate(isAllDay ? forViewEventDate().yyyyMMdd : forViewEventDate().yyyyMMddThhmm);
-  }, [isAllDay]);
+    setStartDate(
+      isAllDay
+        ? (isUpdateMode ? forViewEventDate(prevData?.start_time) : forViewEventDate()).yyyyMMdd
+        : (isUpdateMode ? forViewEventDate(prevData?.start_time) : forViewEventDate()).yyyyMMddThhmm
+    );
+    setEndDate(
+      isAllDay
+        ? (isUpdateMode ? forViewEventDate(prevData?.end_time) : forViewEventDate()).yyyyMMdd
+        : (isUpdateMode ? forViewEventDate(prevData?.end_time) : forViewEventDate()).yyyyMMddThhmm
+    );
+  }, [isAllDay, isUpdateMode, prevData?.end_time, prevData?.start_time]);
+
+  useEffect(() => {
+    if (isUpdateMode && prevData) {
+      setTitle(prevData.title);
+      setDescription(prevData.description);
+      setStartDate(
+        isAllDay
+          ? forViewEventDate(prevData?.start_time).yyyyMMdd
+          : forViewEventDate(prevData?.start_time).yyyyMMddThhmm
+      );
+      setEndDate(
+        isAllDay ? forViewEventDate(prevData?.end_time).yyyyMMdd : forViewEventDate(prevData?.end_time).yyyyMMddThhmm
+      );
+      setAllDay(prevData?.is_all_day);
+      setAnnual(prevData?.is_annual);
+    }
+  }, [isUpdateMode, prevData]);
 
   const handleChangeDate = (isStartDate: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -66,18 +90,25 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     e.preventDefault();
     const creatorId = user?.id;
     if (!title.trim() || !creatorId || !selectedGroupId) return;
-    // console.log('asd', forSaveEventDate(startDate).yyyyMMddThhmm)
-    createEvent({
-      isAllDay,
-      isAnnual,
-      title,
-      description,
-      startTime: isAllDay ? forSaveEventDate(startDate).yyyyMMdd : forSaveEventDate(startDate).yyyyMMddThhmm,
-      endTime: isAllDay ? forSaveEventDate(endDate).yyyyMMdd : forSaveEventDate(endDate).yyyyMMddThhmm,
-      creatorId,
-      groupId: selectedGroupId,
-    });
+    if (isUpdateMode) {
+      // updateEvent mutate
+    } else {
+      createEvent({
+        isAllDay,
+        isAnnual,
+        title,
+        description,
+        startTime: isAllDay ? forSaveEventDate(startDate).yyyyMMdd : forSaveEventDate(startDate).yyyyMMddThhmm,
+        endTime: isAllDay ? forSaveEventDate(endDate).yyyyMMdd : forSaveEventDate(endDate).yyyyMMddThhmm,
+        creatorId,
+        groupId: selectedGroupId,
+      });
+    }
     onClose();
+  };
+
+  const handledDeleteEvent = () => {
+    // deleteEvent mutate
   };
 
   const handleCloseModal = () => {
@@ -97,7 +128,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       <TitleTextarea
         placeholder="제목을 입력하세요"
         onChange={handleChangeTitle}
-        value={isUpdateMode ? prevData?.title : title}
+        value={title}
         padding="13px 20px !important"
         height="80px"
         border="none !important"
@@ -108,7 +139,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             하루종일
           </Text>
-          <CustomSwitch isChecked={isUpdateMode ? prevData?.is_all_day : isAllDay} onChange={toggleAllDay} />
+          <CustomSwitch isChecked={isAllDay} onChange={toggleAllDay} />
         </Flex>
         <Flex flexDirection="column" marginBottom="16px">
           <Flex justifyContent="space-between" alignItems="center" marginBottom="10px">
@@ -116,46 +147,26 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
             <DateInput
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(true)}
-              value={
-                isUpdateMode
-                  ? isAllDay
-                    ? forViewEventDate(prevData?.start_time).yyyyMMdd
-                    : forViewEventDate(prevData?.start_time).yyyyMMddThhmm
-                  : startDate
-              }
+              value={startDate}
             />
           </Flex>
           <Flex justifyContent="space-between" alignItems="center">
             <Text color="#FF541E">종료</Text>
-            <DateInput
-              type={isAllDay ? 'date' : 'datetime-local'}
-              onChange={handleChangeDate(false)}
-              value={
-                isUpdateMode
-                  ? isAllDay
-                    ? forViewEventDate(prevData?.end_time).yyyyMMdd
-                    : forViewEventDate(prevData?.end_time).yyyyMMddThhmm
-                  : endDate
-              }
-            />
+            <DateInput type={isAllDay ? 'date' : 'datetime-local'} onChange={handleChangeDate(false)} value={endDate} />
           </Flex>
         </Flex>
         <Flex justifyContent="space-between" alignItems="center" padding="16px 0">
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             매년 반복
           </Text>
-          <CustomSwitch
-            isChecked={isUpdateMode ? prevData?.is_annual : isAnnual}
-            onChange={toggleAnnual}
-            color="#FF541E"
-          />
+          <CustomSwitch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
         </Flex>
         <ContentTextarea
           placeholder="설명을 입력하세요 (선택)"
           height={68}
           marginTop="12px"
           onChange={handleChangeDescription}
-          value={isUpdateMode ? prevData?.description : description}
+          value={description}
         />
         {isUpdateMode && prevData && (
           <Flex justifyContent="flex-end" marginTop="auto">
@@ -170,11 +181,11 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       </ModalBody>
       <ModalFooter display="flex" justifyContent="space-between" padding="12px 20px 16px 16px">
         {isUpdateMode ? (
-          <TrashCanIcon cursor="pointer" onClick={() => console.log('z')} />
+          <TrashCanIcon cursor="pointer" onClick={handledDeleteEvent} />
         ) : (
           <Box width="32px" height="32px" />
         )}
-        <Button type="submit" isDisabled={startDate > endDate || !title.trim()}>
+        <Button type="submit" isDisabled={startDate > endDate || !startDate || !endDate || !title.trim()}>
           저장하기
         </Button>
       </ModalFooter>
