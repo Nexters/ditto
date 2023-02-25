@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   primary: '#FF541E',
   secondary: '#1E1E1F',
   transparent: 'transparent',
@@ -25,5 +25,3 @@ const colors = {
   },
   kakaoBgColor: '#fee500',
 };
-
-export default colors;

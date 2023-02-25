@@ -22,7 +22,7 @@ const ContentTextarea = (props: TextareaProps) => {
 
 const StyledTextarea = styled(Textarea)`
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  border: 1px solid ${theme.colors.grey[2]};
   border-radius: 6px;
   padding: 10px;
 `;

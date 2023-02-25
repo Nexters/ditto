@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import BaseButton from '@/components/buttons/BaseButton';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import { TrashCanIcon } from '@/components/icons';
+import theme from '@/styles/theme';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
@@ -90,9 +91,9 @@ const UpdateBucketItemModal = ({ isOpen, onClose, description, title, id }: Upda
 };
 
 const StyledModalHeader = styled(ModalHeader)`
-  background-color: ${({ theme }) => theme.colors.grey[8]};
+  background-color: ${theme.colors.grey[8]};
   border-radius: 6px 6px 0px 0px;
-  color: ${({ theme }) => theme.colors.grey[1]};
+  color: ${theme.colors.grey[1]};
   height: 56px;
 `;
 

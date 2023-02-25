@@ -3,6 +3,7 @@ import MainLayout from '@/components/layouts/MainLayout';
 import { MemberList } from '@/components/memberList/MemberList';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useUser } from '@/store/useUser';
+import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 
 const MyPage: NextPageWithLayout = () => {
@@ -41,8 +42,8 @@ const MyPageHeader = styled.h1`
 
   height: 58px;
   padding: 0 20px;
-  ${(props) => props.theme.textStyles.h3}
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
+  ${theme.textStyles.h3};
+  border-bottom: 1px solid ${theme.colors.grey[2]};
 `;
 const MyPageContent = styled.section`
   position: absolute;
@@ -62,7 +63,7 @@ const OtherButton = styled.button`
   width: 100%;
   padding: 22px 20px;
   text-align: left;
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
-  ${(props) => props.theme.textStyles.buttonMedium}
-  color: ${(props) => props.theme.colors.grey[10]};
+  border-bottom: 1px solid ${theme.colors.grey[2]};
+  ${theme.textStyles.buttonMedium};
+  color: ${theme.colors.grey[10]};
 `;

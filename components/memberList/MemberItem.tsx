@@ -1,3 +1,4 @@
+import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 
@@ -21,7 +22,7 @@ const MemberItemWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 10px 0 12px;
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
+  border-bottom: 1px solid ${theme.colors.grey[2]};
 `;
 const MemberItemProfileImage = styled(Image)`
   width: 48px;
@@ -37,16 +38,16 @@ const MemberItemIsMe = styled.span`
 
   width: 17px;
   height: 17px;
-  background-color: ${(props) => props.theme.colors.grey[9]};
+  background-color: ${theme.colors.grey[9]};
   border-radius: 50%;
   margin-right: 4px;
 
-  color: ${(props) => props.theme.colors.white};
+  color: ${theme.colors.white};
   font-weight: 700;
   font-size: 11px;
   line-height: 100%;
   letter-spacing: 0.025em;
 `;
 const MemberItemNickname = styled.span`
-  ${(props) => props.theme.textStyles.body1}
+  ${theme.textStyles.body1};
 `;

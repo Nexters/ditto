@@ -1,5 +1,6 @@
 import { useFetchMemberList } from '@/hooks/member/useFetchMemberList';
 import { useUser } from '@/store/useUser';
+import theme from '@/styles/theme';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
@@ -27,18 +28,18 @@ export const MemberList = () => {
 
 const MemberListWrap = styled.section`
   padding: 0 20px;
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey[2]};
+  border-bottom: 1px solid ${theme.colors.grey[2]};
 `;
 const MemberListHeader = styled.h3`
   padding: 12px 0;
-  ${(props) => props.theme.textStyles.h3}
+  ${theme.textStyles.h3};
 `;
 const AddMemberButton = styled(Button)`
   width: 100%;
   height: auto;
   margin: 20px 0;
   padding: 16px 0;
-  ${(props) => props.theme.textStyles.buttonSmall}
-  color: ${(props) => props.theme.colors.grey[1]};
-  background-color: ${(props) => props.theme.colors.grey[10]};
+  ${theme.textStyles.buttonSmall};
+  color: ${theme.colors.grey[1]};
+  background-color: ${theme.colors.grey[10]};
 `;

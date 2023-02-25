@@ -1,4 +1,4 @@
-const textStyles = {
+export const textStyles = {
   h1: {
     fontStyle: 'normal',
     fontWeight: 600,
@@ -93,5 +93,3 @@ const textStyles = {
     color: '#FF6F1E',
   },
 };
-
-export default textStyles;

@@ -4,6 +4,7 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 import PawButton from '@/components/buttons/PawButton';
 import styled from '@emotion/styled';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
+import theme from '@/styles/theme';
 
 const BucketItem = ({ item }: { item: TBucketItem }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,7 +46,7 @@ const Item = styled.li`
   align-items: center;
   width: 100%;
   height: 64px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.grey[2]};
+  border-bottom: 1px solid ${theme.colors.grey[2]};
   padding: 8px 20px;
   cursor: pointer;
 `;
