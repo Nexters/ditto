@@ -8,7 +8,7 @@ import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
 import TitleTextarea from '../inputs/TitleTextarea';
 import ContentTextarea from '../inputs/ContentTextarea';
-import { formatEventDateForView, creationDate, formatEventDateForSave } from '@/utils/date';
+import { eventDateForView, creationDate, eventDateForSave } from '@/utils/date';
 import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
@@ -27,8 +27,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [startDate, setStartDate] = useState(formatEventDateForView(isAllDay));
-  const [endDate, setEndDate] = useState(formatEventDateForView(isAllDay));
+  const [startDate, setStartDate] = useState(eventDateForView(isAllDay));
+  const [endDate, setEndDate] = useState(eventDateForView(isAllDay));
 
   // 일정 수정 관련
   const { mode, selectedEventId, resetMode } = useChangeMode();
@@ -45,20 +45,20 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     setStartDate(
       isAllDay
         ? isUpdateMode
-          ? formatEventDateForView(isAllDay, prevData?.start_time)
-          : formatEventDateForView(isAllDay)
+          ? eventDateForView(isAllDay, prevData?.start_time)
+          : eventDateForView(isAllDay)
         : isUpdateMode
-        ? formatEventDateForView(isAllDay, prevData?.start_time)
-        : formatEventDateForView(isAllDay)
+        ? eventDateForView(isAllDay, prevData?.start_time)
+        : eventDateForView(isAllDay)
     );
     setEndDate(
       isAllDay
         ? isUpdateMode
-          ? formatEventDateForView(isAllDay, prevData?.end_time)
-          : formatEventDateForView(isAllDay)
+          ? eventDateForView(isAllDay, prevData?.end_time)
+          : eventDateForView(isAllDay)
         : isUpdateMode
-        ? formatEventDateForView(isAllDay, prevData?.end_time)
-        : formatEventDateForView(isAllDay)
+        ? eventDateForView(isAllDay, prevData?.end_time)
+        : eventDateForView(isAllDay)
     );
   }, [isAllDay, isUpdateMode, prevData?.end_time, prevData?.start_time]);
 
@@ -67,14 +67,10 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       setTitle(prevData.title);
       setDescription(prevData.description);
       setStartDate(
-        isAllDay
-          ? formatEventDateForView(isAllDay, prevData?.start_time)
-          : formatEventDateForView(isAllDay, prevData?.start_time)
+        isAllDay ? eventDateForView(isAllDay, prevData?.start_time) : eventDateForView(isAllDay, prevData?.start_time)
       );
       setEndDate(
-        isAllDay
-          ? formatEventDateForView(isAllDay, prevData?.end_time)
-          : formatEventDateForView(isAllDay, prevData?.end_time)
+        isAllDay ? eventDateForView(isAllDay, prevData?.end_time) : eventDateForView(isAllDay, prevData?.end_time)
       );
       setAllDay(prevData?.is_all_day);
       setAnnual(prevData?.is_annual);
@@ -110,8 +106,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
         isAnnual,
         title,
         description,
-        startTime: formatEventDateForSave(isAllDay, startDate),
-        endTime: formatEventDateForSave(isAllDay, endDate),
+        startTime: eventDateForSave(isAllDay, startDate),
+        endTime: eventDateForSave(isAllDay, endDate),
         creatorId,
         groupId: selectedGroupId,
       });

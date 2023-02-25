@@ -2,13 +2,13 @@ import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds } f
 
 const ONE_YEAR = 1000 * 60 * 60 * 24;
 
-export const formatEventDateForView = (isAllDay: boolean, date?: string) => {
+export const eventDateForView = (isAllDay: boolean, date?: string) => {
   return isAllDay
     ? formatISO(date ? new Date(date) : new Date(), { representation: 'date' })
     : formatISO(date ? new Date(date) : new Date()).slice(0, -9);
 };
 
-export const formatEventDateForSave = (isAllDay: boolean, date: string) => {
+export const eventDateForSave = (isAllDay: boolean, date: string) => {
   return format(
     // 하루종일 일때는 yyyy-mm-dd 형식이라 hour sub가 되지 않음. 그렇기 때문에 HH:mm을 추가하고 값을 보여줄 때 워싱해서 보여줘야 함
     sub(new Date(isAllDay ? `${date} 00:00` : date), {
