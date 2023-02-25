@@ -4,6 +4,7 @@ import { useUser } from '@/store/useUser';
 import { Menu, MenuButton, MenuList, MenuItem, forwardRef } from '@chakra-ui/react';
 import { GrayDownIcon, PawIcon } from '../icons';
 import styled from '@emotion/styled';
+import theme from '@/styles/theme';
 
 const GroupMenu = () => {
   const { user, selectedGroupId, setGroupId } = useUser();
@@ -44,8 +45,8 @@ const CustomMenuButton = styled.button`
   align-items: center;
   gap: 4px;
 
-  ${(props) => props.theme.textStyles.buttonSmall}
-  color: ${(props) => props.theme.colors.grey[6]};
+  ${theme.textStyles.buttonSmall}
+  color: ${theme.colors.grey[6]};
 `;
 const CustomMenuList = styled(MenuList)`
   width: 160px;
@@ -53,19 +54,19 @@ const CustomMenuList = styled(MenuList)`
   padding: 0;
   margin-top: -4px;
   border-radius: 8px;
-  background-color: ${(props) => props.theme.colors.white};
+  background-color: ${theme.colors.white};
   overflow: hidden;
 `;
 const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
   padding: 12px;
   justify-content: space-between;
 
-  ${(props) => props.theme.textStyles.buttonSmall}
-  ${(props) =>
-    props.selected
-      ? `color: ${props.theme.colors.white};
-        background-color: ${props.theme.colors.grey[10]};`
-      : `color: ${props.theme.colors.grey[6]};`};
+  ${theme.textStyles.buttonSmall}
+  ${({ selected }) =>
+    selected
+      ? `color: ${theme.colors.white};
+        background-color: ${theme.colors.grey[10]};`
+      : `color: ${theme.colors.grey[6]};`};
 
   svg {
     filter: invert(1);
