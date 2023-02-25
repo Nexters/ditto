@@ -8,7 +8,9 @@ export const useFetchBucketItems = (folderId: number) => {
     return response;
   };
   return useQuery<BucketItem[], Error>(['bucketItems', folderId], fetcher, {
-    staleTime: Infinity,
     enabled: !!folderId,
+    refetchOnMount: false,
+    keepPreviousData: true,
+    staleTime: Infinity,
   });
 };

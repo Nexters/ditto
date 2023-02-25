@@ -8,7 +8,6 @@ import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
-import { css } from '@emotion/react';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
@@ -113,11 +112,11 @@ const Chip = styled.div<{ type: 'allDay' | 'annual' }>`
 
   ${({ type }) =>
     type === 'allDay'
-      ? css`
+      ? `
           color: ${theme.colors.white};
           background-color: ${theme.colors.orange};
         `
-      : css`
+      : `
           color: ${theme.colors.orange};
           background: rgba(255, 84, 30, 0.1);
         `}

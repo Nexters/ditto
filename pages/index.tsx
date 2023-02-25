@@ -5,9 +5,13 @@ import { KAKAO_LOGIN_URL } from '@/utils/const';
 import { pickFirst } from '@/utils/array';
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useFetchInvitationInfo } from '@/hooks/useFetchInvitationInfo';
-import { useFetchJoinedGroupList } from '@/hooks/useFetchJoinedGroupList';
+import { Button } from '@chakra-ui/react';
+import { KakaoIcon, LoginChecklistIcon, LoginInvitationIcon } from '@/components/icons';
+import styled from '@emotion/styled';
+import { useFetchInvitationInfo } from '@/hooks/invitation/useFetchInvitationInfo';
+import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 import { Heading } from '@chakra-ui/react';
+import theme from '@/styles/theme';
 
 // @note: root page flow
 // 1-1. 로그인 여부 확인 -> 로그인되어 있다면 참여한 그룹 리스트 확인
@@ -66,14 +70,79 @@ const RootPage = () => {
 
   return (
     <MainLayout hideBottomNavigation>
-      <Heading>
-        {invitationInfo
-          ? `${invitationInfo.users.nickname}님이 당신을\n${invitationInfo.groups.name} 그룹으로 초대합니다.`
-          : '가까운 사람들과\n일정, 버킷리스트를 함께 공유해보세요.'}
-      </Heading>
-      <a href={KAKAO_LOGIN_URL(code)}>카카오 로그인</a>
+      <Container>
+        <WelcomeMessage>
+          {invitationInfo ? (
+            <>
+              <b>{invitationInfo?.users.nickname}</b>님이
+              <br />
+              당신을
+              <br />
+              <b>{invitationInfo?.groups.name}</b>로<br />
+              초대합니다.
+            </>
+          ) : (
+            '가까운 사람들과\n일정, 버킷리스트를\n함께 작성하고\n관리해보세요.'
+          )}
+        </WelcomeMessage>
+
+        <Space />
+
+        <LoginIconWrap>{invitationInfo ? <LoginInvitationIcon /> : <LoginChecklistIcon />}</LoginIconWrap>
+
+        <KakaoLoginButtonWrap>
+          <KakaoLoginButton as="a" href={KAKAO_LOGIN_URL(code)}>
+            <KakaoIcon />
+            <KakaoLoginButtonText>카카오 로그인</KakaoLoginButtonText>
+          </KakaoLoginButton>
+        </KakaoLoginButtonWrap>
+      </Container>
     </MainLayout>
   );
 };
 
 export default RootPage;
+
+const Container = styled.section`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+const WelcomeMessage = styled(Heading)`
+  padding: 56px 28px 0;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -0.02em;
+  white-space: pre-line;
+  text-align: left;
+`;
+const KakaoLoginButtonWrap = styled.div`
+  width: 100%;
+  padding: 0 20px 28px 20px;
+`;
+const KakaoLoginButton = styled(Button)`
+  width: 100%;
+  height: 50px;
+  border-radius: 8px;
+  background-color: ${theme.colors.kakaoBgColor};
+`;
+const KakaoLoginButtonText = styled.span`
+  margin-left: 4px;
+  ${theme.textStyles.buttonMedium};
+  color: ${theme.colors.black};
+`;
+const Space = styled.div`
+  flex: 1;
+`;
+const LoginIconWrap = styled.div`
+  width: 100%;
+  padding: 0 26px 72px;
+  text-align: right;
+  svg {
+    display: inline-block;
+  }
+`;

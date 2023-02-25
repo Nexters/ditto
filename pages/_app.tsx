@@ -1,11 +1,11 @@
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
 import { ReactElement, ReactNode } from 'react';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
-import ErrorBoundary from '@/components/errorBoundary/ErrorBoundary';
+import ErrorBoundary from '@/components/errors/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { SplashPage } from '@/components/loading/SplashPage';
 import Fonts from '@/styles/Font';
@@ -43,12 +43,14 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
-          <Fonts />
-          <ErrorBoundary fallback={<div>에러 페이지</div>}>
-            {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
-          </ErrorBoundary>
-        </ChakraProvider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
+            <Fonts />
+            <ErrorBoundary fallback={<div>에러 페이지</div>}>
+              {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
+            </ErrorBoundary>
+          </ChakraProvider>
+        </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
       </QueryClientProvider>
     </>
