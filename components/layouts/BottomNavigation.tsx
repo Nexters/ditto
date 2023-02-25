@@ -1,20 +1,34 @@
+import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const BottomNavBarHeight = 60;
 
 const BottomNavigation = () => {
+  const router = useRouter();
+
+  const createLinkProps = (href: string) => {
+    console.log(router.asPath, href, router.asPath.includes(href));
+    return {
+      href,
+      selected: router.asPath.includes(href),
+    };
+  };
+
   return (
     <BottomNavBar>
       <NavContainer>
         <NavItem>
-          <Link href="/event">일정</Link>
+          <NavLink {...createLinkProps('/event')}>일정</NavLink>
         </NavItem>
+        <NavDivider />
         <NavItem>
-          <Link href="/bucketlist">버킷리스트</Link>
+          <NavLink {...createLinkProps('/bucketlist')}>버킷리스트</NavLink>
         </NavItem>
+        <NavDivider />
         <NavItem>
-          <Link href="/mypage">My</Link>
+          <NavLink {...createLinkProps('/mypage')}>MY</NavLink>
         </NavItem>
       </NavContainer>
     </BottomNavBar>
@@ -27,27 +41,50 @@ const BottomNavBar = styled.nav`
   left: 0;
   right: 0;
   height: ${BottomNavBarHeight}px;
-  background-color: #fff;
-  border: 1px solid #000000;
+
+  background-color: ${theme.colors.grey[10]};
 `;
 
 const NavContainer = styled.ul`
-  display: flex;
+  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   list-style: none;
 `;
 
 const NavItem = styled.li`
-  display: inherit;
-  flex: 1 1 30%;
+  height: 100%;
+  flex: 1;
+
+  padding: 10px;
+`;
+
+const NavLink = styled(Link)<{ selected: boolean }>`
   width: 100%;
   height: 100%;
+
+  display: flex;
   justify-content: center;
   align-items: center;
+
   font-weight: 700;
   font-size: 14px;
-  line-height: 21px;
-  border: 1px solid black;
+  line-height: 14px;
+  text-align: center;
+
+  ${({ selected }) =>
+    selected
+      ? `color: ${theme.colors.primary};`
+      : `color: ${theme.colors.white};
+         opacity: 0.6`};
+`;
+
+const NavDivider = styled.li`
+  width: 1px;
+  height: 24px;
+  background-color: ${theme.colors.grey[8]};
 `;
 
 export default BottomNavigation;
