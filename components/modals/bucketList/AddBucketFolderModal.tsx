@@ -4,28 +4,24 @@ import BaseModal from '@/components/modals/BaseModal';
 import ContentTextarea from '@/components/inputs/ContentTextarea';
 import BaseButton from '@/components/buttons/BaseButton';
 import { useMutateBucketFolders } from '@/hooks/bucketlist/useMutateBucketFolders';
-import { TrashCanIcon } from '@/components/icons';
+import FolderLabel from '@/components/modals/bucketList/FolderLabel';
 
-interface UpdateBucketFolderModalProps {
+interface AddBucketFolderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  id: number;
-  name: string;
 }
 
-const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: UpdateBucketFolderModalProps) => {
+const AddBucketFolderModal = ({ isOpen, onClose }: AddBucketFolderModalProps) => {
   const ModalContent = () => {
-    const [folderName, setFolderName] = React.useState(initialName);
+    const [folderName, setFolderName] = React.useState('');
 
-    const { updateBucketFolderMutation, deleteBucketFolderMutation } = useMutateBucketFolders();
-    const { mutate: updateBucketFolder } = updateBucketFolderMutation;
-    const { mutate: deleteBucketFolder } = deleteBucketFolderMutation;
+    const { createBucketFolderMutation } = useMutateBucketFolders();
+    const { mutate: createBucketFolder } = createBucketFolderMutation;
 
-    const handleClickEditButton = () => {
-      updateBucketFolder(
+    const handleClickAddButton = () => {
+      createBucketFolder(
         {
           title: folderName,
-          id,
         },
         {
           onSuccess: () => {
@@ -36,17 +32,10 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
       );
     };
 
-    const handleClickDeleteButton = () => {
-      deleteBucketFolder(id, {
-        onSuccess: () => {
-          onClose();
-        },
-      });
-    };
-
     return (
       <>
         <ModalBody>
+          <FolderLabel />
           <ContentTextarea
             placeholder={'폴더명을 입력하세요'}
             value={folderName}
@@ -55,9 +44,8 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
             }}
           />
         </ModalBody>
-        <ModalFooter justifyContent={'space-between'}>
-          <TrashCanIcon cursor="pointer" onClick={handleClickDeleteButton} />
-          <BaseButton isDisabled={!folderName.length} onClick={handleClickEditButton}>
+        <ModalFooter>
+          <BaseButton isDisabled={!folderName.length} onClick={handleClickAddButton}>
             저장하기
           </BaseButton>
         </ModalFooter>
@@ -67,5 +55,4 @@ const UpdateBucketFolderModal = ({ isOpen, onClose, name: initialName, id }: Upd
 
   return <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />;
 };
-
-export default UpdateBucketFolderModal;
+export default AddBucketFolderModal;
