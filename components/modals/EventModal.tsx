@@ -13,7 +13,6 @@ import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
 import { pickFirst } from '@/utils/array';
-
 interface ModalContentProps {
   onClose: () => void;
 }
@@ -38,7 +37,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-
+  console.log({ prevData });
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent();
 
@@ -67,6 +66,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     e.preventDefault();
     const creatorId = user?.id;
     if (!title.trim() || !creatorId || !selectedGroupId) return;
+    // console.log('asd', forSaveEventDate(startDate).yyyyMMddThhmm)
     createEvent({
       isAllDay,
       isAnnual,
@@ -95,7 +95,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
         <CloseIcon width={18} height={18} cursor="pointer" onClick={handleCloseModal} />
       </ModalHeader>
       <TitleTextarea
-        placeholder='제목을 입력하세요'
+        placeholder="제목을 입력하세요"
         onChange={handleChangeTitle}
         value={isUpdateMode ? prevData?.title : title}
         padding="13px 20px !important"
@@ -117,12 +117,11 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(true)}
               value={
-                // isUpdateMode
-                //   ? isAllDay
-                //     ? new Date(prevData?.start_time || Date.now()).toISOString().split('.')[0].slice(0, -3)
-                //     : new Date(prevData?.start_time || Date.now()).toISOString().split('T')[0]
-                //   : startDate
-                startDate
+                isUpdateMode
+                  ? isAllDay
+                    ? forViewEventDate(prevData?.start_time).yyyyMMdd
+                    : forViewEventDate(prevData?.start_time).yyyyMMddThhmm
+                  : startDate
               }
             />
           </Flex>
@@ -132,8 +131,11 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
               type={isAllDay ? 'date' : 'datetime-local'}
               onChange={handleChangeDate(false)}
               value={
-                // isUpdateMode ? prevData?.end_time : endDate
-                endDate
+                isUpdateMode
+                  ? isAllDay
+                    ? forViewEventDate(prevData?.end_time).yyyyMMdd
+                    : forViewEventDate(prevData?.end_time).yyyyMMddThhmm
+                  : endDate
               }
             />
           </Flex>
