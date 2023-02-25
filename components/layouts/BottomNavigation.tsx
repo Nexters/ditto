@@ -8,13 +8,10 @@ export const BottomNavBarHeight = 60;
 const BottomNavigation = () => {
   const router = useRouter();
 
-  const createLinkProps = (href: string) => {
-    console.log(router.asPath, href, router.asPath.includes(href));
-    return {
-      href,
-      selected: router.asPath.includes(href),
-    };
-  };
+  const createLinkProps = (href: string) => ({
+    href,
+    selected: router.asPath.includes(href),
+  });
 
   return (
     <BottomNavBar>
