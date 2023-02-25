@@ -47,7 +47,7 @@ const Event: NextPageWithLayout = () => {
     >
       <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
         <ListContainer>
-          {/* TODO: 일정잉 없을떄 화면 추가해야함 */}
+          {/* TODO: 등록된 일정 없을떄의 화면 추가되어야함 */}
           {data?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
               <ListItem key={id} onClick={handleClickEvent(id)}>

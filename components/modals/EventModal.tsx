@@ -8,7 +8,7 @@ import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
 import TitleTextarea from '../inputs/TitleTextarea';
 import ContentTextarea from '../inputs/ContentTextarea';
-import { forViewEventDate, dateChangeToyyyyMMddhhmm, forSaveEventDate } from '@/utils/date';
+import { formatEventDateForView, creationDate, formatEventDateForSave } from '@/utils/date';
 import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
@@ -27,12 +27,13 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  const [startDate, setStartDate] = useState(forViewEventDate().yyyyMMdd);
-  const [endDate, setEndDate] = useState(forViewEventDate().yyyyMMdd);
+  const [startDate, setStartDate] = useState(formatEventDateForView(isAllDay));
+  const [endDate, setEndDate] = useState(formatEventDateForView(isAllDay));
 
   // 일정 수정 관련
   const { mode, selectedEventId, resetMode } = useChangeMode();
   const isUpdateMode = mode === 'update';
+
   const { data } = useFetchEventById(Number(selectedEventId), {
     enabled: !!selectedEventId && isUpdateMode,
   });
@@ -43,13 +44,21 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   useEffect(() => {
     setStartDate(
       isAllDay
-        ? (isUpdateMode ? forViewEventDate(prevData?.start_time) : forViewEventDate()).yyyyMMdd
-        : (isUpdateMode ? forViewEventDate(prevData?.start_time) : forViewEventDate()).yyyyMMddThhmm
+        ? isUpdateMode
+          ? formatEventDateForView(isAllDay, prevData?.start_time)
+          : formatEventDateForView(isAllDay)
+        : isUpdateMode
+        ? formatEventDateForView(isAllDay, prevData?.start_time)
+        : formatEventDateForView(isAllDay)
     );
     setEndDate(
       isAllDay
-        ? (isUpdateMode ? forViewEventDate(prevData?.end_time) : forViewEventDate()).yyyyMMdd
-        : (isUpdateMode ? forViewEventDate(prevData?.end_time) : forViewEventDate()).yyyyMMddThhmm
+        ? isUpdateMode
+          ? formatEventDateForView(isAllDay, prevData?.end_time)
+          : formatEventDateForView(isAllDay)
+        : isUpdateMode
+        ? formatEventDateForView(isAllDay, prevData?.end_time)
+        : formatEventDateForView(isAllDay)
     );
   }, [isAllDay, isUpdateMode, prevData?.end_time, prevData?.start_time]);
 
@@ -59,15 +68,18 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       setDescription(prevData.description);
       setStartDate(
         isAllDay
-          ? forViewEventDate(prevData?.start_time).yyyyMMdd
-          : forViewEventDate(prevData?.start_time).yyyyMMddThhmm
+          ? formatEventDateForView(isAllDay, prevData?.start_time)
+          : formatEventDateForView(isAllDay, prevData?.start_time)
       );
       setEndDate(
-        isAllDay ? forViewEventDate(prevData?.end_time).yyyyMMdd : forViewEventDate(prevData?.end_time).yyyyMMddThhmm
+        isAllDay
+          ? formatEventDateForView(isAllDay, prevData?.end_time)
+          : formatEventDateForView(isAllDay, prevData?.end_time)
       );
       setAllDay(prevData?.is_all_day);
       setAnnual(prevData?.is_annual);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdateMode, prevData]);
 
   const handleChangeDate = (isStartDate: boolean) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,8 +110,8 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
         isAnnual,
         title,
         description,
-        startTime: isAllDay ? forSaveEventDate(startDate).yyyyMMdd : forSaveEventDate(startDate).yyyyMMddThhmm,
-        endTime: isAllDay ? forSaveEventDate(endDate).yyyyMMdd : forSaveEventDate(endDate).yyyyMMddThhmm,
+        startTime: formatEventDateForSave(isAllDay, startDate),
+        endTime: formatEventDateForSave(isAllDay, endDate),
         creatorId,
         groupId: selectedGroupId,
       });
@@ -112,8 +124,9 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   };
 
   const handleCloseModal = () => {
-    onClose();
+    // FIXME: update 모드로 들어가서 esc로 종료하고 create 모드로 들어가면 가끔씩 reset이 안되어 update 모드로 들어가지는 버그가 재현됨
     resetMode();
+    onClose();
   };
 
   const handleEscapeKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -174,7 +187,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
               {prevData.users?.nickname} 작성
             </Text>
             <Text textStyle="caption" fontSize="13px" color="grey.4">
-              {dateChangeToyyyyMMddhhmm(prevData.created_time)}
+              {creationDate(prevData.created_time)}
             </Text>
           </Flex>
         )}
