@@ -20,7 +20,7 @@ const MyPage: NextPageWithLayout = () => {
   return (
     <MainLayout>
       <MyPageHeader>
-        My Page
+        My page
         <GroupMenu />
       </MyPageHeader>
       <MyPageContent>
