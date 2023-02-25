@@ -6,6 +6,7 @@ import { useUser } from '@/store/useUser';
 import styled from '@emotion/styled';
 import { addDays } from '@/utils/date';
 import { useFetchGroup } from '@/hooks/group/useFetchGroup';
+import queryString from 'query-string';
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -17,7 +18,9 @@ const ModalContent = () => {
   const { data: group } = useFetchGroup(selectedGroupId);
   const { data: invitations, isLoading } = useFetchInvitations(user?.id, selectedGroupId);
   const invitation = invitations?.[0];
-  const invitationUrl = invitation ? `${HOSTING_URL}?code=${invitation.code}` : null;
+  const invitationUrl = invitation
+    ? queryString.stringifyUrl({ url: HOSTING_URL, query: { code: invitation.code } })
+    : null;
 
   // @fixme: 생성일 하루 뒤에 만료됨. 이 부분은 별도 함수 혹은 적어도 상수로 관리할 필요 있음.
   const invitationExpiredAt = invitation ? addDays(invitation.created_time, 1) : null;
