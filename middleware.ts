@@ -10,5 +10,5 @@ export function middleware() {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/bucketlist/:path*',
+  matcher: ['/bucketlist/:path*', '/testing/:path*'],
 };
