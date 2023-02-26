@@ -6,4 +6,4 @@ export type EventType = SnakeToCamelCase<Event>;
 
 export type CreateEventType = SnakeToCamelCase<Database['public']['Tables']['events']['Insert']>;
 
-export type getEventByIdType = (Event & { users: Pick<User, 'nickname'> })[];
+export type EventByIdType = (Event & { users: Pick<User, 'nickname'> })[];

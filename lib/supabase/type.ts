@@ -6,7 +6,13 @@ export type BucketFolder = Database['public']['Tables']['bucket_folders']['Row']
 
 export type BucketItem = Database['public']['Tables']['bucket_items']['Row'];
 
-export type Event = Database['public']['Tables']['events']['Row'];
+type EventRow = Database['public']['Tables']['events']['Row'];
+
+export type Event = Omit<EventRow, 'description' | 'is_all_day' | 'is_annual'> & {
+  description: string;
+  is_all_day: boolean;
+  is_annual: boolean;
+};
 
 export type Invitation = Database['public']['Tables']['invitations']['Row'];
 

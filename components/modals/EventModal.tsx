@@ -8,7 +8,7 @@ import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
 import TitleTextarea from '../inputs/TitleTextarea';
 import ContentTextarea from '../inputs/ContentTextarea';
-import { eventDateForView, creationDate, eventDateForSave } from '@/utils/date';
+import { eventDateForView, formatCreationDate, eventDateForSave } from '@/utils/date';
 import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
@@ -163,7 +163,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
               {prevData.users?.nickname} 작성
             </Text>
             <Text textStyle="caption" fontSize="13px" color="grey.4">
-              {creationDate(prevData.created_time)}
+              {formatCreationDate(prevData.created_time)}
             </Text>
           </Flex>
         )}

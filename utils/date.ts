@@ -50,5 +50,5 @@ export const dateChangeToEventFormat = (startDate: string, endDate: string) => {
 
 // 생성 날짜
 // yyyy.MM.dd hh:mm
-export const creationDate = (date: string) =>
+export const formatCreationDate = (date: string) =>
   formatISO(new Date(date)).replace(/T/, ' ').replace(/\..+/, '').replace(/-/g, '.').slice(0, -9);
