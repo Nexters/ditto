@@ -44,7 +44,7 @@ export interface Database {
           completed?: boolean;
           created_time?: string;
           creator_id: number;
-          description?: string;
+          description?: string | null;
           group_id: number;
           id?: number;
           title: string;
@@ -54,7 +54,7 @@ export interface Database {
           completed?: boolean;
           created_time?: string;
           creator_id?: number;
-          description?: string;
+          description?: string | null;
           group_id?: number;
           id?: number;
           title?: string;

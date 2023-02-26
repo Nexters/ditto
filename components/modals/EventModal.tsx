@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { Box, Button, Flex, ModalBody, ModalFooter, ModalHeader, Switch, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
-import { useToggleState } from '@/hooks/useToggleState';
+import { useSwitchState } from '@/hooks/useSwitchState';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
 import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
@@ -22,8 +22,8 @@ interface ModalContentProps {
  */
 const ModalContent = ({ onClose }: ModalContentProps) => {
   // 일정 추가 관련
-  const [isAllDay, toggleAllDay, setAllDay] = useToggleState();
-  const [isAnnual, toggleAnnual, setAnnual] = useToggleState();
+  const [isAllDay, setAllDay, toggleAllDay] = useSwitchState();
+  const [isAnnual, setAnnual, toggleAnnual] = useSwitchState();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 

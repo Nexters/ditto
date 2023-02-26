@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
@@ -20,9 +20,8 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-const queryClient = new QueryClient();
-
 function App({ Component, pageProps }: AppPropsWithLayout) {
+  const [queryClient] = useState(() => new QueryClient());
   const getLayout = Component.getLayout ?? ((page) => page);
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
 
