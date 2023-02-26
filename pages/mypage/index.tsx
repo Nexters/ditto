@@ -1,27 +1,37 @@
 import GroupMenu from '@/components/groupMenu/GroupMenu';
 import MainLayout from '@/components/layouts/MainLayout';
 import { MemberList } from '@/components/memberList/MemberList';
+import CreateGroupModal from '@/components/modals/CreateGroupModal';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
+import { INQUIRY_CHANNEL_URL } from '@/utils/const';
+import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const MyPage: NextPageWithLayout = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { logout } = useUser();
+
+  const goToOpenInquiryChannel = () => {
+    window.open(INQUIRY_CHANNEL_URL, '_blank');
+  };
 
   return (
     <MainLayout>
       <MyPageHeader>
-        My Page
+        My page
         <GroupMenu />
       </MyPageHeader>
       <MyPageContent>
         <MemberList />
         <MyPageDivider />
-        <OtherButton>새 그룹 만들기</OtherButton>
-        <OtherButton>문의하기</OtherButton>
+        <OtherButton onClick={onOpen}>새 그룹 만들기</OtherButton>
+        <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
         <OtherButton onClick={logout}>로그아웃</OtherButton>
       </MyPageContent>
+
+      <CreateGroupModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
 import { useUser } from '@/store/useUser';
 import { Menu, MenuButton, MenuList, MenuItem, forwardRef } from '@chakra-ui/react';
@@ -27,13 +27,13 @@ const GroupMenu = () => {
           const selected = id === selectedGroupId;
           const last = index === groupList.length - 1;
           return (
-            <>
-              <CustomMenuItem key={id} onClick={() => setGroupId(id)} selected={selected}>
+            <Fragment key={id}>
+              <CustomMenuItem onClick={() => setGroupId(id)} selected={selected}>
                 <CustomGroupName>{name}</CustomGroupName>
                 {selected && <PawIcon width={18} height={18} />}
               </CustomMenuItem>
               {!last && <CustomMenuDivider />}
-            </>
+            </Fragment>
           );
         })}
       </CustomMenuList>
@@ -57,10 +57,10 @@ const CustomMenuList = styled(MenuList)`
   min-width: 160px;
   padding: 0;
   margin-top: -4px;
-  border: none;
   border-radius: 8px;
   background-color: ${theme.colors.white};
   overflow: hidden;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.06);
 `;
 const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
   padding: 12px;
