@@ -4,7 +4,7 @@ import { Modal, ModalOverlay, ModalContent } from '@chakra-ui/react';
 export interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  modalContent?: ReactNode;
+  modalContent: ReactNode;
   width?: number;
   height?: number;
   closeOnOverlayClick?: boolean;

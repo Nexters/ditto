@@ -1,6 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { Box, Button, Flex, ModalBody, ModalFooter, ModalHeader, Switch, Text } from '@chakra-ui/react';
-import BaseModal, { BaseModalProps } from '@/components/modals/BaseModal';
+import BaseModal from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
 import { useToggleState } from '@/hooks/useToggleState';
 import { useCreateEvent } from '@/hooks/Event/useCreateEvent';
@@ -182,7 +182,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   );
 };
 
-const EventModal = ({ isOpen, onClose }: BaseModalProps) => (
+const EventModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
   <BaseModal
     isOpen={isOpen}
     onClose={onClose}

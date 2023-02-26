@@ -1,6 +1,6 @@
 import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds } from 'date-fns';
 
-const ONE_YEAR = 1000 * 60 * 60 * 24;
+const DAY_TO_MILLISECOND = 1000 * 60 * 60 * 24;
 
 export const eventDateForView = (isAllDay: boolean, date?: string) => {
   return isAllDay
@@ -42,10 +42,13 @@ export const dateChangeToEventFormat = (startDate: string, endDate: string) => {
   const changedToMMdd = eventFormat(startDate);
   const changedToHHmm = eventFormat(endDate);
   if (startDate === endDate) return changedToMMdd || changedToHHmm;
-  else if (differenceInMilliseconds(new Date(endDate), new Date(startDate)) % ONE_YEAR === 0)
+  else if (differenceInMilliseconds(new Date(endDate), new Date(startDate)) % DAY_TO_MILLISECOND === 0)
+    // hour subtract를 위해 해줬던 hh:mm 제거하기
     return `${changedToMMdd.slice(0, -5)} - ${changedToHHmm.slice(0, -5)}`;
-  else return `${changedToMMdd} - ${changedToHHmm}`;
+  return `${changedToMMdd} - ${changedToHHmm}`;
 };
 
+// 생성 날짜
+// yyyy.MM.dd hh:mm
 export const creationDate = (date: string) =>
   formatISO(new Date(date)).replace(/T/, ' ').replace(/\..+/, '').replace(/-/g, '.').slice(0, -9);
