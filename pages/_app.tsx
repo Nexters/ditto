@@ -9,6 +9,7 @@ import ErrorBoundary from '@/components/errors/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { SplashPage } from '@/components/loading/SplashPage';
 import Fonts from '@/styles/Font';
+import { useCalcViewHeight } from '@/hooks/shared/useCalcViewHeight';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +24,8 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = useState(() => new QueryClient());
   const getLayout = Component.getLayout ?? ((page) => page);
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
+
+  useCalcViewHeight();
 
   return (
     <>

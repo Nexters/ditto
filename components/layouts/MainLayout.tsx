@@ -26,7 +26,7 @@ const MainLayout = ({
 const MainContainer = styled.main`
   position: relative;
   max-width: 420px;
-  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
   margin: 0 auto;
 `;
 
