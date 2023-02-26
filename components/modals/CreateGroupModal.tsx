@@ -29,6 +29,7 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
       setGroupId(group.id);
       onClose();
     } catch (error) {
+      console.error(error);
       openToast({ message: '그룹 만들기에 실패했습니다.', type: 'error' });
     }
   };
