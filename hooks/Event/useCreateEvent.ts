@@ -1,6 +1,6 @@
 import { createEvent } from '@/lib/supabase/apis/event';
 import { CreateEventType } from '@/lib/supabase/apis/event/type';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 export const EVENT_KEY = {
   all: ['event'],
@@ -8,19 +8,20 @@ export const EVENT_KEY = {
   eventById: (eventId: number) => [...EVENT_KEY.all, eventId],
 } as const;
 
-export const useCreateEvent = () => {
+export const useCreateEvent = (options?: UseQueryOptions<void, Error>) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (params: CreateEventType) => {
       await createEvent(params);
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries(EVENT_KEY.all);
-        // TODO: 토스트 띄우기
+        options?.onSuccess?.(data);
+        // TODO: 일정 추가 완료 토스트 띄우기
       },
-      onError: (err: any) => {
-        throw new Error(err.message);
+      onError: () => {
+        // TODO: 일정 추가 에러 토스트 띄우기
       },
     }
   );
