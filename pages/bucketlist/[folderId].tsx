@@ -42,7 +42,3 @@ const ListWrapper = styled.div`
 `;
 
 export default BucketListItem;
-
-export async function getServerSideProps() {
-  return { props: {} };
-}
