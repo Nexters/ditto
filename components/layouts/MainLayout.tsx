@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
+import BottomNavigation, { BOTTOM_NAV_HEIGHT } from './BottomNavigation';
 
 const MainLayout = ({
   children,
@@ -35,14 +35,14 @@ const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  bottom: ${(props) => (props.hideBottomNavigation ? 0 : BottomNavBarHeight)}px;
+  bottom: ${(props) => (props.hideBottomNavigation ? 0 : BOTTOM_NAV_HEIGHT)}px;
   overflow: auto;
 `;
 
 const FloatButtonContainer = styled.div`
   position: absolute;
   right: 15px;
-  bottom: ${BottomNavBarHeight + 5}px;
+  bottom: ${BOTTOM_NAV_HEIGHT + 5}px;
 `;
 
 export default MainLayout;
