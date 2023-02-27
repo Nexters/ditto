@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
 import EventModal from '@/components/modals/EventModal';
@@ -34,14 +34,7 @@ const Event: NextPageWithLayout = () => {
     <MainLayout
       header={<EventHeader />}
       floatButton={
-        <Button
-          width="64px"
-          height="64px"
-          borderRadius={50}
-          bgColor="black"
-          filter="drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2))"
-          onClick={onOpen}
-        >
+        <Button onClick={onOpen}>
           <PlusWhiteIcon />
         </Button>
       }
@@ -80,6 +73,17 @@ const Event: NextPageWithLayout = () => {
 Event.isProtectedPage = true;
 
 export default Event;
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  background-color: ${theme.colors.black};
+  filter: drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2));
+`;
 
 const EventContainer = styled.div`
   width: 100%;
