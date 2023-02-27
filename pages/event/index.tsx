@@ -7,7 +7,7 @@ import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { dateChangeToEventFormat } from '@/utils/date';
+import { formatEventDate } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
@@ -55,7 +55,7 @@ const Event: NextPageWithLayout = () => {
                     {title}
                   </Text>
                   <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                    {dateChangeToEventFormat(startTime, endTime)}
+                    {formatEventDate(startTime, endTime)}
                   </Text>
                 </Flex>
                 <Flex>
