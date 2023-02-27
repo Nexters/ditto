@@ -48,3 +48,5 @@ export const INQUIRY_CHANNEL_URL = 'https://open.kakao.com/o/sNBgXm6e';
 export const MEMBER_KEY = createQueryKeys('members');
 export const GROUP_KEY = createQueryKeys('groups');
 export const INVITATION_KEY = createQueryKeys('invitations');
+
+export const EVENT_KEY = createQueryKeys('events');
