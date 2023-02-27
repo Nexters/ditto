@@ -1,6 +1,6 @@
 import { InvitationInfo } from '@/lib/supabase/type';
+import { INVITATION_KEY } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
-import { INVITATION_KEY } from '../queries/keys';
 
 type InvitationVerifyResult = {
   data?: {

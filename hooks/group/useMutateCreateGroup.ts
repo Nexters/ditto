@@ -1,6 +1,6 @@
 import { createGroup, joinGroup, createDefaultBucketFolder } from '@/lib/supabase/apis/group';
+import { GROUP_KEY } from '@/utils/const';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GROUP_KEY } from '../queries/keys';
 
 export type CreateGroupParams = {
   userId: number;

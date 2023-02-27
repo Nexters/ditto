@@ -1,7 +1,7 @@
 import { getMemberListByGroupId } from '@/lib/supabase/apis/member';
 import { User } from '@/lib/supabase/type';
+import { MEMBER_KEY } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
-import { MEMBER_KEY } from '../queries/keys';
 
 export const useFetchMemberList = (user?: User | null, group_id?: number | null) => {
   return useQuery(

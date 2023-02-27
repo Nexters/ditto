@@ -1,6 +1,6 @@
 import { createInvitation, getInvitationsByUserId } from '@/lib/supabase/apis/invitation';
+import { INVITATION_KEY } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
-import { INVITATION_KEY } from '../queries/keys';
 
 /**
  * 내가 생성한 초대 정보 중 유효한 것 하나를 가져온다.

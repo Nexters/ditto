@@ -1,6 +1,6 @@
 import { getGroup } from '@/lib/supabase/apis/group';
+import { GROUP_KEY } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
-import { GROUP_KEY } from '../queries/keys';
 
 export const useFetchGroup = (group_id?: number | null) => {
   return useQuery(
