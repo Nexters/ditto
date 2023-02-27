@@ -9,6 +9,7 @@ import ErrorBoundary from '@/components/errors/ErrorBoundary';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { SplashPage } from '@/components/loading/SplashPage';
 import Fonts from '@/styles/Font';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCalcViewHeight } from '@/hooks/shared/useCalcViewHeight';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
@@ -52,6 +53,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             </ErrorBoundary>
           </ChakraProvider>
         </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
       </QueryClientProvider>
     </>
   );

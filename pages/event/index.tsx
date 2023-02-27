@@ -9,12 +9,24 @@ import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
+import { useUser } from '@/store/useUser';
+import useChangeMode from '@/store/useChangeMode';
 
 const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data } = useFetchEventList();
+  const { selectedGroupId } = useUser();
+  const { data } = useFetchEventList(Number(selectedGroupId), {
+    enabled: !!selectedGroupId,
+  });
+  
+  const { setMode } = useChangeMode();
+
+  const handleClickEvent = (id: number) => () => {
+    setMode('update', id);
+    onOpen();
+  };
 
   return (
     <MainLayout
@@ -34,9 +46,10 @@ const Event: NextPageWithLayout = () => {
     >
       <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
         <ListContainer>
+          {/* TODO: 등록된 일정 없을떄의 화면 추가되어야함 */}
           {data?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
-              <ListItem key={id}>
+              <ListItem key={id} onClick={handleClickEvent(id)}>
                 <Flex flexDirection="column" gap="8px">
                   <Text textStyle="buttonMedium" color={theme.colors.secondary}>
                     {title}
