@@ -1,3 +1,4 @@
+import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import { ErrorRabbitIcon } from '../icons';
@@ -20,7 +21,8 @@ export const ErrorPageTemplate = ({ title, description, children }: ErrorPageTem
 };
 
 const Container = styled.section`
-  flex: 1;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,17 +30,14 @@ const Container = styled.section`
 `;
 
 const Title = styled.h1`
-  margin-top: 30px;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 700;
+  margin-top: 20px;
   text-align: center;
+  ${theme.textStyles.h3};
 `;
 
 const Description = styled.p`
-  margin: 14px 0 30px;
-  font-size: 14px;
+  margin: 8px 0 24px;
   text-align: center;
-  color: #777777;
   white-space: pre-line;
+  ${theme.textStyles.multiBody2};
 `;

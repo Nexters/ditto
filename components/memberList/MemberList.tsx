@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import AddMemberModal from '../modals/AddMemberModal';
+import InviteMemberModal from '../modals/InviteMemberModal';
 import { MemberItem } from './MemberItem';
 
 export const MemberList = () => {
@@ -14,15 +14,18 @@ export const MemberList = () => {
 
   if (!user) return null;
   return (
-    <MemberListWrap>
-      <MemberListHeader>멤버 리스트</MemberListHeader>
-      <MemberItem key={user.id} nickname={user.nickname} profileImage={user.profile_image} isMe />
-      {data?.map((member) => (
-        <MemberItem key={member.id} nickname={member.nickname} profileImage={member.profile_image} />
-      ))}
-      <AddMemberButton onClick={onOpen}>멤버 추가하기</AddMemberButton>
-      <AddMemberModal isOpen={isOpen} onClose={onClose} />
-    </MemberListWrap>
+    <>
+      <MemberListWrap>
+        <MemberListHeader>멤버 리스트</MemberListHeader>
+        <MemberItem key={user.id} nickname={user.nickname} profileImage={user.profile_image} isMe />
+        {data?.map((member) => (
+          <MemberItem key={member.id} nickname={member.nickname} profileImage={member.profile_image} />
+        ))}
+        <InviteMemberButton onClick={onOpen}>멤버 초대하기</InviteMemberButton>
+      </MemberListWrap>
+
+      <InviteMemberModal isOpen={isOpen} onClose={onClose} />
+    </>
   );
 };
 
@@ -34,7 +37,7 @@ const MemberListHeader = styled.h3`
   padding: 12px 0;
   ${theme.textStyles.h3};
 `;
-const AddMemberButton = styled(Button)`
+const InviteMemberButton = styled(Button)`
   width: 100%;
   height: auto;
   margin: 20px 0;
