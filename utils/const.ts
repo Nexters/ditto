@@ -50,3 +50,6 @@ export const GROUP_KEY = createQueryKeys('groups');
 export const INVITATION_KEY = createQueryKeys('invitations');
 
 export const EVENT_KEY = createQueryKeys('events');
+
+export const BUCKET_FOLDER_KEY = createQueryKeys('bucket_folders');
+export const BUCKET_ITEM_KEY = createQueryKeys('bucket_items');
