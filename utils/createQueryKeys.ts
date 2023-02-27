@@ -1,5 +1,5 @@
 // ref: https://tkdodo.eu/blog/effective-react-query-keys
-export const createQueryKeys = (keyword: string) => {
+export const createQueryKeys = <T extends string>(keyword: T) => {
   const keys = {
     all: [keyword] as const,
     lists: () => [...keys.all, 'list'] as const,
