@@ -1,6 +1,4 @@
-import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds } from 'date-fns';
-
-const DAY_TO_MILLISECOND = 1000 * 60 * 60 * 24;
+import { formatISO, getMonth, getDate, format, sub } from 'date-fns';
 
 export const eventDateForView = (isAllDay: boolean, date?: string) => {
   return isAllDay
@@ -27,13 +25,13 @@ export const addDays = (date: string | number | Date, days: number) => {
 // MM월 dd일
 export const dateChangeToMMdd = (date?: string) => {
   const targetDate = date ? new Date(date) : new Date();
-  return `${getMonth(new Date(targetDate)) + 1}월 ${getDate(new Date(targetDate))}일`;
+  return `${getMonth(targetDate) + 1}월 ${getDate(targetDate)}일`;
 };
 
 // hh:mm
 export const dateChangeToHHmm = (date?: string) => {
   const targetDate = date ? new Date(date) : new Date();
-  return format(new Date(targetDate), 'HH:mm');
+  return format(targetDate, 'HH:mm');
 };
 
 const eventFormat = (targetDate: string) => `${dateChangeToMMdd(targetDate)} ${dateChangeToHHmm(targetDate)}`;
@@ -41,9 +39,13 @@ const eventFormat = (targetDate: string) => `${dateChangeToMMdd(targetDate)} ${d
 export const dateChangeToEventFormat = (startDate: string, endDate: string) => {
   const changedToMMdd = eventFormat(startDate);
   const changedToHHmm = eventFormat(endDate);
-  if (startDate === endDate) return changedToMMdd || changedToHHmm;
-  else if (differenceInMilliseconds(new Date(endDate), new Date(startDate)) % DAY_TO_MILLISECOND === 0)
-    // hour subtract를 위해 해줬던 hh:mm 제거하기
+
+  if (startDate === endDate) {
+    if (format(new Date(startDate), 'HH:mm') === '00:00') return changedToMMdd.slice(0, -5);
+    return changedToMMdd || changedToHHmm;
+  }
+
+  if ([format(new Date(startDate), 'HH:mm'), format(new Date(endDate), 'HH:mm')].every((v) => v === '00:00'))
     return `${changedToMMdd.slice(0, -5)} - ${changedToHHmm.slice(0, -5)}`;
   return `${changedToMMdd} - ${changedToHHmm}`;
 };

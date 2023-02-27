@@ -13,6 +13,8 @@ import useChangeMode from '@/store/useChangeMode';
 import { useFetchEventById } from '@/hooks/Event/useFetchEvent';
 import { CloseIcon, TrashCanIcon } from '../icons';
 import { pickFirst } from '@/utils/array';
+import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
+import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
 interface ModalContentProps {
   onClose: () => void;
 }
@@ -29,6 +31,10 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
 
   const [startDate, setStartDate] = useState(eventDateForView(isAllDay));
   const [endDate, setEndDate] = useState(eventDateForView(isAllDay));
+  const { user, selectedGroupId } = useUser();
+  const { mutate: createEvent } = useCreateEvent({
+    onSuccess: () => onClose(),
+  });
 
   // 일정 수정 관련
   const { mode, selectedEventId, resetMode } = useChangeMode();
@@ -38,8 +44,14 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-  const { user, selectedGroupId } = useUser();
-  const { mutate: createEvent } = useCreateEvent();
+  const { mutate: updateEvent } = useUpdateEvent({
+    onSuccess: () => onClose(),
+  });
+
+  // 일정 삭제 관련
+  const { mutate: deleteEvent } = useDeleteEvent({
+    onSuccess: () => onClose(),
+  });
 
   useEffect(() => {
     setStartDate(isUpdateMode ? eventDateForView(isAllDay, prevData?.start_time) : eventDateForView(isAllDay));
@@ -79,24 +91,31 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     const creatorId = user?.id;
     if (!title.trim() || !creatorId || !selectedGroupId) return;
     if (isUpdateMode) {
-      // updateEvent mutate
-    } else {
-      createEvent({
-        isAllDay,
-        isAnnual,
+      updateEvent({
+        id: selectedEventId,
         title,
         description,
+        isAllDay,
+        isAnnual,
         startTime: eventDateForSave(isAllDay, startDate),
         endTime: eventDateForSave(isAllDay, endDate),
+      });
+    } else {
+      createEvent({
         creatorId,
         groupId: selectedGroupId,
+        title,
+        description,
+        isAllDay,
+        isAnnual,
+        startTime: eventDateForSave(isAllDay, startDate),
+        endTime: eventDateForSave(isAllDay, endDate),
       });
     }
-    onClose();
   };
 
   const handledDeleteEvent = () => {
-    // deleteEvent mutate
+    if (selectedEventId) deleteEvent(selectedEventId);
   };
 
   const handleCloseModal = () => {

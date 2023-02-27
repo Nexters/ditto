@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase/client';
 import { Event } from '../../type';
-import { CreateEventType, EventByIdType } from './type';
+import { CreateEventType, EventByIdType, UpdateEventType } from './type';
 
 export const createEvent = async ({
   title,
@@ -37,4 +37,38 @@ export const getEventById = async (eventId: number) => {
   const { data, error } = await supabase.from('events').select('*, users(nickname)').eq('id', eventId);
   if (error) throw new Error(error.message);
   return data as EventByIdType;
+};
+
+export const updateEvent = async ({
+  title,
+  description,
+  creatorId,
+  groupId,
+  isAllDay,
+  isAnnual,
+  startTime,
+  endTime,
+  id,
+}: UpdateEventType) => {
+  const { error } = await supabase
+    .from('events')
+    .update({
+      title: title,
+      description,
+      creator_id: creatorId,
+      group_id: groupId,
+      is_all_day: isAllDay,
+      is_annual: isAnnual,
+      start_time: startTime,
+      end_time: endTime,
+    })
+    .eq('id', id);
+  if (error) throw new Error(error.message);
+  return;
+};
+
+export const deleteEvent = async (eventId: number) => {
+  const { error } = await supabase.from('events').delete().eq('id', eventId);
+  if (error) throw new Error(error.message);
+  return;
 };
