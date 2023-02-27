@@ -86,6 +86,7 @@ const Button = styled.button`
 `;
 
 const EventContainer = styled.div`
+  display: flex;
   width: 100%;
   min-height: calc(100vh - ${EVENT_HEADER_HEIGHT}px - ${BOTTOM_NAV_HEIGHT}px);
   margin-top: ${EVENT_HEADER_HEIGHT}px;
