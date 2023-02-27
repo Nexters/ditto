@@ -24,4 +24,5 @@ export const colors = {
     1: '#23CF69',
   },
   kakaoBgColor: '#fee500',
+  hyperlink: '#0075FF',
 };

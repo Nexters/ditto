@@ -45,3 +45,10 @@ export const getJoinedGroupList = async (user_id: number) => {
   if (error) throw error;
   return joinedGroupList;
 };
+
+export const getGroup = async (group_id: number) => {
+  const { data, error } = await supabase.from('groups').select().eq('id', group_id);
+  const group = data?.[0];
+  if (error || !group) throw error;
+  return group;
+};
