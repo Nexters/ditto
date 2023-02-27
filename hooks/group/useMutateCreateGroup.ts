@@ -19,7 +19,7 @@ export const useMutateCreateGroup = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: GROUP_KEY.lists() });
+        queryClient.invalidateQueries({ queryKey: GROUP_KEY.all });
       },
     }
   );
