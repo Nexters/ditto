@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import ArrowRightIcon from '../icons/ArrowRightIcon';
 
-export const PAGE_HEADER_HEIGHT = 42;
+export const SIMPLE_HEADER_HEIGHT = 42;
 
-const PageHeader = () => {
+const SimpleHeader = () => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -12,17 +12,17 @@ const PageHeader = () => {
   };
 
   return (
-    <Header>
+    <HeaderWrap>
       <BackButton onClick={handleBack}>
         <ArrowRightIcon width={28} height={28} rotate={'1'} />
       </BackButton>
-    </Header>
+    </HeaderWrap>
   );
 };
 
-const Header = styled.header`
+const HeaderWrap = styled.header`
   width: 100%;
-  height: ${PAGE_HEADER_HEIGHT}px;
+  height: ${SIMPLE_HEADER_HEIGHT}px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -30,4 +30,4 @@ const Header = styled.header`
 `;
 const BackButton = styled.button``;
 
-export default PageHeader;
+export default SimpleHeader;
