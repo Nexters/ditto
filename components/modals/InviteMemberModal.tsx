@@ -52,7 +52,7 @@ const ModalContent = () => {
         <LoginInvitationIcon />
       </Box>
 
-      <ShareInvitationButton disabled={isLoading || !invitation} onClick={shareInvitation}>
+      <ShareInvitationButton isDisabled={isLoading || !invitation} onClick={shareInvitation}>
         초대 링크 공유하기
       </ShareInvitationButton>
       {invitationExpiredAt && (
