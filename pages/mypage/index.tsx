@@ -1,4 +1,4 @@
-import GroupMenu from '@/components/groupMenu/GroupMenu';
+import { MyPageHeader, MY_PAGE_HEADER_HEIGHT } from '@/components/header/MyPageHeader';
 import MainLayout from '@/components/layouts/MainLayout';
 import { MemberList } from '@/components/memberList/MemberList';
 import CreateGroupModal from '@/components/modals/CreateGroupModal';
@@ -18,18 +18,12 @@ const MyPage: NextPageWithLayout = () => {
   };
 
   return (
-    <MainLayout>
-      <MyPageHeader>
-        My page
-        <GroupMenu />
-      </MyPageHeader>
-      <MyPageContent>
-        <MemberList />
-        <MyPageDivider />
-        <OtherButton onClick={onOpen}>새 그룹 만들기</OtherButton>
-        <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
-        <OtherButton onClick={logout}>로그아웃</OtherButton>
-      </MyPageContent>
+    <MainLayout header={<MyPageHeader />} headerHeight={MY_PAGE_HEADER_HEIGHT}>
+      <MemberList />
+      <MyPageDivider />
+      <OtherButton onClick={onOpen}>새 그룹 만들기</OtherButton>
+      <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
+      <OtherButton onClick={logout}>로그아웃</OtherButton>
 
       <CreateGroupModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
@@ -40,29 +34,6 @@ MyPage.isProtectedPage = true;
 
 export default MyPage;
 
-const MyPageHeader = styled.h1`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  height: 58px;
-  padding: 0 20px;
-  ${theme.textStyles.h3};
-  border-bottom: 1px solid ${theme.colors.grey[2]};
-`;
-const MyPageContent = styled.section`
-  position: absolute;
-  top: 58px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: auto;
-`;
 const MyPageDivider = styled.div`
   width: 100%;
   height: 6px;
