@@ -9,6 +9,7 @@ import { useFetchGroup } from '@/hooks/group/useFetchGroup';
 import queryString from 'query-string';
 import theme from '@/styles/theme';
 import { LoginInvitationIcon } from '../icons';
+import useCustomToast from '@/hooks/shared/useCustomToast';
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface InviteMemberModalProps {
 }
 
 const ModalContent = () => {
+  const { openToast } = useCustomToast();
   const { user, selectedGroupId } = useUser();
   const { data: group } = useFetchGroup(selectedGroupId);
   const { data: invitations, isLoading } = useFetchInvitations(user?.id, selectedGroupId);
@@ -35,6 +37,7 @@ const ModalContent = () => {
       // @note: https://caniuse.com/mdn-api_clipboard_writetext
       // 왠만하면 되는 듯
       navigator.clipboard.writeText(text);
+      openToast({ message: '초대 링크가 클립보드에 복사되었습니다.', type: 'success' });
     }
   };
 
