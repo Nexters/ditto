@@ -1,22 +1,23 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
+import theme from '@/styles/theme';
+import { COMMON_HEADER_HEIGHT } from '../header/CommonHeader';
 
-const MainLayout = ({
-  children,
-  header,
-  floatButton,
-  hideBottomNavigation = false,
-}: {
+type MainLayoutProps = {
   children: ReactNode;
   header?: ReactNode;
   floatButton?: ReactNode;
   hideBottomNavigation?: boolean;
-}) => {
+};
+
+const MainLayout = ({ children, header, floatButton, hideBottomNavigation = false }: MainLayoutProps) => {
   return (
     <MainContainer>
       {header}
-      <MainSection hideBottomNavigation={hideBottomNavigation}>{children}</MainSection>
+      <MainSection hasHeader={!!header} hideBottomNavigation={hideBottomNavigation}>
+        {children}
+      </MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
       {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>
@@ -30,13 +31,14 @@ const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
+const MainSection = styled.section<{ hasHeader?: boolean; hideBottomNavigation?: boolean }>`
   position: absolute;
-  top: 0;
+  top: ${(props) => (props.hasHeader ? COMMON_HEADER_HEIGHT : 0)}px;
   left: 0;
   right: 0;
   bottom: ${(props) => (props.hideBottomNavigation ? 0 : BottomNavBarHeight)}px;
   overflow: auto;
+  background-color: ${theme.colors.grey[1]};
 `;
 
 const FloatButtonContainer = styled.div`
