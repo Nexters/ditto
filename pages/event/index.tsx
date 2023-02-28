@@ -11,6 +11,7 @@ import { dateChangeToEventFormat } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
+import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +30,7 @@ const Event: NextPageWithLayout = () => {
   return (
     <MainLayout
       header={<EventHeader />}
+      headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
         <Button
           width="64px"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NextPageWithLayout } from '@/pages/_app';
-import PageHeader from '@/components/layouts/Header';
+import PageHeader, { PAGE_HEADER_HEIGHT } from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import BucketItemList from '@/components/bucketItem/BucketItemList';
 import { Text } from '@chakra-ui/react';
@@ -16,7 +16,7 @@ const BucketListItem: NextPageWithLayout = () => {
   const { data } = useFetchBucketFolderById(Number(folderId));
 
   return (
-    <>
+    <MainLayout header={<PageHeader />} headerHeight={PAGE_HEADER_HEIGHT}>
       <ListWrapper>
         <Text textStyle={'h1'} marginBottom={'12px'} minHeight={'105px'}>
           {data?.title}
@@ -24,16 +24,9 @@ const BucketListItem: NextPageWithLayout = () => {
         <ConditionalRabbitIcon folderTitle={data?.title ?? ''} />
         <BucketItemList />
       </ListWrapper>
-    </>
+    </MainLayout>
   );
 };
-
-BucketListItem.getLayout = (page) => (
-  <MainLayout>
-    <PageHeader useBackButton />
-    {page}
-  </MainLayout>
-);
 
 BucketListItem.isProtectedPage = true;
 

@@ -5,10 +5,11 @@ import BucketFolderList from '@/components/bucketFolder/BucketFolderList';
 import { BucketlistHeader } from '@/components/header/BucketlistHeader';
 import styled from '@emotion/styled';
 import theme from '@/styles/theme';
+import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 
 const BucketList: NextPageWithLayout = () => {
   return (
-    <MainLayout header={<BucketlistHeader />}>
+    <MainLayout header={<BucketlistHeader />} headerHeight={COMMON_HEADER_HEIGHT}>
       <ListContainer>
         <BucketFolderList />
       </ListContainer>
