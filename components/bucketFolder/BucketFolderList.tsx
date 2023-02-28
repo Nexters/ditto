@@ -40,7 +40,6 @@ const StyledList = styled.ul`
   flex-direction: column;
   gap: 10px;
   padding: 16px 20px;
-  overflow: auto;
 `;
 
 const AddFolderButton = styled(Button)`

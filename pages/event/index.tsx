@@ -78,6 +78,9 @@ const ListContainer = styled.ul`
   flex-direction: column;
   gap: 8px;
   padding: 12px 20px 80px;
+  height: 100%;
+  overflow: auto;
+  background-color: ${theme.colors.grey[1]};
 `;
 
 const ListItem = styled.li`

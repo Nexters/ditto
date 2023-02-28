@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
-import theme from '@/styles/theme';
 import { COMMON_HEADER_HEIGHT } from '../header/CommonHeader';
 
 type MainLayoutProps = {
@@ -38,7 +37,6 @@ const MainSection = styled.section<{ hasHeader?: boolean; hideBottomNavigation?:
   right: 0;
   bottom: ${(props) => (props.hideBottomNavigation ? 0 : BottomNavBarHeight)}px;
   overflow: auto;
-  background-color: ${theme.colors.grey[1]};
 `;
 
 const FloatButtonContainer = styled.div`
