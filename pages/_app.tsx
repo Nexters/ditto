@@ -31,6 +31,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             useErrorBoundary: true,
             retry: 0,
             refetchOnMount: false,
+            keepPreviousData: true,
           },
           mutations: {
             useErrorBoundary: true,
