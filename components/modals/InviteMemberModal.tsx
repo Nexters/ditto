@@ -1,4 +1,4 @@
-import { Button, ModalBody } from '@chakra-ui/react';
+import { Box, Button, Heading, ModalBody } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import { HOSTING_URL } from '@/utils/const';
 import { useFetchInvitations } from '@/hooks/invitation/useFetchInvitations';
@@ -7,6 +7,8 @@ import styled from '@emotion/styled';
 import { addDays } from '@/utils/date';
 import { useFetchGroup } from '@/hooks/group/useFetchGroup';
 import queryString from 'query-string';
+import theme from '@/styles/theme';
+import { LoginInvitationIcon } from '../icons';
 
 interface InviteMemberModalProps {
   isOpen: boolean;
@@ -37,24 +39,51 @@ const ModalContent = () => {
   };
 
   return (
-    <ModalBody>
-      <ShareInvitationTitle>초대 링크</ShareInvitationTitle>
+    <ModalBody textAlign={'center'}>
+      <ShareInvitationTitle>
+        <b>{group?.name}</b>의 <br />
+        새로운 멤버를 초대해보세요
+      </ShareInvitationTitle>
+
+      <Box display={'inline-block'}>
+        <LoginInvitationIcon />
+      </Box>
+
       <ShareInvitationButton disabled={isLoading || !invitation} onClick={shareInvitation}>
         초대 링크 공유하기
       </ShareInvitationButton>
       {invitationExpiredAt && (
-        <ShareExpiredAtText>{invitationExpiredAt.toLocaleString()}까지 사용 가능</ShareExpiredAtText>
+        <ShareExpiredAtText>유효 시점: {invitationExpiredAt.toLocaleString()}까지</ShareExpiredAtText>
       )}
     </ModalBody>
   );
 };
 
 const InviteMemberModal = ({ isOpen, onClose }: InviteMemberModalProps) => (
-  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} />
+  <BaseModal isOpen={isOpen} onClose={onClose} modalContent={<ModalContent />} width={300} height={368} />
 );
 
 export default InviteMemberModal;
 
-const ShareInvitationTitle = styled.h1``;
-const ShareInvitationButton = styled(Button)``;
-const ShareExpiredAtText = styled.p``;
+const ShareInvitationTitle = styled(Heading)`
+  margin: 20px 0 30px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: ${theme.colors.grey[10]};
+`;
+const ShareInvitationButton = styled(Button)`
+  width: 100%;
+  height: auto;
+  margin: 24px 0 8px;
+  padding: 16px 0;
+  ${theme.textStyles.buttonSmall};
+  color: ${theme.colors.grey[1]};
+  background-color: ${theme.colors.grey[10]};
+`;
+const ShareExpiredAtText = styled.p`
+  ${theme.textStyles.caption};
+  color: ${theme.colors.grey[4]};
+`;
