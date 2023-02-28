@@ -77,7 +77,7 @@ const ListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 12px 20px 80px;
 `;
 
 const ListItem = styled.li`
