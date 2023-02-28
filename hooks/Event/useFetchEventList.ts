@@ -12,7 +12,6 @@ export const useFetchEventList = (currentGroupId: number, options?: UseQueryOpti
     },
     {
       ...options,
-      staleTime: Infinity,
     }
   );
 };
