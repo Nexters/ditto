@@ -32,7 +32,7 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
       const group = await mutateAsync({ userId: user.id, groupName });
       setGroupId(group.id);
       openToast({ message: '새 그룹이 생성되었습니다.', type: 'success' });
-      router.push('/bucketlist');
+      router.replace('/bucketlist');
       onClose();
     } catch (error) {
       console.error(error);
