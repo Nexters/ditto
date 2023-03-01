@@ -1,6 +1,6 @@
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import GroupMenu from '../groupMenu/GroupMenu';
+import { GroupMenu } from '../menus/GroupMenu';
 
 export const MY_PAGE_HEADER_HEIGHT = 58;
 

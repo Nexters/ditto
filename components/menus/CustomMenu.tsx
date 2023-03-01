@@ -1,20 +1,26 @@
-import React, { Fragment } from 'react';
-import { useFetchJoinedGroupList } from '@/hooks/group/useFetchJoinedGroupList';
-import { useUser } from '@/store/useUser';
-import { Menu, MenuButton, MenuList, MenuItem, forwardRef } from '@chakra-ui/react';
-import { GrayDownIcon, PawIcon } from '../icons';
-import styled from '@emotion/styled';
 import theme from '@/styles/theme';
+import { forwardRef, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import styled from '@emotion/styled';
+import { Fragment } from 'react';
+import { GrayDownIcon, PawIcon } from '../icons';
 
-const GroupMenu = () => {
-  const { user, selectedGroupId, setGroupId } = useUser();
-  const { data: groupList } = useFetchJoinedGroupList(user);
+export type CustomMenuItem = {
+  id: string;
+  name: string;
+  selected: boolean;
+};
 
-  const currentGroupName = groupList?.find(({ id }) => id === selectedGroupId)?.name || '';
+export type CustomMenuProps = {
+  items?: Array<CustomMenuItem>;
+  onClickItem?: (id: CustomMenuItem['id']) => void;
+};
+
+export const CustomMenu = ({ items, onClickItem }: CustomMenuProps) => {
+  const selectedName = items?.find((item) => item.selected)?.name;
 
   const ForwardedCustomMenuButton = forwardRef((props, ref) => (
     <CustomMenuButton ref={ref} {...props}>
-      {currentGroupName}
+      {selectedName}
       <GrayDownIcon />
     </CustomMenuButton>
   ));
@@ -23,12 +29,11 @@ const GroupMenu = () => {
     <Menu>
       <MenuButton as={ForwardedCustomMenuButton} />
       <CustomMenuList>
-        {groupList?.map(({ name, id }, index) => {
-          const selected = id === selectedGroupId;
-          const last = index === groupList.length - 1;
+        {items?.map(({ id, name, selected }, index) => {
+          const last = index === items.length - 1;
           return (
             <Fragment key={id}>
-              <CustomMenuItem onClick={() => setGroupId(id)} selected={selected}>
+              <CustomMenuItem onClick={() => onClickItem?.(id)} selected={selected}>
                 <CustomGroupName>{name}</CustomGroupName>
                 {selected && <PawIcon width={18} height={18} />}
               </CustomMenuItem>
@@ -40,8 +45,6 @@ const GroupMenu = () => {
     </Menu>
   );
 };
-
-export default GroupMenu;
 
 const CustomMenuButton = styled.button`
   display: flex;
