@@ -9,7 +9,6 @@ import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat, differenceInMilisecondsFromNow } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
-import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
@@ -23,19 +22,16 @@ const Event: NextPageWithLayout = () => {
   const comingEvent = useRef<HTMLInputElement>(null);
   const pastEvent = useRef<HTMLInputElement>(null);
   const [isTriggerOnce, setTriggerOnce] = useState(true);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { selectedGroupId } = useUser();
   const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setMode } = useChangeMode();
 
-  const { data: eventList } = useFetchEventList(Number(selectedGroupId), {
-    enabled: !!selectedGroupId,
+  const { data: eventList } = useFetchEventList({
     onSuccess: (data) => {
       if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(data));
       if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(data));
     },
   });
-
-  const { setMode } = useChangeMode();
 
   const handleClickEvent = (id: number) => () => {
     setMode('update', id);

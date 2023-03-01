@@ -10,6 +10,5 @@ export const useFetchBucketFolderById = (id: number) => {
   };
   return useQuery<BucketFolder, Error>(BUCKET_FOLDER_KEY.detail([id]), fetcher, {
     enabled: !!id,
-    staleTime: Infinity,
   });
 };

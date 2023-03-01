@@ -2,7 +2,7 @@ import theme from '@/styles/theme';
 import { Heading } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
-import GroupMenu from '../groupMenu/GroupMenu';
+import { GroupMenu } from '../menus/GroupMenu';
 
 interface CommonHeaderProps {
   title: string;

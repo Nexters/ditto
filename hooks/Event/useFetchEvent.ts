@@ -5,7 +5,7 @@ import { EVENT_KEY } from '@/utils/const';
 
 export const useFetchEventById = (eventId: number, options?: UseQueryOptions<EventByIdType, Error>) => {
   return useQuery<EventByIdType, Error>(
-    EVENT_KEY.detail([eventId]),
+    EVENT_KEY.list([{ eventId }]),
     async () => {
       const response = await getEventById(eventId);
       return response;
