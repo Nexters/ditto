@@ -13,9 +13,5 @@ export const useFetchBucketFolders = () => {
     const response = await getBucketFolders(selectedGroupId);
     return response;
   };
-  return useQuery<BucketFolder[], Error>(BUCKET_FOLDER_KEY.list([selectedGroupId]), fetcher, {
-    refetchOnMount: false,
-    keepPreviousData: true,
-    staleTime: Infinity,
-  });
+  return useQuery<BucketFolder[], Error>(BUCKET_FOLDER_KEY.list([selectedGroupId]), fetcher);
 };

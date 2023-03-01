@@ -12,7 +12,6 @@ export const useFetchEventById = (eventId: number, options?: UseQueryOptions<Eve
     },
     {
       ...options,
-      staleTime: Infinity,
     }
   );
 };

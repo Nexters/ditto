@@ -45,7 +45,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
-  
+
   const { mutate: updateEvent } = useUpdateEvent({
     onSuccess: () => closeModal(),
   });

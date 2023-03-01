@@ -15,7 +15,6 @@ export const useFetchEventList = (options?: UseQueryOptions<Event[], Error>) => 
     {
       ...options,
       enabled: !!selectedGroupId,
-      staleTime: Infinity,
     }
   );
 };
