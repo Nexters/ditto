@@ -7,6 +7,7 @@ import { useUser } from '@/store/useUser';
 import useCustomToast from '@/hooks/shared/useCustomToast';
 import { useMutateCreateGroup } from '@/hooks/group/useMutateCreateGroup';
 import theme from '@/styles/theme';
+import { useRouter } from 'next/router';
 
 interface CreateGroupModalProps {
   isOpen: boolean;
@@ -17,6 +18,7 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
   const { user, setGroupId } = useUser();
   const { openToast } = useCustomToast();
   const { mutateAsync } = useMutateCreateGroup();
+  const router = useRouter();
 
   const [groupName, setGroupName] = useState('');
 
@@ -29,6 +31,8 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
     try {
       const group = await mutateAsync({ userId: user.id, groupName });
       setGroupId(group.id);
+      openToast({ message: '새 그룹이 생성되었습니다.', type: 'success' });
+      router.replace('/bucketlist');
       onClose();
     } catch (error) {
       console.error(error);
