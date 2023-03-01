@@ -1,7 +1,7 @@
 import { updateEvent } from '@/lib/supabase/apis/event';
 import { useQueryClient, useMutation, UseMutationOptions } from '@tanstack/react-query';
 import { UpdateEventType } from '@/lib/supabase/apis/event/type';
-import { EVENT_KEY } from './useCreateEvent';
+import { EVENT_KEY } from '@/utils/const';
 
 export const useUpdateEvent = (options?: Omit<UseMutationOptions<void, Error, UpdateEventType>, 'mutationFn'>) => {
   const queryClient = useQueryClient();

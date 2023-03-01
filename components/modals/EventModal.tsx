@@ -15,6 +15,7 @@ import { CloseIcon, TrashCanIcon } from '../icons';
 import { pickFirst } from '@/utils/array';
 import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
+
 interface ModalContentProps {
   onClose: () => void;
 }
