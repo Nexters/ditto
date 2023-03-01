@@ -43,7 +43,7 @@ const ModalContent = () => {
 
   return (
     <ModalBody textAlign={'center'}>
-      <ShareInvitationTitle>
+      <ShareInvitationTitle fontSize={'18px'} lineHeight={'1.5'}>
         <b>{group?.name}</b>의 <br />
         새로운 멤버를 초대해보세요
       </ShareInvitationTitle>
@@ -71,8 +71,6 @@ export default InviteMemberModal;
 const ShareInvitationTitle = styled(Heading)`
   margin: 20px 0 30px;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 27px;
   text-align: center;
   letter-spacing: -0.01em;
   color: ${theme.colors.grey[10]};
