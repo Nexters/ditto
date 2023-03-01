@@ -16,20 +16,26 @@ import { css } from '@emotion/react';
 import { Event } from '@/lib/supabase/type';
 import { CustomMenu } from '@/components/menus/CustomMenu';
 
+const EVENT_FILTER = {
+  all: 0,
+  repeat: 1,
+  exceptRepeat: 2,
+} as const;
+
 const EventFilterMenuList = [
   {
-    id: '0',
+    id: EVENT_FILTER.all,
     name: '모든 일정',
   },
   {
-    id: '1',
+    id: EVENT_FILTER.repeat,
     name: '반복 일정만',
   },
   {
-    id: '2',
+    id: EVENT_FILTER.exceptRepeat,
     name: '반복 일정 제외',
   },
-];
+] as const;
 
 // 다가오는 일정
 const filterByComingEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) > 0);
@@ -43,7 +49,7 @@ const Event: NextPageWithLayout = () => {
   const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setMode } = useChangeMode();
-  const [selectedMenuFilterId, setSelectMenuFilterId] = useState('0');
+  const [selectedMenuFilterId, setSelectMenuFilterId] = useState<number>(EVENT_FILTER.all);
 
   const { data: eventList } = useFetchEventList({
     onSuccess: (data) => {
@@ -79,9 +85,9 @@ const Event: NextPageWithLayout = () => {
   const renderData = useMemo(() => {
     if (filteredEvent?.length) {
       // 반복 일정만
-      if (selectedMenuFilterId === '1') return filteredEvent.filter((event) => event.is_annual);
+      if (selectedMenuFilterId === EVENT_FILTER.repeat) return filteredEvent.filter((event) => event.is_annual);
       // 반복 일정 제외
-      if (selectedMenuFilterId === '2') return filteredEvent.filter((event) => !event.is_annual);
+      if (selectedMenuFilterId === EVENT_FILTER.exceptRepeat) return filteredEvent.filter((event) => !event.is_annual);
       // 모든 일정
       return filteredEvent;
     }
