@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export const BottomNavBarHeight = 60;
+export const BOTTOM_NAV_HEIGHT = 60;
 
 const BottomNavigation = () => {
   const router = useRouter();
@@ -37,7 +37,7 @@ const BottomNavBar = styled.nav`
   bottom: 0;
   left: 0;
   right: 0;
-  height: ${BottomNavBarHeight}px;
+  height: ${BOTTOM_NAV_HEIGHT}px;
 
   background-color: ${theme.colors.grey[10]};
 `;
