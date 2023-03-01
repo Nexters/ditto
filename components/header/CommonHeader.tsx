@@ -1,42 +1,52 @@
+import theme from '@/styles/theme';
+import { Heading } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
+import GroupMenu from '../groupMenu/GroupMenu';
 
 interface CommonHeaderProps {
-  children: ReactNode;
+  title: string;
+  icon: ReactNode;
 }
 
-const CommonHeader = ({ children }: CommonHeaderProps) => {
-  return <CommonHeaderContainer>{children}</CommonHeaderContainer>;
+export const COMMON_HEADER_HEIGHT = 94;
+
+const CommonHeader = ({ title, icon }: CommonHeaderProps) => {
+  return (
+    <CommonHeaderContainer>
+      <LeftContainer>
+        <GroupMenu />
+        <Heading fontSize={'24px'} lineHeight={1} fontWeight={700} letterSpacing={-0.02}>
+          {title}
+        </Heading>
+      </LeftContainer>
+
+      <RightContainer>{icon}</RightContainer>
+    </CommonHeaderContainer>
+  );
 };
 
-const Left = ({ children }: CommonHeaderProps) => {
-  return <LeftContainer>{children}</LeftContainer>;
-};
-
-const Right = ({ children }: CommonHeaderProps) => {
-  return <RightContainer>{children}</RightContainer>;
-};
-
-export default Object.assign(CommonHeader, {
-  Left,
-  Right,
-});
+export default CommonHeader;
 
 const CommonHeaderContainer = styled.header`
-  position: absolute;
-  top: 0;
+  width: 100%;
+  height: ${COMMON_HEADER_HEIGHT}px;
+
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  max-width: 420px;
+  align-items: center;
+
+  padding: 20px;
   background-color: #fff;
-  padding: 17px 20px;
-  z-index: 10;
+  border-bottom: 1px solid ${theme.colors.grey[2]};
 `;
 
 const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 14px;
 `;
 
 const RightContainer = styled.div``;
