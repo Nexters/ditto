@@ -1,4 +1,4 @@
-import React, { RefObject, useRef } from 'react';
+import React, { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
@@ -7,21 +7,32 @@ import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { dateChangeToEventFormat } from '@/utils/date';
+import { dateChangeToEventFormat, differenceInMilisecondsFromNow } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
+import { Event } from '@/lib/supabase/type';
+
+const filterByComingEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) > 0);
+const filterByPastEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) <= 0);
 
 const Event: NextPageWithLayout = () => {
   const comingEvent = useRef<HTMLInputElement>(null);
   const pastEvent = useRef<HTMLInputElement>(null);
+  const [isTriggerOnce, setTriggerOnce] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { selectedGroupId } = useUser();
-  const { data } = useFetchEventList(Number(selectedGroupId), {
+  const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
+
+  const { data: eventList } = useFetchEventList(Number(selectedGroupId), {
     enabled: !!selectedGroupId,
+    onSuccess: (data) => {
+      if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(data));
+      if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(data));
+    },
   });
 
   const { setMode } = useChangeMode();
@@ -32,20 +43,41 @@ const Event: NextPageWithLayout = () => {
   };
 
   const handleFilterChip = (targetRef: RefObject<HTMLInputElement>) => () => {
-    if (targetRef.current) targetRef.current.checked = true;
+    if (!targetRef.current) return;
+    if (targetRef.current.checked) return;
+
+    targetRef.current.checked = true;
+    if (targetRef === comingEvent) {
+      setFilterEvent(filterByComingEvent(eventList ?? []));
+    } else {
+      setFilterEvent(filterByPastEvent(eventList ?? []));
+    }
   };
+
+  useEffect(() => {
+    if (eventList && isTriggerOnce) {
+      setFilterEvent(filterByComingEvent(eventList ?? []));
+      setTriggerOnce(false);
+    }
+  }, [eventList, isTriggerOnce]);
+
+  const renderData = useMemo(() => {
+    if (filteredEvent?.length) return filteredEvent;
+  }, [filteredEvent]);
 
   return (
     <MainLayout
       header={<EventHeader />}
       headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
-        <FAB onClick={onOpen}>
-          <PlusWhiteIcon />
-        </FAB>
+        eventList?.length !== 0 ? (
+          <FAB onClick={onOpen}>
+            <PlusWhiteIcon />
+          </FAB>
+        ) : null
       }
     >
-      {data?.length === 0 ? (
+      {eventList?.length === 0 ? (
         <ListContainer center>
           <EmptyEvent onClick={onOpen} />
         </ListContainer>
@@ -67,7 +99,7 @@ const Event: NextPageWithLayout = () => {
           </Flex>
 
           {/* 일정목록 */}
-          {data?.map(
+          {renderData?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
               <ListItem key={id} onClick={handleClickEvent(id)}>
                 <Flex flexDirection="column" gap="8px">

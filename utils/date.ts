@@ -1,4 +1,4 @@
-import { formatISO, getMonth, getDate, format, sub } from 'date-fns';
+import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds } from 'date-fns';
 
 export const eventDateForView = (isAllDay: boolean, date?: string) => {
   return isAllDay
@@ -54,3 +54,12 @@ export const dateChangeToEventFormat = (startDate: string, endDate: string) => {
 // yyyy.MM.dd hh:mm
 export const formatCreationDate = (date: string) =>
   formatISO(new Date(date)).replace(/T/, ' ').replace(/\..+/, '').replace(/-/g, '.').slice(0, -9);
+
+export const differenceInMilisecondsFromNow = (date: string) =>
+  // slice(0, -6)을 해주는 이유는 db에 저장된 +00:00 과 현재 시간으로 포맷팅 했을 때 +09:00의 차이를 없애고 비교하기 위함
+  differenceInMilliseconds(
+    // db에 저장된 시간
+    new Date(date.slice(0, -6)),
+    // 현재 시간
+    new Date(formatISO(new Date()).slice(0, -6))
+  );

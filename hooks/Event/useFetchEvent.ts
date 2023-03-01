@@ -13,6 +13,10 @@ export const useFetchEventById = (eventId: number, options?: UseQueryOptions<Eve
     {
       ...options,
       staleTime: Infinity,
+
+      onSuccess(data) {
+        options?.onSuccess?.(data);
+      },
     }
   );
 };
