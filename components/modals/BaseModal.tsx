@@ -13,7 +13,7 @@ export interface BaseModalProps {
 const BaseModal = (props: BaseModalProps) => {
   const { isOpen, onClose, modalContent, width, height, closeOnOverlayClick = true } = props;
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={closeOnOverlayClick}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={closeOnOverlayClick} autoFocus={false}>
       <ModalOverlay bg="blackAlpha.700" />
       <ModalContent bgColor="white" width={width || 300} height={height || 230}>
         {modalContent}
