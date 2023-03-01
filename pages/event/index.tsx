@@ -14,8 +14,26 @@ import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
 import { Event } from '@/lib/supabase/type';
+import { CustomMenu } from '@/components/menus/CustomMenu';
 
+const EventFilterMenuList = [
+  {
+    id: '0',
+    name: '모든 일정',
+  },
+  {
+    id: '1',
+    name: '반복 일정만',
+  },
+  {
+    id: '2',
+    name: '반복 일정 제외',
+  },
+];
+
+// 다가오는 일정
 const filterByComingEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) > 0);
+// 지난 일정
 const filterByPastEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) <= 0);
 
 const Event: NextPageWithLayout = () => {
@@ -25,6 +43,7 @@ const Event: NextPageWithLayout = () => {
   const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setMode } = useChangeMode();
+  const [selectedMenuFilterId, setSelectMenuFilterId] = useState('0');
 
   const { data: eventList } = useFetchEventList({
     onSuccess: (data) => {
@@ -58,8 +77,15 @@ const Event: NextPageWithLayout = () => {
   }, [eventList, isTriggerOnce]);
 
   const renderData = useMemo(() => {
-    if (filteredEvent?.length) return filteredEvent;
-  }, [filteredEvent]);
+    if (filteredEvent?.length) {
+      // 반복 일정만
+      if (selectedMenuFilterId === '1') return filteredEvent.filter((event) => event.is_annual);
+      // 반복 일정 제외
+      if (selectedMenuFilterId === '2') return filteredEvent.filter((event) => !event.is_annual);
+      // 모든 일정
+      return filteredEvent;
+    }
+  }, [filteredEvent, selectedMenuFilterId]);
 
   return (
     <MainLayout
@@ -91,7 +117,15 @@ const Event: NextPageWithLayout = () => {
                 <FilterChip onClick={handleFilterChip(pastEvent)}>지난 일정</FilterChip>
               </label>
             </Flex>
-            모든 일정
+
+            <CustomMenu
+              items={EventFilterMenuList.map(({ id, name }) => ({
+                id,
+                name,
+                selected: id === selectedMenuFilterId,
+              }))}
+              onClickItem={setSelectMenuFilterId}
+            />
           </Flex>
 
           {/* 일정목록 */}
