@@ -15,7 +15,7 @@ const BaseModal = (props: BaseModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={closeOnOverlayClick}>
       <ModalOverlay bg="blackAlpha.700" />
-      <ModalContent bgColor="white" boxShadow="none" marginTop={138} width={width || 300} height={height || 230}>
+      <ModalContent bgColor="white" width={width || 300} height={height || 230}>
         {modalContent}
       </ModalContent>
     </Modal>

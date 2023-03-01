@@ -11,8 +11,7 @@ import { dateChangeToEventFormat } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
-
-const EVENT_HEADER_HEIGHT = 98;
+import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -20,7 +19,7 @@ const Event: NextPageWithLayout = () => {
   const { data } = useFetchEventList(Number(selectedGroupId), {
     enabled: !!selectedGroupId,
   });
-  
+
   const { setMode } = useChangeMode();
 
   const handleClickEvent = (id: number) => () => {
@@ -31,6 +30,7 @@ const Event: NextPageWithLayout = () => {
   return (
     <MainLayout
       header={<EventHeader />}
+      headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
         <Button
           width="64px"
@@ -44,29 +44,28 @@ const Event: NextPageWithLayout = () => {
         </Button>
       }
     >
-      <Flex marginTop={`${EVENT_HEADER_HEIGHT}px`} minHeight="100%" width="100%" backgroundColor={theme.colors.grey[1]}>
-        <ListContainer>
-          {/* TODO: 등록된 일정 없을떄의 화면 추가되어야함 */}
-          {data?.map(
-            ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
-              <ListItem key={id} onClick={handleClickEvent(id)}>
-                <Flex flexDirection="column" gap="8px">
-                  <Text textStyle="buttonMedium" color={theme.colors.secondary}>
-                    {title}
-                  </Text>
-                  <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                    {dateChangeToEventFormat(startTime, endTime)}
-                  </Text>
-                </Flex>
-                <Flex>
-                  {isAllDay ? <Chip type="allDay">오늘</Chip> : null}
-                  {isAnnual ? <Chip type="annual">매년</Chip> : null}
-                </Flex>
-              </ListItem>
-            )
-          )}
-        </ListContainer>
-      </Flex>
+      <ListContainer>
+        {/* TODO: 등록된 일정 없을떄의 화면 추가되어야함 */}
+        {data?.map(
+          ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
+            <ListItem key={id} onClick={handleClickEvent(id)}>
+              <Flex flexDirection="column" gap="8px">
+                <Text textStyle="buttonMedium" color={theme.colors.secondary}>
+                  {title}
+                </Text>
+                <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
+                  {dateChangeToEventFormat(startTime, endTime)}
+                </Text>
+              </Flex>
+              <Flex>
+                {isAllDay ? <Chip type="allDay">오늘</Chip> : null}
+                {isAnnual ? <Chip type="annual">매년</Chip> : null}
+              </Flex>
+            </ListItem>
+          )
+        )}
+      </ListContainer>
+
       <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );
@@ -80,9 +79,10 @@ const ListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 100%;
+  padding: 12px 20px 80px;
   height: 100%;
-  padding: 12px 20px;
+  overflow: auto;
+  background-color: ${theme.colors.grey[1]};
 `;
 
 const ListItem = styled.li`

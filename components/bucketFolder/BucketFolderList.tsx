@@ -15,26 +15,21 @@ const BucketFolderList = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isError) return <div>에러 발생</div>;
+  if (isLoading) return <PartialLoader />;
 
   const emptyDataLength = MAX_LIST_LENGTH - data?.length;
 
   return (
     <StyledList>
-      {isLoading ? (
-        <PartialLoader />
-      ) : (
-        <>
-          {data?.slice(0, MAX_LIST_LENGTH).map((folder: BucketFolder) => (
-            <BucketFolderItem folder={folder} key={folder.id} />
-          ))}
-          {emptyDataLength > 0 &&
-            Array.from({ length: emptyDataLength }).map((_, index) => (
-              <li key={index}>
-                <AddFolderButton onClick={onOpen}>+</AddFolderButton>
-              </li>
-            ))}
-        </>
-      )}
+      {data?.slice(0, MAX_LIST_LENGTH).map((folder: BucketFolder) => (
+        <BucketFolderItem folder={folder} key={folder.id} />
+      ))}
+      {emptyDataLength > 0 &&
+        Array.from({ length: emptyDataLength }).map((_, index) => (
+          <li key={index}>
+            <AddFolderButton onClick={onOpen}>+</AddFolderButton>
+          </li>
+        ))}
       <AddBucketFolderModal isOpen={isOpen} onClose={onClose} />
     </StyledList>
   );
@@ -43,8 +38,6 @@ const BucketFolderList = () => {
 const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: calc(100vh - 230px);
   gap: 10px;
   padding: 16px 20px;
 `;
