@@ -1,4 +1,4 @@
-import { BucketItem as TBucketItem } from '@/lib/supabase/type';
+import { TBucketItem } from '@/lib/supabase/type';
 import UpdateBucketItemModal from '@/components/modals/bucketList/UpdateBucketItemModal';
 import { Text, useDisclosure } from '@chakra-ui/react';
 import PawButton from '@/components/buttons/PawButton';
@@ -29,13 +29,7 @@ const BucketItem = ({ item }: { item: TBucketItem }) => {
           <PawButton isCompleted={item.completed} onClick={handleClickPawButton} />
         </PawBtnSection>
       </Item>
-      <UpdateBucketItemModal
-        isOpen={isOpen}
-        onClose={onClose}
-        title={item.title}
-        description={item.description}
-        id={item.id}
-      />
+      <UpdateBucketItemModal isOpen={isOpen} onClose={onClose} bucketItem={item} />
     </>
   );
 };
