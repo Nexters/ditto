@@ -5,7 +5,7 @@ import { Fragment } from 'react';
 import { GrayDownIcon, PawIconPrimaryColor } from '../icons';
 
 export type CustomMenuItem = {
-  id: string;
+  id: number;
   name: string;
   selected: boolean;
 };
