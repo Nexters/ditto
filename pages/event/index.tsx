@@ -9,19 +9,14 @@ import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { dateChangeToEventFormat } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
-import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
 
 const EVENT_HEADER_HEIGHT = 98;
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { selectedGroupId } = useUser();
-  const { data } = useFetchEventList(Number(selectedGroupId), {
-    enabled: !!selectedGroupId,
-  });
-  
   const { setMode } = useChangeMode();
+  const { data } = useFetchEventList();
 
   const handleClickEvent = (id: number) => () => {
     setMode('update', id);
@@ -67,7 +62,7 @@ const Event: NextPageWithLayout = () => {
           )}
         </ListContainer>
       </Flex>
-      <EventModal isOpen={isOpen} onClose={onClose} />
+      <EventModal isOpen={isOpen} onClose={onClose}  />
     </MainLayout>
   );
 };
