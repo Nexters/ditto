@@ -11,7 +11,7 @@ export const useCreateEvent = (options?: UseQueryOptions<void, Error>) => {
     },
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(EVENT_KEY.all);
+        queryClient.invalidateQueries({ queryKey: EVENT_KEY.lists() });
         options?.onSuccess?.(data);
         // TODO: 일정 추가 완료 토스트 띄우기
       },
