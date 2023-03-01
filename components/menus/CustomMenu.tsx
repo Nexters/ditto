@@ -2,7 +2,7 @@ import theme from '@/styles/theme';
 import { forwardRef, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { Fragment } from 'react';
-import { GrayDownIcon, PawIcon } from '../icons';
+import { GrayDownIcon, PawIconPrimaryColor } from '../icons';
 
 export type CustomMenuItem = {
   id: string;
@@ -35,7 +35,7 @@ export const CustomMenu = ({ items, onClickItem }: CustomMenuProps) => {
             <Fragment key={id}>
               <CustomMenuItem onClick={() => onClickItem?.(id)} selected={selected}>
                 <CustomGroupName>{name}</CustomGroupName>
-                {selected && <PawIcon width={18} height={18} />}
+                {selected && <PawIconPrimaryColor />}
               </CustomMenuItem>
               {!last && <CustomMenuDivider />}
             </Fragment>
@@ -69,15 +69,10 @@ const CustomMenuItem = styled(MenuItem)<{ selected: boolean }>`
   padding: 12px;
   justify-content: space-between;
 
-  ${theme.textStyles.buttonSmall}
-  ${({ selected }) =>
-    selected
-      ? `color: ${theme.colors.white};
-        background-color: ${theme.colors.grey[10]};`
-      : `color: ${theme.colors.grey[6]};`};
+  ${theme.textStyles.buttonSmall};
+  color: ${({ selected }) => (selected ? theme.colors.primary : theme.colors.grey[6])};
 
   svg {
-    filter: invert(1);
     flex-shrink: 0;
   }
 
