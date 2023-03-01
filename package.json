@@ -48,8 +48,11 @@
     "prettier": "^2.8.3"
   },
   "lint-staged": {
-    "*.tsx": "eslint --fix",
-    "*.ts": "eslint --fix"
+    "**/*.{tsx,ts,jsx,js}": [
+      "eslint --fix",
+      "prettier --write",
+      "bash -c tsc --noEmit"
+    ]
   },
   "dependenciesMeta": {
     "eslint@8.31.0": {

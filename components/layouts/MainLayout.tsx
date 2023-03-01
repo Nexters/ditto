@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import BottomNavigation, { BottomNavBarHeight } from './BottomNavigation';
+import BottomNavigation, { BOTTOM_NAV_HEIGHT } from './BottomNavigation';
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -20,7 +20,7 @@ const MainLayout = ({
   return (
     <MainContainer>
       {header}
-      <MainSection headerHeight={headerHeight} bottomNavHeight={hideBottomNavigation ? 0 : BottomNavBarHeight}>
+      <MainSection headerHeight={headerHeight} bottomNavHeight={hideBottomNavigation ? 0 : BOTTOM_NAV_HEIGHT}>
         {children}
       </MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
@@ -48,7 +48,7 @@ const MainSection = styled.section<{ headerHeight: number; bottomNavHeight: numb
 const FloatButtonContainer = styled.div`
   position: absolute;
   right: 15px;
-  bottom: ${BottomNavBarHeight + 5}px;
+  bottom: ${BOTTOM_NAV_HEIGHT + 5}px;
 `;
 
 export default MainLayout;

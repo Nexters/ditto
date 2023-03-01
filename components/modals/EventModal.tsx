@@ -45,13 +45,14 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     enabled: !!selectedEventId && isUpdateMode,
   });
   const prevData = pickFirst(data);
+
   const { mutate: updateEvent } = useUpdateEvent({
-    onSuccess: () => onClose(),
+    onSuccess: () => closeModal(),
   });
 
   // 일정 삭제 관련
   const { mutate: deleteEvent } = useDeleteEvent({
-    onSuccess: () => onClose(),
+    onSuccess: () => closeModal(),
   });
 
   useEffect(() => {
@@ -119,20 +120,19 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     if (selectedEventId) deleteEvent(selectedEventId);
   };
 
-  const handleCloseModal = () => {
-    // FIXME: update 모드로 들어가서 esc로 종료하고 create 모드로 들어가면 가끔씩 reset이 안되어 update 모드로 들어가지는 버그가 재현됨
+  const closeModal = () => {
     resetMode();
     onClose();
   };
 
   const handleEscapeKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
-    if (e.code === 'Escape') handleCloseModal();
+    if (e.code === 'Escape') closeModal();
   };
 
   return (
     <Form onSubmit={handleSubmit} onKeyDown={handleEscapeKeyDown}>
       <ModalHeader padding="14px 18px 0 18px">
-        <CloseIcon width={18} height={18} cursor="pointer" onClick={handleCloseModal} />
+        <CloseIcon width={18} height={18} cursor="pointer" onClick={closeModal} />
       </ModalHeader>
       <TitleTextarea
         placeholder="제목을 입력하세요"
