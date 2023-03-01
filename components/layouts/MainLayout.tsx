@@ -2,21 +2,27 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import BottomNavigation, { BOTTOM_NAV_HEIGHT } from './BottomNavigation';
 
+type MainLayoutProps = {
+  children: ReactNode;
+  header?: ReactNode;
+  headerHeight?: number;
+  floatButton?: ReactNode;
+  hideBottomNavigation?: boolean;
+};
+
 const MainLayout = ({
   children,
   header,
+  headerHeight = 0,
   floatButton,
   hideBottomNavigation = false,
-}: {
-  children: ReactNode;
-  header?: ReactNode;
-  floatButton?: ReactNode;
-  hideBottomNavigation?: boolean;
-}) => {
+}: MainLayoutProps) => {
   return (
     <MainContainer>
       {header}
-      <MainSection hideBottomNavigation={hideBottomNavigation}>{children}</MainSection>
+      <MainSection headerHeight={headerHeight} bottomNavHeight={hideBottomNavigation ? 0 : BOTTOM_NAV_HEIGHT}>
+        {children}
+      </MainSection>
       {floatButton && <FloatButtonContainer>{floatButton}</FloatButtonContainer>}
       {!hideBottomNavigation && <BottomNavigation />}
     </MainContainer>
@@ -30,12 +36,12 @@ const MainContainer = styled.main`
   margin: 0 auto;
 `;
 
-const MainSection = styled.section<{ hideBottomNavigation?: boolean }>`
+const MainSection = styled.section<{ headerHeight: number; bottomNavHeight: number }>`
   position: absolute;
-  top: 0;
+  top: ${(props) => props.headerHeight}px;
   left: 0;
   right: 0;
-  bottom: ${(props) => (props.hideBottomNavigation ? 0 : BOTTOM_NAV_HEIGHT)}px;
+  bottom: ${(props) => props.bottomNavHeight}px;
   overflow: auto;
 `;
 

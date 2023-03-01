@@ -1,12 +1,7 @@
 import { createEvent } from '@/lib/supabase/apis/event';
 import { CreateEventType } from '@/lib/supabase/apis/event/type';
+import { EVENT_KEY } from '@/utils/const';
 import { useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-
-export const EVENT_KEY = {
-  all: ['event'],
-  allByGroupId: (currentGroupId: number) => [...EVENT_KEY.all, currentGroupId],
-  eventById: (eventId: number) => [...EVENT_KEY.all, eventId],
-} as const;
 
 export const useCreateEvent = (options?: UseQueryOptions<void, Error>) => {
   const queryClient = useQueryClient();

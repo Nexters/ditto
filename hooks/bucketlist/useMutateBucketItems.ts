@@ -8,6 +8,7 @@ import {
   deleteBucketItem,
   updateBucketItem,
 } from '@/lib/supabase/apis/bucketlist';
+import { BUCKET_ITEM_KEY } from '@/utils/const';
 
 export const useMutateBucketItems = () => {
   const queryClient = useQueryClient();
@@ -19,7 +20,7 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketItems']);
+        queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);
@@ -33,7 +34,7 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketItems']);
+        queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);
@@ -47,7 +48,7 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketItems']);
+        queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);
@@ -61,7 +62,7 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketItems']);
+        queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);

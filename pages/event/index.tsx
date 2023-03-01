@@ -11,10 +11,9 @@ import { dateChangeToEventFormat } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import { useUser } from '@/store/useUser';
 import useChangeMode from '@/store/useChangeMode';
+import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
-import { BOTTOM_NAV_HEIGHT } from '@/components/layouts/BottomNavigation';
-
-const EVENT_HEADER_HEIGHT = 98;
+import { css } from '@emotion/react';
 
 const Event: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -33,38 +32,40 @@ const Event: NextPageWithLayout = () => {
   return (
     <MainLayout
       header={<EventHeader />}
+      headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
         <Button onClick={onOpen}>
           <PlusWhiteIcon />
         </Button>
       }
     >
-      <EventContainer>
-        {data?.length === 0 ? (
+      {data?.length === 0 ? (
+        <ListContainer center>
           <EmptyEvent onClick={onOpen} />
-        ) : (
-          <ListContainer>
-            {data?.map(
-              ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
-                <ListItem key={id} onClick={handleClickEvent(id)}>
-                  <Flex flexDirection="column" gap="8px">
-                    <Text textStyle="buttonMedium" color={theme.colors.secondary}>
-                      {title}
-                    </Text>
-                    <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                      {dateChangeToEventFormat(startTime, endTime)}
-                    </Text>
-                  </Flex>
-                  <Flex>
-                    {isAllDay ? <Chip type="allDay">오늘</Chip> : null}
-                    {isAnnual ? <Chip type="annual">매년</Chip> : null}
-                  </Flex>
-                </ListItem>
-              )
-            )}
-          </ListContainer>
-        )}
-      </EventContainer>
+        </ListContainer>
+      ) : (
+        <ListContainer>
+          {data?.map(
+            ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
+              <ListItem key={id} onClick={handleClickEvent(id)}>
+                <Flex flexDirection="column" gap="8px">
+                  <Text textStyle="buttonMedium" color={theme.colors.secondary}>
+                    {title}
+                  </Text>
+                  <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
+                    {dateChangeToEventFormat(startTime, endTime)}
+                  </Text>
+                </Flex>
+                <Flex>
+                  {isAllDay ? <Chip type="allDay">오늘</Chip> : null}
+                  {isAnnual ? <Chip type="annual">매년</Chip> : null}
+                </Flex>
+              </ListItem>
+            )
+          )}
+        </ListContainer>
+      )}
+
       <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );
@@ -85,21 +86,20 @@ const Button = styled.button`
   filter: drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2));
 `;
 
-const EventContainer = styled.div`
-  display: flex;
-  width: 100%;
-  min-height: calc(100vh - ${EVENT_HEADER_HEIGHT}px - ${BOTTOM_NAV_HEIGHT}px);
-  margin-top: ${EVENT_HEADER_HEIGHT}px;
-  background-color: ${theme.colors.grey[1]};
-`;
-
-const ListContainer = styled.ul`
+const ListContainer = styled.ul<{ center?: boolean }>`
   display: flex;
   flex-direction: column;
+  ${({ center }) =>
+    center &&
+    css`
+      align-items: center;
+      justify-content: center;
+    `}
   gap: 8px;
-  width: 100%;
+  padding: 12px 20px 80px;
   height: 100%;
-  padding: 12px 20px;
+  overflow: auto;
+  background-color: ${theme.colors.grey[1]};
 `;
 
 const ListItem = styled.li`

@@ -1,4 +1,5 @@
 import queryString from 'query-string';
+import { createQueryKeys } from './createQueryKeys';
 
 export const HOSTING_URL = process.env.NEXT_PUBLIC_HOSTING_URL || 'http://localhost:3000';
 
@@ -41,3 +42,14 @@ export const INVITATION_CODE_LENGTH = 10;
 export const LOCAL_STORAGE__GROUP_ID = 'ditto-latest-group-id';
 
 export const INQUIRY_CHANNEL_URL = 'https://open.kakao.com/o/sNBgXm6e';
+
+// query keys
+
+export const MEMBER_KEY = createQueryKeys('members');
+export const GROUP_KEY = createQueryKeys('groups');
+export const INVITATION_KEY = createQueryKeys('invitations');
+
+export const EVENT_KEY = createQueryKeys('events');
+
+export const BUCKET_FOLDER_KEY = createQueryKeys('bucket_folders');
+export const BUCKET_ITEM_KEY = createQueryKeys('bucket_items');

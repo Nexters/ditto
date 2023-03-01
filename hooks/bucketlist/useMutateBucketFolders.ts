@@ -2,6 +2,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createBucketFolder, deleteBucketFolder, updateBucketFolder } from '@/lib/supabase/apis/bucketlist';
 import { TCreateBucketFolder, TUpdateBucketFolder } from '@/lib/supabase/apis/bucketlist/type';
 import { useUser } from '@/store/useUser';
+import { BUCKET_FOLDER_KEY } from '@/utils/const';
 
 export const useMutateBucketFolders = () => {
   const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ export const useMutateBucketFolders = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketFolders']);
+        queryClient.invalidateQueries(BUCKET_FOLDER_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);
@@ -26,7 +27,7 @@ export const useMutateBucketFolders = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketFolders']);
+        queryClient.invalidateQueries(BUCKET_FOLDER_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);
@@ -39,7 +40,7 @@ export const useMutateBucketFolders = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['bucketFolders']);
+        queryClient.invalidateQueries(BUCKET_FOLDER_KEY.all);
       },
       onError: (err: any) => {
         throw new Error(err.message);

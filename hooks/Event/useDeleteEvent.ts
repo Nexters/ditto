@@ -1,6 +1,6 @@
 import { deleteEvent } from '@/lib/supabase/apis/event';
+import { EVENT_KEY } from '@/utils/const';
 import { useQueryClient, useMutation, UseMutationOptions } from '@tanstack/react-query';
-import { EVENT_KEY } from './useCreateEvent';
 
 export const useDeleteEvent = (options?: Omit<UseMutationOptions<void, Error, number>, 'mutationFn'>) => {
   const queryClient = useQueryClient();

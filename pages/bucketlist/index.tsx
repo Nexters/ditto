@@ -1,41 +1,28 @@
 import React from 'react';
-import PageHeader from '@/components/layouts/Header';
 import MainLayout from '@/components/layouts/MainLayout';
 import { NextPageWithLayout } from '@/pages/_app';
 import BucketFolderList from '@/components/bucketFolder/BucketFolderList';
-import { FlagIcon } from '@/components/icons';
-import { Box, Divider, Text } from '@chakra-ui/react';
+import { BucketlistHeader } from '@/components/header/BucketlistHeader';
 import styled from '@emotion/styled';
+import theme from '@/styles/theme';
+import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 
 const BucketList: NextPageWithLayout = () => {
   return (
-    <>
-      <StyledHeader>
-        <Text textStyle={'h2'} alignSelf={'flex-end'}>
-          버킷리스트
-        </Text>
-        <FlagIcon />
-      </StyledHeader>
-      <Box bg={'grey.1'}>
-        <Divider borderColor={'divider'} marginTop={'20px'} />
+    <MainLayout header={<BucketlistHeader />} headerHeight={COMMON_HEADER_HEIGHT}>
+      <ListContainer>
         <BucketFolderList />
-      </Box>
-    </>
+      </ListContainer>
+    </MainLayout>
   );
 };
 
-const StyledHeader = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-BucketList.getLayout = (page) => (
-  <MainLayout>
-    <PageHeader />
-    {page}
-  </MainLayout>
-);
 BucketList.isProtectedPage = true;
 
 export default BucketList;
+
+const ListContainer = styled.section`
+  height: 100%;
+  overflow: auto;
+  background-color: ${theme.colors.grey[1]};
+`;
