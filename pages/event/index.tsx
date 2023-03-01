@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
@@ -7,40 +7,95 @@ import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { dateChangeToEventFormat } from '@/utils/date';
+import { dateChangeToEventFormat, differenceInMilisecondsFromNow } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
+import { Event } from '@/lib/supabase/type';
+
+const filterByComingEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) > 0);
+const filterByPastEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) <= 0);
 
 const Event: NextPageWithLayout = () => {
+  const comingEvent = useRef<HTMLInputElement>(null);
+  const pastEvent = useRef<HTMLInputElement>(null);
+  const [isTriggerOnce, setTriggerOnce] = useState(true);
+  const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setMode } = useChangeMode();
-  const { data } = useFetchEventList();
+
+  const { data: eventList } = useFetchEventList({
+    onSuccess: (data) => {
+      if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(data));
+      if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(data));
+    },
+  });
 
   const handleClickEvent = (id: number) => () => {
     setMode('update', id);
     onOpen();
   };
 
+  const handleFilterChip = (targetRef: RefObject<HTMLInputElement>) => () => {
+    if (!targetRef.current) return;
+    if (targetRef.current.checked) return;
+
+    targetRef.current.checked = true;
+    if (targetRef === comingEvent) {
+      setFilterEvent(filterByComingEvent(eventList ?? []));
+    } else {
+      setFilterEvent(filterByPastEvent(eventList ?? []));
+    }
+  };
+
+  useEffect(() => {
+    if (eventList && isTriggerOnce) {
+      setFilterEvent(filterByComingEvent(eventList ?? []));
+      setTriggerOnce(false);
+    }
+  }, [eventList, isTriggerOnce]);
+
+  const renderData = useMemo(() => {
+    if (filteredEvent?.length) return filteredEvent;
+  }, [filteredEvent]);
+
   return (
     <MainLayout
       header={<EventHeader />}
       headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
-        <Button onClick={onOpen}>
-          <PlusWhiteIcon />
-        </Button>
+        eventList?.length !== 0 ? (
+          <FAB onClick={onOpen}>
+            <PlusWhiteIcon />
+          </FAB>
+        ) : null
       }
     >
-      {data?.length === 0 ? (
+      {eventList?.length === 0 ? (
         <ListContainer center>
           <EmptyEvent onClick={onOpen} />
         </ListContainer>
       ) : (
         <ListContainer>
-          {data?.map(
+          {/* 필터 */}
+          <Flex justifyContent="space-between" alignItems="center" marginBottom="4px">
+            <Flex gap="8px">
+              <label>
+                <A11yInput type="radio" name="filter-chip" ref={comingEvent} defaultChecked={true} />
+                <FilterChip onClick={handleFilterChip(comingEvent)}>다가오는 일정</FilterChip>
+              </label>
+              <label>
+                <A11yInput type="radio" name="filter-chip" ref={pastEvent} />
+                <FilterChip onClick={handleFilterChip(pastEvent)}>지난 일정</FilterChip>
+              </label>
+            </Flex>
+            모든 일정
+          </Flex>
+
+          {/* 일정목록 */}
+          {renderData?.map(
             ({ id, title, start_time: startTime, end_time: endTime, is_all_day: isAllDay, is_annual: isAnnual }) => (
               <ListItem key={id} onClick={handleClickEvent(id)}>
                 <Flex flexDirection="column" gap="8px">
@@ -70,7 +125,16 @@ Event.isProtectedPage = true;
 
 export default Event;
 
-const Button = styled.button`
+const A11yInput = styled.input`
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 0.1rem;
+  height: 0.1rem;
+  white-space: nowrap;
+`;
+
+const FAB = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,6 +143,26 @@ const Button = styled.button`
   border-radius: 50px;
   background-color: ${theme.colors.black};
   filter: drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2));
+`;
+
+const FilterChip = styled.button`
+  display: inline-flex;
+  align-items: flex-start;
+  width: fit-content;
+  padding: 11px 16px;
+  ${theme.textStyles.buttonSmall};
+  border-radius: 100px;
+
+  ${A11yInput} ~ & {
+    background-color: ${theme.colors.white};
+    color: ${theme.colors.grey[3]};
+    border: 1px solid ${theme.colors.grey[3]};
+  }
+
+  ${A11yInput}:checked ~ & {
+    background-color: ${theme.colors.black};
+    color: ${theme.colors.white};
+  }
 `;
 
 const ListContainer = styled.ul<{ center?: boolean }>`
