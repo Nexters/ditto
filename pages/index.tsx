@@ -71,7 +71,7 @@ const RootPage = () => {
   return (
     <MainLayout hideBottomNavigation>
       <Container>
-        <WelcomeMessage>
+        <WelcomeMessage fontSize={'36px'} lineHeight={'1.5'}>
           {invitationInfo ? (
             <>
               <b>{invitationInfo?.users.nickname}</b>님이
@@ -113,9 +113,7 @@ const Container = styled.section`
 `;
 const WelcomeMessage = styled(Heading)`
   padding: 56px 28px 0;
-  font-size: 36px;
   font-weight: 400;
-  line-height: 150%;
   letter-spacing: -0.02em;
   white-space: pre-line;
   text-align: left;
