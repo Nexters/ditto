@@ -57,7 +57,6 @@ const Event: NextPageWithLayout = () => {
       if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(data));
     },
   });
-  console.log(eventList);
 
   const handleClickEvent = (id: number) => () => {
     setMode('update', id);
