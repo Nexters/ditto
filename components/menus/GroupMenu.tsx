@@ -8,8 +8,8 @@ export const GroupMenu = () => {
 
   return (
     <CustomMenu
-      items={groupList?.map(({ id, name }) => ({ id: String(id), name, selected: selectedGroupId === id }))}
-      onClickItem={(id) => setGroupId(Number(id))}
+      items={groupList?.map(({ id, name }) => ({ id, name, selected: selectedGroupId === id }))}
+      onClickItem={setGroupId}
     />
   );
 };
