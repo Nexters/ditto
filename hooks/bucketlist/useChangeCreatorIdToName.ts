@@ -6,8 +6,7 @@ const useChangeCreatorIdToName = () => {
   const { data: memberList } = useFetchMemberList(selectedGroupId);
 
   const changeCreatorIdToName = (creatorId: number) => {
-    if (!memberList) return;
-    const creator = memberList.find((user) => user.id === creatorId);
+    const creator = memberList?.find((user) => user.id === creatorId);
     return creator?.nickname ?? '알 수 없음';
   };
 
