@@ -9,10 +9,12 @@ import {
   updateBucketItem,
 } from '@/lib/supabase/apis/bucketlist';
 import { BUCKET_ITEM_KEY } from '@/utils/const';
+import useCustomToast from '@/hooks/shared/useCustomToast';
 
 export const useMutateBucketItems = () => {
   const queryClient = useQueryClient();
   const { selectedGroupId, user } = useUser();
+  const { openToast } = useCustomToast();
 
   const createBucketItemMutation = useMutation(
     async (item: TCreateBucketItem) => {
@@ -34,9 +36,11 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
+        openToast({ message: '수정되었습니다.', type: 'success' });
         queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
+        openToast({ message: '수정할 수 없습니다.', type: 'error' });
         throw new Error(err.message);
       },
     }
@@ -48,9 +52,11 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
+        openToast({ message: '삭제되었습니다.', type: 'success' });
         queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
+        openToast({ message: '삭제할 수 없습니다.', type: 'error' });
         throw new Error(err.message);
       },
     }

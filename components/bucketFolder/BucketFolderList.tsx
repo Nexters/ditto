@@ -2,11 +2,12 @@ import React, { memo } from 'react';
 import { useFetchBucketFolders } from '@/hooks/bucketlist/useFetchBucketFolders';
 import styled from '@emotion/styled';
 import { BucketFolder } from '@/lib/supabase/type';
-import { Button, useDisclosure } from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 import AddBucketFolderModal from '@/components/modals/bucketList/AddBucketFolderModal';
 import BucketFolderItem from '@/components/bucketFolder/BucketFolderItem';
 import PartialLoader from '@/components/loading/PartialLoader';
 import theme from '@/styles/theme';
+import { PlusWhiteIcon } from '@/components/icons';
 
 const MAX_LIST_LENGTH = 10;
 
@@ -27,7 +28,9 @@ const BucketFolderList = () => {
       {emptyDataLength > 0 &&
         Array.from({ length: emptyDataLength }).map((_, index) => (
           <li key={index}>
-            <AddFolderButton onClick={onOpen}>+</AddFolderButton>
+            <AddFolderButton onClick={onOpen}>
+              <PlusWhiteIcon width={24} height={24} />
+            </AddFolderButton>
           </li>
         ))}
       <AddBucketFolderModal isOpen={isOpen} onClose={onClose} />
@@ -42,12 +45,22 @@ const StyledList = styled.ul`
   padding: 16px 20px;
 `;
 
-const AddFolderButton = styled(Button)`
+const AddFolderButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   background: ${theme.colors.white};
   border: 1px solid ${theme.colors.grey[2]};
   border-radius: 12px;
   height: 70px;
+  cursor: pointer;
+
+  svg {
+    path {
+      stroke: ${theme.colors.grey[4]};
+    }
+  }
 `;
 
 export default memo(BucketFolderList);
