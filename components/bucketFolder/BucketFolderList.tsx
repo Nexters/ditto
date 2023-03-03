@@ -29,7 +29,7 @@ const BucketFolderList = () => {
         Array.from({ length: emptyDataLength }).map((_, index) => (
           <li key={index}>
             <AddFolderButton onClick={onOpen}>
-              <PlusWhiteIcon strokeColor={theme.colors.grey[4]} width={24} height={24} />
+              <PlusWhiteIcon width={24} height={24} />
             </AddFolderButton>
           </li>
         ))}
@@ -54,6 +54,13 @@ const AddFolderButton = styled.div`
   border: 1px solid ${theme.colors.grey[2]};
   border-radius: 12px;
   height: 70px;
+  cursor: pointer;
+
+  svg {
+    path {
+      stroke: ${theme.colors.grey[4]};
+    }
+  }
 `;
 
 export default memo(BucketFolderList);
