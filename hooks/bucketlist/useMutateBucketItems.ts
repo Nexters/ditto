@@ -36,11 +36,11 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        openToast({ message: '아이템이 수정되었습니다.', type: 'success' });
+        openToast({ message: '수정되었습니다.', type: 'success' });
         queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
-        openToast({ message: '아이템을 수정할 수 없습니다.', type: 'error' });
+        openToast({ message: '수정할 수 없습니다.', type: 'error' });
         throw new Error(err.message);
       },
     }
@@ -52,11 +52,11 @@ export const useMutateBucketItems = () => {
     },
     {
       onSuccess: () => {
-        openToast({ message: '아이템이 삭제되었습니다.', type: 'success' });
+        openToast({ message: '삭제되었습니다.', type: 'success' });
         queryClient.invalidateQueries(BUCKET_ITEM_KEY.all);
       },
       onError: (err: any) => {
-        openToast({ message: '아이템을 삭제할 수 없습니다.', type: 'error' });
+        openToast({ message: '삭제할 수 없습니다.', type: 'error' });
         throw new Error(err.message);
       },
     }

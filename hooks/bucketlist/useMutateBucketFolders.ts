@@ -20,7 +20,7 @@ export const useMutateBucketFolders = () => {
         queryClient.invalidateQueries(BUCKET_FOLDER_KEY.all);
       },
       onError: (err: any) => {
-        openToast({ message: '폴더를 추가할 수 없습니ㄷ', type: 'error' });
+        openToast({ message: '폴더를 추가할 수 없습니다.', type: 'error' });
         throw new Error(err.message);
       },
     }
