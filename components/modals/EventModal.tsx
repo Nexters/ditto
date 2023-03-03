@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Box, Button, Flex, ModalBody, ModalFooter, ModalHeader, Switch, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
@@ -120,17 +120,27 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
     if (selectedEventId) deleteEvent(selectedEventId);
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     resetMode();
     onClose();
-  };
+  }, [onClose, resetMode]);
 
-  const handleEscapeKeyDown = (e: KeyboardEvent<HTMLFormElement>) => {
-    if (e.code === 'Escape') closeModal();
-  };
+  const handleEscapeKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === 'Escape') closeModal();
+    },
+    [closeModal]
+  );
+
+  useEffect(() => {
+    addEventListener('keydown', handleEscapeKeyDown);
+    return () => {
+      removeEventListener('keydown', handleEscapeKeyDown);
+    };
+  }, [handleEscapeKeyDown]);
 
   return (
-    <Form onSubmit={handleSubmit} onKeyDown={handleEscapeKeyDown}>
+    <Form onSubmit={handleSubmit}>
       <ModalHeader padding="14px 18px 0 18px">
         <CloseIcon width={18} height={18} cursor="pointer" onClick={closeModal} />
       </ModalHeader>
