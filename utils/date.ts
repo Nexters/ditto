@@ -1,4 +1,4 @@
-import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds } from 'date-fns';
+import { formatISO, getMonth, getDate, format, sub, differenceInMilliseconds, isToday } from 'date-fns';
 
 export const eventDateForView = (isAllDay: boolean, date?: string) => {
   return isAllDay
@@ -63,3 +63,7 @@ export const differenceInMilisecondsFromNow = (date: string) =>
     // 현재 시간
     new Date(formatISO(new Date()).slice(0, -6))
   );
+
+export const today = (startDate: string, endDate: string) => {
+  return isToday(new Date(startDate)) || isToday(new Date(endDate));
+};
