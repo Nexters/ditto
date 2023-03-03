@@ -11,6 +11,7 @@ import { SplashPage } from '@/components/loading/SplashPage';
 import Fonts from '@/styles/Font';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCalcViewHeight } from '@/hooks/shared/useCalcViewHeight';
+import Script from 'next/script';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -60,6 +61,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"
         />
       </Head>
+      <Script strategy="lazyOnload" src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js" />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
