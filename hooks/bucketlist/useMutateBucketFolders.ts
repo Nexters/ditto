@@ -16,11 +16,11 @@ export const useMutateBucketFolders = () => {
     },
     {
       onSuccess: () => {
-        openToast({ message: '폴더가 생성되었습니다.', type: 'success' });
+        openToast({ message: '새로운 폴더가 추가되었습니다.', type: 'success' });
         queryClient.invalidateQueries(BUCKET_FOLDER_KEY.all);
       },
       onError: (err: any) => {
-        openToast({ message: '폴더를 생성할 수 없습니다.', type: 'error' });
+        openToast({ message: '폴더를 추가할 수 없습니ㄷ', type: 'error' });
         throw new Error(err.message);
       },
     }
