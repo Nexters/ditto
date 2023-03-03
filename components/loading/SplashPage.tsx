@@ -1,3 +1,4 @@
+import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { SplashLogoIcon, SplashLogoTextIcon } from '../icons';
 
@@ -22,4 +23,5 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 40px;
+  background-color: ${theme.colors.white};
 `;

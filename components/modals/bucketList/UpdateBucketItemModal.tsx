@@ -13,6 +13,7 @@ import { useFetchBucketFolderById } from '@/hooks/bucketlist/useFetchBucketFolde
 import { TBucketItem } from '@/lib/supabase/type';
 import { formatCreationDate } from '@/utils/date';
 import useChangeCreatorIdToName from '@/hooks/bucketlist/useChangeCreatorIdToName';
+import { MAX_LENGTH__BUCKETLIST_ITEM_DESCRIPTION, MAX_LENGTH__BUCKETLIST_ITEM_TITLE } from '@/utils/const';
 
 interface UpdateBucketItemModalProps {
   isOpen: boolean;
@@ -32,6 +33,14 @@ const UpdateBucketItemModal = ({ isOpen, onClose, bucketItem }: UpdateBucketItem
 
     const { data: folder, isLoading } = useFetchBucketFolderById(folderId);
     const { changeCreatorIdToName } = useChangeCreatorIdToName();
+
+    const handleChangeTitle = (nextTitle: string) => {
+      setItemTitle(nextTitle.slice(0, MAX_LENGTH__BUCKETLIST_ITEM_TITLE));
+    };
+
+    const handleChangeDesc = (nextDesc: string) => {
+      setItemTitle(nextDesc.slice(0, MAX_LENGTH__BUCKETLIST_ITEM_DESCRIPTION));
+    };
 
     const handleClickEditButton = () => {
       updateBucketItem(
@@ -71,9 +80,8 @@ const UpdateBucketItemModal = ({ isOpen, onClose, bucketItem }: UpdateBucketItem
             placeholder={'제목을 입력하세요'}
             height={94}
             value={itemTitle}
-            onChange={(e) => {
-              setItemTitle(e.target.value);
-            }}
+            maxLength={MAX_LENGTH__BUCKETLIST_ITEM_TITLE}
+            onChange={(e) => handleChangeTitle(e.target.value)}
           />
           <Divider borderWidth={4} borderColor={'divider'} />
           <Box padding={'20px'}>
@@ -81,9 +89,8 @@ const UpdateBucketItemModal = ({ isOpen, onClose, bucketItem }: UpdateBucketItem
               placeholder={'설명을 입력하세요'}
               height={73}
               value={itemDesc ?? ''}
-              onChange={(e) => {
-                setItemDesc(e.target.value);
-              }}
+              maxLength={MAX_LENGTH__BUCKETLIST_ITEM_DESCRIPTION}
+              onChange={(e) => handleChangeDesc(e.target.value)}
             />
           </Box>
           <CreatorText>

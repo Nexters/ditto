@@ -8,6 +8,7 @@ import useCustomToast from '@/hooks/shared/useCustomToast';
 import { useMutateCreateGroup } from '@/hooks/group/useMutateCreateGroup';
 import theme from '@/styles/theme';
 import { useRouter } from 'next/router';
+import { MAX_LENGTH__GROUP_NAME } from '@/utils/const';
 
 interface CreateGroupModalProps {
   isOpen: boolean;
@@ -24,6 +25,9 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
 
   const disabledToCreate = groupName.trim().length === 0;
 
+  const handleChangeTitle = (input: string) => {
+    setGroupName(input.slice(0, MAX_LENGTH__GROUP_NAME));
+  };
   const handleClickCreateButton = async () => {
     if (!user) return;
     if (disabledToCreate) return;
@@ -46,7 +50,8 @@ const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
       <ContentTextarea
         placeholder="그룹명을 입력하세요"
         value={groupName}
-        onChange={(e) => setGroupName(e.target.value)}
+        maxLength={MAX_LENGTH__GROUP_NAME}
+        onChange={(e) => handleChangeTitle(e.target.value)}
       />
 
       <Flex padding={'34px 0 8px'} justifyContent={'flex-end'}>

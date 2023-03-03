@@ -15,6 +15,7 @@ import { CloseIcon, TrashCanIcon } from '../icons';
 import { pickFirst } from '@/utils/array';
 import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
+import { MAX_LENGTH__EVENT_DESCRIPTION, MAX_LENGTH__EVENT_TITLE } from '@/utils/const';
 
 interface ModalContentProps {
   onClose: () => void;
@@ -80,12 +81,12 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
 
   const handleChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
-    setTitle(value);
+    setTitle(value.slice(0, MAX_LENGTH__EVENT_TITLE));
   };
 
   const handleChangeDescription = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
-    setDescription(value);
+    setDescription(value.slice(0, MAX_LENGTH__EVENT_DESCRIPTION));
   };
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
@@ -136,6 +137,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
       </ModalHeader>
       <TitleTextarea
         placeholder="제목을 입력하세요"
+        maxLength={MAX_LENGTH__EVENT_TITLE}
         onChange={handleChangeTitle}
         value={title}
         padding="13px 20px !important"
@@ -172,6 +174,7 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
         </Flex>
         <ContentTextarea
           placeholder="설명을 입력하세요 (선택)"
+          maxLength={MAX_LENGTH__EVENT_DESCRIPTION}
           height={68}
           marginTop="12px"
           onChange={handleChangeDescription}

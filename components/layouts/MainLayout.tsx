@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import BottomNavigation, { BOTTOM_NAV_HEIGHT } from './BottomNavigation';
+import theme from '@/styles/theme';
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -31,9 +32,10 @@ const MainLayout = ({
 
 const MainContainer = styled.main`
   position: relative;
-  max-width: 420px;
+  max-width: 480px;
   min-height: calc(var(--vh, 1vh) * 100);
   margin: 0 auto;
+  background-color: ${theme.colors.white};
 `;
 
 const MainSection = styled.section<{ headerHeight: number; bottomNavHeight: number }>`
