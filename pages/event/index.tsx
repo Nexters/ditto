@@ -38,9 +38,18 @@ const EventFilterMenuList = [
 ] as const;
 
 // 다가오는 일정
-const filterByComingEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) > 0);
+const filterByComingEvent = (data: Event[]) =>
+  data?.filter((v) => {
+    if (today(v.start_time, v.end_time) && v.is_all_day) return true;
+    return differenceInMilisecondsFromNow(v.end_time) > 0;
+  });
+
 // 지난 일정
-const filterByPastEvent = (data: Event[]) => data?.filter((v) => differenceInMilisecondsFromNow(v.end_time) <= 0);
+const filterByPastEvent = (data: Event[]) =>
+  data?.filter((v) => {
+    if (today(v.start_time, v.end_time) && v.is_all_day) return false;
+    return differenceInMilisecondsFromNow(v.end_time) <= 0;
+  });
 
 const Event: NextPageWithLayout = () => {
   const comingEvent = useRef<HTMLInputElement>(null);
