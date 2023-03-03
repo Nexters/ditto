@@ -45,6 +45,7 @@ const filterByPastEvent = (data: Event[]) => data?.filter((v) => differenceInMil
 const Event: NextPageWithLayout = () => {
   const comingEvent = useRef<HTMLInputElement>(null);
   const pastEvent = useRef<HTMLInputElement>(null);
+  const [isCreateFirstEvent, setCreateFirstEvent] = useState(false);
   const [isTriggerOnce, setTriggerOnce] = useState(true);
   const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -107,7 +108,12 @@ const Event: NextPageWithLayout = () => {
     >
       {eventList?.length === 0 ? (
         <ListContainer center>
-          <EmptyEvent onClick={onOpen} />
+          <EmptyEvent
+            onClick={() => {
+              onOpen();
+              setCreateFirstEvent(true);
+            }}
+          />
         </ListContainer>
       ) : (
         <ListContainer>
@@ -154,7 +160,12 @@ const Event: NextPageWithLayout = () => {
         </ListContainer>
       )}
 
-      <EventModal isOpen={isOpen} onClose={onClose} />
+      <EventModal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCreateFirst={isCreateFirstEvent}
+        resetCreateFirstEvent={() => setCreateFirstEvent(false)}
+      />
     </MainLayout>
   );
 };

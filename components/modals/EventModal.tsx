@@ -15,15 +15,18 @@ import { CloseIcon, TrashCanIcon } from '../icons';
 import { pickFirst } from '@/utils/array';
 import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
+// import { jsConfetti } from '@/lib/confetti/index';
 
 interface ModalContentProps {
   onClose: () => void;
+  isCreateFirst: boolean;
+  resetCreateFirstEvent: () => void;
 }
 
 /**
  * 일정 추가, 수정 모달
  */
-const ModalContent = ({ onClose }: ModalContentProps) => {
+const ModalContent = ({ onClose, isCreateFirst, resetCreateFirstEvent }: ModalContentProps) => {
   // 일정 추가 관련
   const [isAllDay, setAllDay, toggleAllDay] = useSwitchState();
   const [isAnnual, setAnnual, toggleAnnual] = useSwitchState();
@@ -34,7 +37,18 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const [endDate, setEndDate] = useState(eventDateForView(isAllDay));
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent({
-    onSuccess: () => onClose(),
+    onSuccess: () => {
+      onClose();
+      if (isCreateFirst) {
+        console.log('asd');
+        async () => {
+          const jsConfetti = await import('js-confetti').then((v) => v.default);
+          await new jsConfetti().addConfetti();
+        };
+
+        resetCreateFirstEvent;
+      }
+    },
   });
 
   // 일정 수정 관련
@@ -202,12 +216,24 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   );
 };
 
-const EventModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
+const EventModal = ({
+  isOpen,
+  onClose,
+  isCreateFirst,
+  resetCreateFirstEvent,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  isCreateFirst: boolean;
+  resetCreateFirstEvent: () => void;
+}) => (
   <BaseModal
     isOpen={isOpen}
     onClose={onClose}
     closeOnOverlayClick={false}
-    modalContent={<ModalContent onClose={onClose} />}
+    modalContent={
+      <ModalContent onClose={onClose} isCreateFirst={isCreateFirst} resetCreateFirstEvent={resetCreateFirstEvent} />
+    }
     width={300}
     height={512}
   />
