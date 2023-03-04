@@ -20,14 +20,14 @@ import { showConfetti } from '@/lib/confetti';
 
 interface ModalContentProps {
   onClose: () => void;
-  isCreateFirst: boolean;
-  resetCreateFirstEvent: () => void;
+  isFirstCreatedEvent: boolean;
+  resetFirstCreatedEvent: () => void;
 }
 
 /**
  * 일정 추가, 수정 모달
  */
-const ModalContent = ({ onClose, isCreateFirst, resetCreateFirstEvent }: ModalContentProps) => {
+const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: ModalContentProps) => {
   // 일정 추가 관련
   const [isAllDay, setAllDay, toggleAllDay] = useSwitchState();
   const [isAnnual, setAnnual, toggleAnnual] = useSwitchState();
@@ -40,9 +40,9 @@ const ModalContent = ({ onClose, isCreateFirst, resetCreateFirstEvent }: ModalCo
   const { mutate: createEvent } = useCreateEvent({
     onSuccess: () => {
       onClose();
-      if (isCreateFirst) {
+      if (isFirstCreatedEvent) {
         showConfetti();
-        resetCreateFirstEvent();
+        resetFirstCreatedEvent();
       }
     },
   });
@@ -217,20 +217,24 @@ const ModalContent = ({ onClose, isCreateFirst, resetCreateFirstEvent }: ModalCo
 const EventModal = ({
   isOpen,
   onClose,
-  isCreateFirst,
-  resetCreateFirstEvent,
+  isFirstCreatedEvent,
+  resetFirstCreatedEvent,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  isCreateFirst: boolean;
-  resetCreateFirstEvent: () => void;
+  isFirstCreatedEvent: boolean;
+  resetFirstCreatedEvent: () => void;
 }) => (
   <BaseModal
     isOpen={isOpen}
     onClose={onClose}
     closeOnOverlayClick={false}
     modalContent={
-      <ModalContent onClose={onClose} isCreateFirst={isCreateFirst} resetCreateFirstEvent={resetCreateFirstEvent} />
+      <ModalContent
+        onClose={onClose}
+        isFirstCreatedEvent={isFirstCreatedEvent}
+        resetFirstCreatedEvent={resetFirstCreatedEvent}
+      />
     }
     width={300}
     height={512}
