@@ -3,12 +3,17 @@ import React from 'react';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import styled from '@emotion/styled';
 import theme from '@/styles/theme';
+import { MAX_LENGTH__BUCKETLIST_ITEM_TITLE } from '@/utils/const';
 
 const BucketItemInput = ({ folderId }: { folderId: number }) => {
   const { createBucketItemMutation } = useMutateBucketItems();
   const { mutate: createBucket } = createBucketItemMutation;
 
   const [itemTitle, setItemTitle] = React.useState<string>('');
+
+  const handleChangeTitle = (nextTitle: string) => {
+    setItemTitle(nextTitle.slice(0, MAX_LENGTH__BUCKETLIST_ITEM_TITLE));
+  };
 
   const handleClick = () => {
     if (!itemTitle) return;
@@ -32,8 +37,9 @@ const BucketItemInput = ({ folderId }: { folderId: number }) => {
     <InputGroup size="lg" marginTop={'12px'}>
       <StyledInput
         placeholder="이 곳에 입력해보세요."
+        maxLength={MAX_LENGTH__BUCKETLIST_ITEM_TITLE}
         value={itemTitle}
-        onChange={(e) => setItemTitle(e.target.value)}
+        onChange={(e) => handleChangeTitle(e.target.value)}
         focusBorderColor={'primary'}
       />
       <InputRightElement width="4.5rem">

@@ -1,10 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { ModalFooter, ModalBody } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import ContentTextarea from '@/components/inputs/ContentTextarea';
 import BaseButton from '@/components/buttons/BaseButton';
 import { useMutateBucketFolders } from '@/hooks/bucketlist/useMutateBucketFolders';
 import FolderLabel from '@/components/modals/bucketList/FolderLabel';
+import { MAX_LENGTH__BUCKETLIST_FOLDER_NAME } from '@/utils/const';
 
 interface AddBucketFolderModalProps {
   isOpen: boolean;
@@ -18,6 +19,9 @@ const AddBucketFolderModal = ({ isOpen, onClose }: AddBucketFolderModalProps) =>
     const { createBucketFolderMutation } = useMutateBucketFolders();
     const { mutate: createBucketFolder } = createBucketFolderMutation;
 
+    const handleChangeTitle = (input: string) => {
+      setFolderName(input.slice(0, MAX_LENGTH__BUCKETLIST_FOLDER_NAME));
+    };
     const handleClickAddButton = () => {
       createBucketFolder(
         {
@@ -39,9 +43,8 @@ const AddBucketFolderModal = ({ isOpen, onClose }: AddBucketFolderModalProps) =>
           <ContentTextarea
             placeholder={'폴더명을 입력하세요'}
             value={folderName}
-            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
-              setFolderName(e.target.value);
-            }}
+            maxLength={MAX_LENGTH__BUCKETLIST_FOLDER_NAME}
+            onChange={(e) => handleChangeTitle(e.target.value)}
           />
         </ModalBody>
         <ModalFooter>
