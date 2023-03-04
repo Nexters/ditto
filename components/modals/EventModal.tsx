@@ -16,15 +16,18 @@ import { pickFirst } from '@/utils/array';
 import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
 import { MAX_LENGTH__EVENT_DESCRIPTION, MAX_LENGTH__EVENT_TITLE } from '@/utils/const';
+import { showConfetti } from '@/lib/confetti';
 
 interface ModalContentProps {
   onClose: () => void;
+  isFirstCreatedEvent: boolean;
+  resetFirstCreatedEvent: () => void;
 }
 
 /**
  * 일정 추가, 수정 모달
  */
-const ModalContent = ({ onClose }: ModalContentProps) => {
+const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: ModalContentProps) => {
   // 일정 추가 관련
   const [isAllDay, setAllDay, toggleAllDay] = useSwitchState();
   const [isAnnual, setAnnual, toggleAnnual] = useSwitchState();
@@ -35,7 +38,13 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   const [endDate, setEndDate] = useState(eventDateForView(isAllDay));
   const { user, selectedGroupId } = useUser();
   const { mutate: createEvent } = useCreateEvent({
-    onSuccess: () => onClose(),
+    onSuccess: () => {
+      onClose();
+      if (isFirstCreatedEvent) {
+        showConfetti();
+        resetFirstCreatedEvent();
+      }
+    },
   });
 
   // 일정 수정 관련
@@ -215,12 +224,28 @@ const ModalContent = ({ onClose }: ModalContentProps) => {
   );
 };
 
-const EventModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
+const EventModal = ({
+  isOpen,
+  onClose,
+  isFirstCreatedEvent,
+  resetFirstCreatedEvent,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  isFirstCreatedEvent: boolean;
+  resetFirstCreatedEvent: () => void;
+}) => (
   <BaseModal
     isOpen={isOpen}
     onClose={onClose}
     closeOnOverlayClick={false}
-    modalContent={<ModalContent onClose={onClose} />}
+    modalContent={
+      <ModalContent
+        onClose={onClose}
+        isFirstCreatedEvent={isFirstCreatedEvent}
+        resetFirstCreatedEvent={resetFirstCreatedEvent}
+      />
+    }
     width={300}
     height={512}
   />

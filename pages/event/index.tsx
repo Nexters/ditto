@@ -54,6 +54,7 @@ const filterByPastEvent = (data: Event[]) =>
 const Event: NextPageWithLayout = () => {
   const comingEvent = useRef<HTMLInputElement>(null);
   const pastEvent = useRef<HTMLInputElement>(null);
+  const [isFirstCreatedEvent, setFirstCreatedEvent] = useState(false);
   const [isTriggerOnce, setTriggerOnce] = useState(true);
   const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -83,6 +84,8 @@ const Event: NextPageWithLayout = () => {
       setFilterEvent(filterByPastEvent(eventList ?? []));
     }
   };
+
+  const resetFirstCreatedEvent = () => setFirstCreatedEvent(false);
 
   useEffect(() => {
     if (eventList && isTriggerOnce) {
@@ -116,7 +119,12 @@ const Event: NextPageWithLayout = () => {
     >
       {eventList?.length === 0 ? (
         <ListContainer center>
-          <EmptyEvent onClick={onOpen} />
+          <EmptyEvent
+            onClick={() => {
+              onOpen();
+              setFirstCreatedEvent(true);
+            }}
+          />
         </ListContainer>
       ) : (
         <ListContainer>
@@ -163,7 +171,12 @@ const Event: NextPageWithLayout = () => {
         </ListContainer>
       )}
 
-      <EventModal isOpen={isOpen} onClose={onClose} />
+      <EventModal
+        isOpen={isOpen}
+        onClose={onClose}
+        isFirstCreatedEvent={isFirstCreatedEvent}
+        resetFirstCreatedEvent={resetFirstCreatedEvent}
+      />
     </MainLayout>
   );
 };
