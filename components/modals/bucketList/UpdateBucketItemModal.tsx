@@ -39,7 +39,7 @@ const UpdateBucketItemModal = ({ isOpen, onClose, bucketItem }: UpdateBucketItem
     };
 
     const handleChangeDesc = (nextDesc: string) => {
-      setItemTitle(nextDesc.slice(0, MAX_LENGTH__BUCKETLIST_ITEM_DESCRIPTION));
+      setItemDesc(nextDesc.slice(0, MAX_LENGTH__BUCKETLIST_ITEM_DESCRIPTION));
     };
 
     const handleClickEditButton = () => {
