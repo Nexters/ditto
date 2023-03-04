@@ -85,6 +85,8 @@ const Event: NextPageWithLayout = () => {
     }
   };
 
+  const resetCreateFirstEvent = () => setCreateFirstEvent(false);
+
   useEffect(() => {
     if (eventList && isTriggerOnce) {
       setFilterEvent(filterByComingEvent(eventList ?? []));
@@ -173,7 +175,7 @@ const Event: NextPageWithLayout = () => {
         isOpen={isOpen}
         onClose={onClose}
         isCreateFirst={isCreateFirstEvent}
-        resetCreateFirstEvent={() => setCreateFirstEvent(false)}
+        resetCreateFirstEvent={resetCreateFirstEvent}
       />
     </MainLayout>
   );

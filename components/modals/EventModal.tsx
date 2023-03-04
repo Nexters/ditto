@@ -16,6 +16,7 @@ import { pickFirst } from '@/utils/array';
 import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
 import { MAX_LENGTH__EVENT_DESCRIPTION, MAX_LENGTH__EVENT_TITLE } from '@/utils/const';
+import { showConfetti } from '@/lib/confetti';
 
 interface ModalContentProps {
   onClose: () => void;
@@ -40,13 +41,8 @@ const ModalContent = ({ onClose, isCreateFirst, resetCreateFirstEvent }: ModalCo
     onSuccess: () => {
       onClose();
       if (isCreateFirst) {
-        console.log('asd');
-        async () => {
-          // const jsConfetti = await import('js-confetti').then((v) => v.default);
-          // await new jsConfetti().addConfetti();
-        };
-
-        resetCreateFirstEvent;
+        showConfetti();
+        resetCreateFirstEvent();
       }
     },
   });
