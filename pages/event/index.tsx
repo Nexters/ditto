@@ -88,9 +88,10 @@ const Event: NextPageWithLayout = () => {
   const resetFirstCreatedEvent = () => setFirstCreatedEvent(false);
 
   useEffect(() => {
-    if (eventList && isTriggerOnce) {
-      setFilterEvent(filterByComingEvent(eventList ?? []));
-      setTriggerOnce(false);
+    if (eventList) {
+      if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(eventList));
+      if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(eventList));
+      if (isTriggerOnce) setTriggerOnce(false);
     }
   }, [eventList, isTriggerOnce]);
 
