@@ -1,27 +1,24 @@
 import { createEvent } from '@/lib/supabase/apis/event';
 import { CreateEventType } from '@/lib/supabase/apis/event/type';
+import { EVENT_KEY } from '@/utils/const';
 import { useMutation, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
-
-export const EVENT_KEY = {
-  all: ['event'],
-  allByGroupId: (currentGroupId: number) => [...EVENT_KEY.all, currentGroupId],
-  eventById: (eventId: number) => [...EVENT_KEY.all, eventId],
-} as const;
+import useCustomToast from '../shared/useCustomToast';
 
 export const useCreateEvent = (options?: UseQueryOptions<void, Error>) => {
   const queryClient = useQueryClient();
+  const { openToast } = useCustomToast();
   return useMutation(
     async (params: CreateEventType) => {
       await createEvent(params);
     },
     {
       onSuccess: (data) => {
-        queryClient.invalidateQueries(EVENT_KEY.all);
+        queryClient.invalidateQueries({ queryKey: EVENT_KEY.lists() });
         options?.onSuccess?.(data);
-        // TODO: 일정 추가 완료 토스트 띄우기
+        openToast({ message: '일정이 생성되었습니다.', type: 'success' });
       },
       onError: () => {
-        // TODO: 일정 추가 에러 토스트 띄우기
+        openToast({ message: '일정 생성에 실패했습니다. 화면을 새로고침해주세요', type: 'error' });
       },
     }
   );

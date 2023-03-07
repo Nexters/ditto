@@ -33,7 +33,7 @@ const BucketItemList = () => {
 };
 
 const ListWrapper = styled.ul`
-  min-height: calc(100vh - 430px);
+  min-height: calc(100vh - 435px);
 `;
 
 export default memo(BucketItemList);

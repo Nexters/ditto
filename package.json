@@ -28,6 +28,7 @@
     "eslint": "^8.32.0",
     "eslint-config-next": "13.1.2",
     "framer-motion": "^8.5.2",
+    "js-confetti": "^0.11.0",
     "nanoid": "^4.0.1",
     "next": "13.1.2",
     "query-string": "^8.1.0",
@@ -49,8 +50,11 @@
     "prettier": "^2.8.3"
   },
   "lint-staged": {
-    "*.tsx": "eslint --fix",
-    "*.ts": "eslint --fix"
+    "**/*.{tsx,ts,jsx,js}": [
+      "eslint --fix",
+      "prettier --write",
+      "bash -c tsc --noEmit"
+    ]
   },
   "dependenciesMeta": {
     "eslint@8.31.0": {

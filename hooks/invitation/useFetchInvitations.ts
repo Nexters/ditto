@@ -1,4 +1,5 @@
 import { createInvitation, getInvitationsByUserId } from '@/lib/supabase/apis/invitation';
+import { INVITATION_KEY } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
 
 /**
@@ -6,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
  */
 export const useFetchInvitations = (user_id?: number, group_id?: number | null) => {
   return useQuery(
-    ['useFetchInvitations', user_id, group_id],
+    INVITATION_KEY.list([user_id, group_id]),
     async () => {
       if (!user_id || !group_id) throw 'invalid params';
       const invitations = await getInvitationsByUserId(user_id, group_id);

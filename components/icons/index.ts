@@ -1,3 +1,4 @@
+export { default as ArrowRightIcon } from './ArrowRightIcon';
 export { default as ArrowRightIcon20 } from './ArrowRightIcon20';
 export { default as ArrowRightIcon32 } from './ArrowRightIcon32';
 export { default as BlackDownIcon } from './BlackDownIcon';
@@ -16,6 +17,7 @@ export { default as LoginChecklistIcon } from './LoginChecklistIcon';
 export { default as LoginInvitationIcon } from './LoginInvitationIcon';
 export { default as MainLogoIcon } from './MainLogoIcon';
 export { default as PawIcon } from './PawIcon';
+export { default as PawIconPrimaryColor } from './PawIconPrimaryColor';
 export { default as PlusWhiteIcon } from './PlusWhiteIcon';
 export { default as RabbitWithCakeIcon } from './RabbitWithCakeIcon';
 export { default as RabbitWithCarIcon } from './RabbitWithCarIcon';

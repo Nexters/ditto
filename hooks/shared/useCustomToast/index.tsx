@@ -9,7 +9,7 @@ export const useCustomToast = () => {
 
   const openToast = ({ message, type }: CustomToastProps) => {
     return toast({
-      position: 'top',
+      position: 'bottom',
       duration: TOAST_DURATION,
       render: () => <Toast message={message} type={type} />,
     });

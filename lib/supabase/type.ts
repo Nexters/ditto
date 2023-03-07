@@ -4,7 +4,7 @@ export type User = Database['public']['Tables']['users']['Row'];
 
 export type BucketFolder = Database['public']['Tables']['bucket_folders']['Row'];
 
-export type BucketItem = Database['public']['Tables']['bucket_items']['Row'];
+export type TBucketItem = Database['public']['Tables']['bucket_items']['Row'];
 
 type EventRow = Database['public']['Tables']['events']['Row'];
 

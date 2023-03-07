@@ -25,7 +25,8 @@ export const useUser = create<UserState>((set) => ({
       const user: User | null = (await res.json())?.data?.user;
       if (!user) throw 'empty user info';
       // @note: authorized 유저만 supabase를 직접 호출할 때 원하는 데이터를 얻을 수 있음.
-      await supabase.auth.signInWithPassword(createCredentials(user.id, user.oauth_id));
+      const { error } = await supabase.auth.signInWithPassword(createCredentials(user.id, user.oauth_id));
+      if (error) throw error;
 
       // @note: 속한 그룹 중 하나를 선택한다. 최근에 방문한 그룹 정보가 있다면 그걸 선택한다.
       const groupList = await getJoinedGroupList(user.id);

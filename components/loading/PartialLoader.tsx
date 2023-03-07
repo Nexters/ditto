@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 const PartialLoader = () => {
   return (
     <SpinnerWrapper>
-      <Spinner />
+      <Spinner color={'grey.1'} />
     </SpinnerWrapper>
   );
 };

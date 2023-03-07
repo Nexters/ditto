@@ -9,7 +9,7 @@ import { MemberItem } from './MemberItem';
 
 export const MemberList = () => {
   const { user, selectedGroupId } = useUser();
-  const { data } = useFetchMemberList(user, selectedGroupId);
+  const { data } = useFetchMemberList(selectedGroupId);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (!user) return null;
@@ -18,9 +18,12 @@ export const MemberList = () => {
       <MemberListWrap>
         <MemberListHeader>멤버 리스트</MemberListHeader>
         <MemberItem key={user.id} nickname={user.nickname} profileImage={user.profile_image} isMe />
-        {data?.map((member) => (
-          <MemberItem key={member.id} nickname={member.nickname} profileImage={member.profile_image} />
-        ))}
+        {/* @note: 나 자신은 이미 가져온 정보를 활용한다. */}
+        {data
+          ?.filter((member) => member.id !== user.id)
+          .map((member) => (
+            <MemberItem key={member.id} nickname={member.nickname} profileImage={member.profile_image} />
+          ))}
         <InviteMemberButton onClick={onOpen}>멤버 초대하기</InviteMemberButton>
       </MemberListWrap>
 

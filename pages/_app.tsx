@@ -22,7 +22,23 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-  const [queryClient] = useState(() => new QueryClient());
+  // ref: https://tech.kakao.com/2022/06/13/react-query/
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            useErrorBoundary: true,
+            retry: 0,
+            refetchOnMount: false,
+            keepPreviousData: true,
+          },
+          mutations: {
+            useErrorBoundary: true,
+          },
+        },
+      })
+  );
   const getLayout = Component.getLayout ?? ((page) => page);
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
 

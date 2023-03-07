@@ -25,6 +25,7 @@ const ToastWrapper = styled(Box)`
   align-items: center;
   gap: 10px;
   padding: 14px 16px;
+  margin-bottom: 77px;
 `;
 
 export default Toast;
