@@ -30,9 +30,7 @@ export const differenceInMilisecondsFromNow = (date: string) =>
     new Date(formatISO(new Date()).slice(0, -6))
   );
 
-export const today = (startDate: string, endDate: string) => {
-  return isToday(new Date(startDate)) || isToday(new Date(endDate));
-};
+export const today = (startDate: string, endDate: string) => isToday(new Date(startDate)) || isToday(new Date(endDate));
 
 // MM월 dd일
 const formatToMMdd = (date?: string) => {
@@ -48,17 +46,21 @@ const formatToHHmm = (date?: string) => {
 
 const eventFormat = (targetDate: string) => `${formatToMMdd(targetDate)} ${formatToHHmm(targetDate)}`;
 
+const isEqualHHmm = (startDate: string, endDate: string) =>
+  format(new Date(startDate), 'HH:mm') === format(new Date(endDate), 'HH:mm');
+
+const isEqualMMdd = (startDate: string, endDate: string) =>
+  format(new Date(startDate), 'MM dd') === format(new Date(endDate), 'MM dd');
+
 export const changedToEventDate = (isAllDay: boolean, startDate: string, endDate: string) => {
   const changedToMMdd = eventFormat(startDate);
   const changedToHHmm = eventFormat(endDate);
 
-  if (isAllDay && format(new Date(startDate), 'HH:mm') === format(new Date(endDate), 'HH:mm')) {
-    if (format(new Date(startDate), 'MM dd') === format(new Date(endDate), 'MM dd')) {
+  if (isAllDay && isEqualHHmm(startDate, endDate)) {
+    if (isEqualMMdd(startDate, endDate)) {
       return changedToMMdd.slice(0, -5);
-    } else {
-      return `${changedToMMdd.slice(0, -5)} - ${changedToHHmm.slice(0, -5)}`;
     }
+    return `${changedToMMdd.slice(0, -5)} - ${changedToHHmm.slice(0, -5)}`;
   }
-
   return `${changedToMMdd} - ${changedToHHmm}`;
 };
