@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ModalMode = 'create' | 'update';
+export type ModalMode = 'create' | 'update';
 interface ChangeModeState {
   mode: ModalMode;
   setMode: (mode: ModalMode, selectedEventId: number | undefined) => void;

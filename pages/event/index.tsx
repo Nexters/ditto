@@ -7,7 +7,7 @@ import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { dateChangeToEventFormat, differenceInMilisecondsFromNow, today } from '@/utils/date';
+import { changedToEventDate, differenceInMilisecondsFromNow, today } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
@@ -153,22 +153,24 @@ const Event: NextPageWithLayout = () => {
           </Flex>
 
           {/* 일정목록 */}
-          {renderData?.map(({ id, title, start_time: startTime, end_time: endTime, is_annual: isAnnual }) => (
-            <ListItem key={id} onClick={handleClickEvent(id)}>
-              <Flex flexDirection="column" gap="8px">
-                <Text textStyle="buttonMedium" color={theme.colors.secondary}>
-                  {title}
-                </Text>
-                <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                  {dateChangeToEventFormat(startTime, endTime)}
-                </Text>
-              </Flex>
-              <Flex>
-                {today(startTime, endTime) && <Chip type="allDay">오늘</Chip>}
-                {isAnnual && <Chip type="annual">매년</Chip>}
-              </Flex>
-            </ListItem>
-          ))}
+          {renderData?.map(
+            ({ id, title, start_time: startTime, end_time: endTime, is_annual: isAnnual, is_all_day: isAllDay }) => (
+              <ListItem key={id} onClick={handleClickEvent(id)}>
+                <Flex flexDirection="column" gap="8px">
+                  <Text textStyle="buttonMedium" color={theme.colors.secondary}>
+                    {title}
+                  </Text>
+                  <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
+                    {changedToEventDate(isAllDay, startTime, endTime)}
+                  </Text>
+                </Flex>
+                <Flex>
+                  {today(startTime, endTime) && <Chip type="allDay">오늘</Chip>}
+                  {isAnnual && <Chip type="annual">매년</Chip>}
+                </Flex>
+              </ListItem>
+            )
+          )}
         </ListContainer>
       )}
 
