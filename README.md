@@ -73,15 +73,16 @@ yarn run dev
   <tbody>
     <tr>
       <td align="center">
-        <a href="">
-          <img src="https://eu.ui-avatars.com/api/?name=Lee-Hyunhee&size=64" alt="이현희" />
+        <a href="https://www.linkedin.com/in/%ED%98%84%ED%9D%AC-%EC%9D%B4-b42316235/">
+          <img src="https://media.licdn.com/dms/image/C5603AQHdUB0Mb9TFfw/profile-displayphoto-shrink_400_400/0/1663760190892?e=1684368000&v=beta&t=D1fiMYCKwzqAJpDrVXlRvYT66TvdqFtA__zR9L9UoCY" alt="이현희"
+          width="64" />
           <br />
           이현희
         </a>
       </td>
       <td align="center">
-        <a href="">
-          <img src="https://eu.ui-avatars.com/api/?name=Choi-Jiwon&size=64" alt="최지원" />
+        <a href="https://www.linkedin.com/in/uxjiwonchoi/">
+          <img src="https://media.licdn.com/dms/image/D4D03AQG-vy2KDdiaUw/profile-displayphoto-shrink_400_400/0/1678610961730?e=1684368000&v=beta&t=5v1i6Vip0STxtOkIqtsoM4XWZbq0k21IBWn61STmOrM" alt="최지원" width="64" />
           <br />
           최지원
         </a>
@@ -102,7 +103,7 @@ yarn run dev
       </td>
       <td align="center">
         <a href="https://github.com/sangbooom">
-          <img src="https://avatars.githubusercontent.com/u/43921054?s=64&v=4" alt="조영도" />
+          <img src="https://avatars.githubusercontent.com/u/43921054?s=64&v=4" alt="박상범" />
           <br />
           박상범
         </a>
