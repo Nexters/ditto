@@ -255,6 +255,11 @@ const ListItem = styled.li`
   border-radius: 12px;
   padding: 16px 15px 19px 16px;
   cursor: pointer;
+  &:hover,
+  &:active {
+    border: 1px solid ${theme.colors.orange};
+    box-shadow: 0px 0px 15px rgba(245, 105, 60, 0.18);
+  }
 `;
 
 const Chip = styled.div<{ type: 'allDay' | 'annual' }>`
