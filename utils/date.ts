@@ -30,7 +30,13 @@ export const differenceInMilisecondsFromNow = (date: string) =>
     new Date(formatISO(new Date()).slice(0, -6))
   );
 
-export const today = (startDate: string, endDate: string) => isToday(new Date(startDate)) || isToday(new Date(endDate));
+export const today = (startDate: string, endDate: string) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const now = new Date();
+  if (start < now && now < end) return true;
+  return isToday(start) || isToday(end);
+};
 
 // MM월 dd일
 const formatToMMdd = (date?: string) => {
