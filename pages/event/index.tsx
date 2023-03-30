@@ -134,11 +134,11 @@ const Event: NextPageWithLayout = () => {
             <Flex gap="8px">
               <label>
                 <A11yInput type="radio" name="filter-chip" ref={comingEvent} defaultChecked={true} />
-                <FilterChip onClick={handleFilterChip(comingEvent)}>다가오는 일정</FilterChip>
+                <FilterChip onClick={handleFilterChip(comingEvent)}>예정된 일정</FilterChip>
               </label>
               <label>
                 <A11yInput type="radio" name="filter-chip" ref={pastEvent} />
-                <FilterChip onClick={handleFilterChip(pastEvent)}>지난 일정</FilterChip>
+                <FilterChip onClick={handleFilterChip(pastEvent)}>완료된 일정</FilterChip>
               </label>
             </Flex>
 
