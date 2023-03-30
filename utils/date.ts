@@ -21,7 +21,7 @@ export const addDays = (date: string | number | Date, days: number) => {
 
 export const formatCreationDate = (date: string) => format(new Date(date), 'yyyy.MM.dd HH:mm');
 
-export const differenceInMilisecondsFromNow = (date: string) => {
+export const differenceInMillisecondsFromNow = (date: string) => {
   return differenceInMilliseconds(new Date(date), new Date());
 };
 

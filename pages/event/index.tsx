@@ -7,7 +7,7 @@ import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { changedToEventDate, differenceInMilisecondsFromNow, today } from '@/utils/date';
+import { changedToEventDate, differenceInMillisecondsFromNow, today } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
@@ -41,14 +41,14 @@ const EventFilterMenuList = [
 const filterByComingEvent = (data: Event[]) =>
   data?.filter((v) => {
     if (today(v.start_time, v.end_time) && v.is_all_day) return true;
-    return differenceInMilisecondsFromNow(v.end_time) > 0;
+    return differenceInMillisecondsFromNow(v.end_time) > 0;
   });
 
 // 지난 일정
 const filterByPastEvent = (data: Event[]) =>
   data?.filter((v) => {
     if (today(v.start_time, v.end_time) && v.is_all_day) return false;
-    return differenceInMilisecondsFromNow(v.end_time) <= 0;
+    return differenceInMillisecondsFromNow(v.end_time) <= 0;
   });
 
 const Event: NextPageWithLayout = () => {
