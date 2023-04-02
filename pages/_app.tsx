@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query
 import { ReactElement, ReactNode, useState } from 'react';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Analytics } from '@vercel/analytics/react';
 import theme from '@/styles/theme';
 import { NextPage } from 'next';
 import ErrorBoundary from '@/components/errors/ErrorBoundary';
@@ -71,6 +72,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-left" />
       </QueryClientProvider>
+      <Analytics />
     </>
   );
 }
