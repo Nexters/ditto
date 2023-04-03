@@ -1,7 +1,7 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { adminApi } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
-import { createICS } from '@/lib/ics/simple';
+import { createEvents } from '@/lib/ics/ical';
 
 export const config = {
   runtime: 'edge',
@@ -17,7 +17,7 @@ const edgeFunction: EdgeFunction = async (req) => {
     if (ext !== 'ics') throw 'ext is not ics';
 
     const { group_name, events } = await adminApi.getAllEventsByGroupUid(uid);
-    const data = createICS(`'${group_name}'의 일정`, events);
+    const data = createEvents(`'${group_name}'의 일정`, events);
 
     return new NextResponse(data, {
       status: 200,
