@@ -1,9 +1,10 @@
+import { makeArray } from '@/utils/array';
 import { createCredentials } from '@/utils/auth';
 import { INVITATION_CODE_LENGTH, SUPABASE_URL } from '@/utils/const';
 import { addDays } from '@/utils/date';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from './schema';
-import { InvitationInfo } from './type';
+import { Event, InvitationInfo } from './type';
 
 // @note: 절대 노출되면 안되는 키
 const secret = process.env.NEXT_PUBLIC_SUPABASE_SECRET as string;
@@ -62,6 +63,17 @@ const getInvitationInfo = async (code: string) => {
   return invitationInfo as InvitationInfo | undefined;
 };
 
+const getAllEventsByGroupUid = async (uid: string) => {
+  const { data, error } = await adminSupabaseClient
+    .from('groups')
+    .select('events (*)')
+    .eq('uid', uid)
+    .eq('is_opened_events', true);
+
+  if (error) throw error;
+  return makeArray(data[0].events) as Event[];
+};
+
 /**
  * @note 오직 server side에서만 호출되어야 함
  */
@@ -70,4 +82,5 @@ export const adminApi = {
   signUpUser,
   updateUserInfo,
   getInvitationInfo,
+  getAllEventsByGroupUid,
 };

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
 export interface Database {
@@ -122,20 +120,26 @@ export interface Database {
         Row: {
           created_time: string;
           id: number;
+          is_opened_events: boolean;
           name: string;
           owner_id: number | null;
+          uid: string;
         };
         Insert: {
           created_time?: string;
           id?: number;
+          is_opened_events?: boolean;
           name: string;
           owner_id?: number | null;
+          uid?: string;
         };
         Update: {
           created_time?: string;
           id?: number;
+          is_opened_events?: boolean;
           name?: string;
           owner_id?: number | null;
+          uid?: string;
         };
       };
       invitations: {
@@ -189,6 +193,9 @@ export interface Database {
       [_ in never]: never;
     };
     Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
       [_ in never]: never;
     };
   };
