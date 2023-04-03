@@ -11,7 +11,7 @@ const BucketItemList = () => {
   const router = useRouter();
   const { folderId } = router.query;
 
-  const { data = [], isLoading } = useFetchBucketItems(Number(folderId));
+  const { data: bucketItems = [], isLoading } = useFetchBucketItems(Number(folderId));
 
   return (
     <>
@@ -21,8 +21,8 @@ const BucketItemList = () => {
           <PartialLoader />
         ) : (
           <>
-            {data?.length === 0 && <EmptyItem />}
-            {data?.map((item) => (
+            {bucketItems?.length === 0 && <EmptyItem />}
+            {bucketItems?.map((item) => (
               <BucketItem key={item.id} item={item} />
             ))}
           </>

@@ -21,16 +21,17 @@ export const addDays = (date: string | number | Date, days: number) => {
 
 export const formatCreationDate = (date: string) => format(new Date(date), 'yyyy.MM.dd HH:mm');
 
-export const differenceInMilisecondsFromNow = (date: string) =>
-  // slice(0, -6)을 해주는 이유는 db에 저장된 +00:00 과 현재 시간으로 포맷팅 했을 때 +09:00의 차이를 없애고 비교하기 위함
-  differenceInMilliseconds(
-    // db에 저장된 시간
-    new Date(date.slice(0, -6)),
-    // 현재 시간
-    new Date(formatISO(new Date()).slice(0, -6))
-  );
+export const differenceInMillisecondsFromNow = (date: string) => {
+  return differenceInMilliseconds(new Date(date), new Date());
+};
 
-export const today = (startDate: string, endDate: string) => isToday(new Date(startDate)) || isToday(new Date(endDate));
+export const today = (startDate: string, endDate: string) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const now = new Date();
+  if (start < now && now < end) return true;
+  return isToday(start) || isToday(end);
+};
 
 // MM월 dd일
 const formatToMMdd = (date?: string) => {

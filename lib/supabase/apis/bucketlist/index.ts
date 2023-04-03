@@ -12,7 +12,7 @@ export const getBucketItems = async (folderId: number) => {
   const { data, error } = await supabase
     .from('bucket_items')
     .select('*')
-    .order('created_time', { ascending: true })
+    .order('created_time', { ascending: false })
     .eq('bucket_folder_id', folderId);
   if (error) throw new Error(error.message);
   return data;
