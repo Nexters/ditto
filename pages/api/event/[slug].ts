@@ -1,7 +1,7 @@
 import { EdgeFunction } from '@/lib/edge/types';
 import { adminApi } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
-import { icsCreateEvents } from '@/lib/ics';
+import { createICS } from '@/lib/ics/simple';
 
 export const config = {
   runtime: 'edge',
@@ -17,7 +17,7 @@ const edgeFunction: EdgeFunction = async (req) => {
     if (ext !== 'ics') throw 'ext is not ics';
 
     const events = await adminApi.getAllEventsByGroupUid(uid);
-    const data = await icsCreateEvents(events);
+    const data = createICS(events);
 
     return new NextResponse(data, {
       status: 200,
