@@ -1,4 +1,5 @@
 import { HOSTING_URL } from '@/utils/const';
+import { nanoid } from 'nanoid';
 import { Event } from '../supabase/type';
 
 const prodId = 'Nexters/ditto';
@@ -25,14 +26,14 @@ const formatDate = (date: string) => {
   return new Date(date).toISOString().replace(/-|:|\.\d+/g, '');
 };
 
-const formatEvent = ({ id, title, description, start_time, end_time, created_time }: Event) => {
+const formatEvent = ({ title, description, start_time, end_time, created_time }: Event) => {
   const start = formatDate(start_time);
   const end = formatDate(end_time);
   const created = formatDate(created_time);
 
   return [
     `BEGIN:VEVENT`,
-    `UID:${id}`,
+    `UID:${nanoid()}`,
     `SUMMARY:${formatText(title)}`,
     `DTSTAMP:${created}`,
     `DTSTART:${start}`,
