@@ -66,12 +66,14 @@ const getInvitationInfo = async (code: string) => {
 const getAllEventsByGroupUid = async (uid: string) => {
   const { data, error } = await adminSupabaseClient
     .from('groups')
-    .select('events (*)')
+    .select('name, events (*)')
     .eq('uid', uid)
     .eq('is_opened_events', true);
 
   if (error) throw error;
-  return makeArray(data[0].events) as Event[];
+  const events = makeArray(data[0].events) as Event[];
+  const group_name = data[0].name || '';
+  return { group_name, events };
 };
 
 /**

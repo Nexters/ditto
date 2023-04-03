@@ -16,8 +16,8 @@ const edgeFunction: EdgeFunction = async (req) => {
     if (!uid) throw 'uid is null';
     if (ext !== 'ics') throw 'ext is not ics';
 
-    const events = await adminApi.getAllEventsByGroupUid(uid);
-    const data = createICS(events);
+    const { group_name, events } = await adminApi.getAllEventsByGroupUid(uid);
+    const data = createICS(`'${group_name}'의 일정`, events);
 
     return new NextResponse(data, {
       status: 200,

@@ -2,7 +2,7 @@ import { Event } from '../supabase/type';
 
 const prodId = 'Nexters/ditto';
 
-export const createICS = (events: Event[]) => {
+export const createICS = (calendarName: string, events: Event[]) => {
   const formatted = events.map(formatEvent).join('');
   const contents = [
     `BEGIN:VCALENDAR\r\n`,
@@ -10,6 +10,7 @@ export const createICS = (events: Event[]) => {
     `CALSCALE:GREGORIAN\r\n`,
     `PRODID:${prodId}\r\n`,
     `METHOD:PUBLISH\r\n`,
+    `${foldLine(`X-WR-CALNAME:${calendarName}`)}\r\n`,
     `X-PUBLISHED-TTL:PT1H\r\n`,
     formatted,
     `END:VCALENDAR\r\n`,
