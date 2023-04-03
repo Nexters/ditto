@@ -1,18 +1,20 @@
+import { HOSTING_URL } from '@/utils/const';
 import { Event } from '../supabase/type';
 
 const prodId = 'Nexters/ditto';
 
 export const createICS = (calendarName: string, events: Event[]) => {
-  const formatted = events.map(formatEvent).join('');
+  const formattedEvents = events.map(formatEvent).join('');
+  const formattedCalendarName = foldLine(`X-WR-CALNAME:${calendarName}`);
   const contents = [
     `BEGIN:VCALENDAR\r\n`,
     `VERSION:2.0\r\n`,
     `CALSCALE:GREGORIAN\r\n`,
     `PRODID:${prodId}\r\n`,
     `METHOD:PUBLISH\r\n`,
-    `${foldLine(`X-WR-CALNAME:${calendarName}`)}\r\n`,
+    `${formattedCalendarName}\r\n`,
     `X-PUBLISHED-TTL:PT1H\r\n`,
-    formatted,
+    formattedEvents,
     `END:VCALENDAR\r\n`,
   ].join('');
 
@@ -23,10 +25,6 @@ const formatDate = (date: string) => {
   return new Date(date).toISOString().replace(/-|:|\.\d+/g, '');
 };
 
-const escapeICS = (str: string) => {
-  return str.replace(/[\\,;\n]/g, (match) => '\\' + match);
-};
-
 const formatEvent = ({ id, title, description, start_time, end_time, created_time }: Event) => {
   const start = formatDate(start_time);
   const end = formatDate(end_time);
@@ -35,11 +33,12 @@ const formatEvent = ({ id, title, description, start_time, end_time, created_tim
   return [
     `BEGIN:VEVENT`,
     `UID:${id}`,
-    `SUMMARY:${escapeICS(title)}`,
+    `SUMMARY:${formatText(title)}`,
     `DTSTAMP:${created}`,
     `DTSTART:${start}`,
     `DTEND:${end}`,
-    description ? `DESCRIPTION:${escapeICS(description)}` : '',
+    `DESCRIPTION:${formatText(description)}`,
+    `URL:${HOSTING_URL}`,
     `CREATED:${created}`,
     `END:VEVENT`,
   ]
@@ -58,4 +57,8 @@ const foldLine = (line: string) => {
   }
   parts.push(line);
   return parts.join('\r\n\t');
+};
+
+const formatText = (text: string) => {
+  return text.replace(/\\/gm, '\\\\').replace(/\r?\n/gm, '\\n').replace(/;/gm, '\\;').replace(/,/gm, '\\,');
 };
