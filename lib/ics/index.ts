@@ -13,6 +13,9 @@ export const createICalendarEvents = (calendarName: string, _events: Event[]) =>
       start: event.start_time,
       end: event.end_time,
 
+      sequence: event.sequence,
+      lastModified: event.updated_time,
+
       allDay: event.is_all_day,
       repeating: event.is_annual ? { freq: ICalEventRepeatingFreq.YEARLY } : null,
       url: HOSTING_URL,
