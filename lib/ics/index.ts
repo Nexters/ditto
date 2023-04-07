@@ -2,7 +2,7 @@ import { HOSTING_URL } from '@/utils/const';
 import ical, { ICalEventRepeatingFreq } from 'ical-generator';
 import { Event } from '../supabase/type';
 
-export const createEvents = (calendarName: string, _events: Event[]) => {
+export const createICalendarEvents = (calendarName: string, _events: Event[]) => {
   const cal = ical({
     name: calendarName,
     events: _events.map((event) => ({
