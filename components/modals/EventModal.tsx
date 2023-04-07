@@ -111,6 +111,8 @@ const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: 
         isAnnual,
         startTime: eventDateForSave(isAllDay, startDate),
         endTime: eventDateForSave(isAllDay, endDate),
+        sequence: (prevData?.sequence ?? 0) + 1,
+        updatedTime: new Date().toISOString(),
       });
     } else {
       createEvent({

@@ -68,8 +68,10 @@ export interface Database {
           id: number;
           is_all_day: boolean | null;
           is_annual: boolean | null;
+          sequence: number;
           start_time: string;
           title: string;
+          updated_time: string | null;
         };
         Insert: {
           created_time?: string;
@@ -80,8 +82,10 @@ export interface Database {
           id?: number;
           is_all_day?: boolean | null;
           is_annual?: boolean | null;
+          sequence?: number;
           start_time: string;
           title: string;
+          updated_time?: string | null;
         };
         Update: {
           created_time?: string;
@@ -92,8 +96,10 @@ export interface Database {
           id?: number;
           is_all_day?: boolean | null;
           is_annual?: boolean | null;
+          sequence?: number;
           start_time?: string;
           title?: string;
+          updated_time?: string | null;
         };
       };
       group_members: {

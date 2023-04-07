@@ -46,25 +46,25 @@ export const getEventById = async (eventId: number) => {
 export const updateEvent = async ({
   title,
   description,
-  creatorId,
-  groupId,
   isAllDay,
   isAnnual,
   startTime,
   endTime,
   id,
+  sequence,
+  updatedTime,
 }: UpdateEventType) => {
   const { error } = await supabase
     .from('events')
     .update({
-      title: title,
+      title,
       description,
-      creator_id: creatorId,
-      group_id: groupId,
       is_all_day: isAllDay,
       is_annual: isAnnual,
       start_time: startTime,
       end_time: endTime,
+      sequence,
+      updated_time: updatedTime,
     })
     .eq('id', id);
   if (error) throw new Error(error.message);

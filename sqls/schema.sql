@@ -42,6 +42,8 @@ CREATE TABLE "events" (
   "is_annual" boolean,
   "creator_id" int NOT NULL,
   "created_time" timestamptz NOT NULL DEFAULT (now()),
+  "sequence" int NOT NULL DEFAULT 0,
+  "updated_time" timestamptz NOT NULL DEFAULT (now()),
   "group_id" int NOT NULL
 );
 
