@@ -2,6 +2,7 @@ import { EdgeFunction } from '@/lib/edge/types';
 import { adminApi } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { createICalendarEvents } from '@/lib/ics';
+import { isUuid } from '@/utils/uuid';
 
 export const config = {
   runtime: 'edge',
@@ -14,6 +15,7 @@ const edgeFunction: EdgeFunction = async (req) => {
     const [uid, ext] = slug.split('.');
 
     if (!uid) throw 'uid is null';
+    if (!isUuid(uid)) throw 'it is not uuid format';
     if (ext !== 'ics') throw 'ext is not ics';
 
     const { group_name, events } = await adminApi.getAllEventsByGroupUid(uid);
