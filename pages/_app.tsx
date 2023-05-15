@@ -13,6 +13,7 @@ import Fonts from '@/styles/Font';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCalcViewHeight } from '@/hooks/shared/useCalcViewHeight';
 import { GoogleAnalytics } from '@/components/ga/GoogleAnalytics';
+import { useFirebaseMessaging } from '@/hooks/useFirebaseMessaging';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -45,6 +46,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
   const { showLoadingPage } = useProtectedRoute(Component?.isProtectedPage, '/');
 
   useCalcViewHeight();
+  useFirebaseMessaging();
 
   return (
     <>
