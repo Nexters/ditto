@@ -1,3 +1,5 @@
+import { saveToken } from '@/lib/supabase/apis/fcm';
+import { useUser } from '@/store/useUser';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken } from 'firebase/messaging';
 import { useEffect } from 'react';
@@ -10,7 +12,12 @@ const firebaseConfig = {
 };
 
 export const useFirebaseMessaging = () => {
+  const { user } = useUser();
+
   useEffect(() => {
+    // @note: 로그인 되어있을 때부터 로직을 진행한다
+    if (!user) return;
+
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
     const vapidKey = process.env.NEXT_PUBLIC_VAPID_KEY as string;
@@ -32,9 +39,11 @@ export const useFirebaseMessaging = () => {
 
         // Send the token to your server and update the UI if necessary
         // ...
+        console.log('@@', token, user.id);
+        await saveToken(user.id, token);
       } catch (error) {
         console.log('An error occurred while retrieving token. ', error);
       }
     })();
-  }, []);
+  }, [user]);
 };
