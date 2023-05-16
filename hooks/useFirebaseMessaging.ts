@@ -44,9 +44,9 @@ export const useFirebaseMessaging = () => {
 
         // Send the token to your server and update the UI if necessary
         // ...
-        console.log('@@', token, user.id);
         await saveToken(user.id, token);
       } catch (error) {
+        // @todo: 알림을 받을 수 없다는 식의 내용을 UI로 표현할 것
         console.log('An error occurred while retrieving token. ', error);
       }
     })();
