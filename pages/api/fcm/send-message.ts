@@ -38,12 +38,10 @@ const edgeFunction: EdgeFunction = async (req) => {
           Authorization: `key=${serverKey}`,
         },
         body: JSON.stringify({
-          message: {
-            token,
-            notification: {
-              title: notification_title,
-              body: notification_body,
-            },
+          to: token,
+          notification: {
+            title: notification_title,
+            body: notification_body,
           },
         }),
       });
