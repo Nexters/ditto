@@ -105,16 +105,19 @@ export interface Database {
       fcm_tokens: {
         Row: {
           created_time: string;
+          last_used_time: string;
           token: string;
           user_id: number;
         };
         Insert: {
           created_time?: string;
+          last_used_time?: string;
           token: string;
           user_id: number;
         };
         Update: {
           created_time?: string;
+          last_used_time?: string;
           token?: string;
           user_id?: number;
         };

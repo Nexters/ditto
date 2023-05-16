@@ -65,6 +65,7 @@ CREATE TABLE "fcm_tokens" (
   "user_id" int NOT NULL,
   "token" varchar NOT NULL,
   "created_time" timestamptz NOT NULL DEFAULT (now()),
+  "last_used_time" timestamptz
   PRIMARY KEY ("user_id", "token")
 );
 
