@@ -8,11 +8,19 @@ export type SendNotificationBody = {
 };
 
 export const useSendNotification = () => {
-  return useMutation(async (body: SendNotificationBody) => {
-    const res = await fetch('/api/fcm/send-message', {
-      method: 'post',
-      body: JSON.stringify(body),
-    });
-    return await res.json();
-  });
+  return useMutation(
+    async (body: SendNotificationBody) => {
+      const res = await fetch('/api/fcm/send-message', {
+        method: 'post',
+        body: JSON.stringify(body),
+      });
+      return await res.json();
+    },
+    {
+      onError: (error) => {
+        // @note: 조용한 실패를 위해 로깅만 한다.
+        console.error(error);
+      },
+    }
+  );
 };
