@@ -11,6 +11,11 @@ const firebaseConfig = {
   appId: '1:100767297550:web:9c00cb618b6382d4a3cc5f',
 };
 
+/**
+ * 1. 사용자로부터 notification 권한을 요청하고
+ * 2. 권한이 존재하면 웹 푸시를 위한 token을 발급한다.
+ * 3. 발급 받은 token을 user id와 함께 서버에 저장한다.
+ */
 export const useFirebaseMessaging = () => {
   const { user } = useUser();
 
