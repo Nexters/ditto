@@ -213,7 +213,15 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_group_tokens: {
+        Args: {
+          p_group_id: number;
+          p_exclude_user_id: number;
+        };
+        Returns: {
+          token: string;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
