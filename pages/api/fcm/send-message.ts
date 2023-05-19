@@ -30,24 +30,25 @@ const edgeFunction: EdgeFunction = async (req) => {
     const fcmTokens = await adminApi.getFcmTokenListByGroupId(sender_id, group_id);
 
     const serverKey = process.env.NEXT_PUBLIC_FCM_SERVER_KEY as string;
-    const promises = fcmTokens.map(async ({ token }) => {
-      const res = await fetch('https://fcm.googleapis.com/fcm/send', {
-        method: 'post',
-        headers: {
-          'content-type': 'application/json;charset=UTF-8',
-          Authorization: `key=${serverKey}`,
-        },
-        body: JSON.stringify({
-          to: token,
-          notification: {
-            title: notification_title,
-            body: notification_body,
+    const results = await Promise.all(
+      fcmTokens.map(async ({ token }) => {
+        const res = await fetch('https://fcm.googleapis.com/fcm/send', {
+          method: 'post',
+          headers: {
+            'content-type': 'application/json;charset=UTF-8',
+            Authorization: `key=${serverKey}`,
           },
-        }),
-      });
-      return await res.json();
-    });
-    const results = await Promise.all(promises);
+          body: JSON.stringify({
+            to: token,
+            notification: {
+              title: notification_title,
+              body: notification_body,
+            },
+          }),
+        });
+        return await res.json();
+      })
+    );
 
     const res = new NextResponse(
       JSON.stringify({
