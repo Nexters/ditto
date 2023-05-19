@@ -75,7 +75,6 @@ export const useFirebaseMessaging = () => {
       const notification = new Notification(title, { body, icon });
       notification.onclick = () => {
         window.focus();
-        notification.close();
       };
     });
     return () => unsubscribe();
