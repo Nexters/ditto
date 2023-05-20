@@ -25,8 +25,8 @@ const edgeFunction: EdgeFunction = async (req) => {
     const body = await req.json();
     const { sender_id, group_id, notification_title, notification_body } = bodyScheme.parse(body);
 
-    // 1. 그룹 내 다른 멤버 token들을 가져온다
-    // 2. firebase admin api를 통해 notification을 보낸다
+    // 1. 푸시 알림을 보내기 위한 그룹 내 다른 멤버 token들을 가져온다
+    // 2. firebase http(legacy, not v1) 호출을 통해 푸시 알림을 보낸다
     const fcmTokens = await adminApi.getFcmTokenListByGroupId(sender_id, group_id);
 
     const serverKey = process.env.NEXT_PUBLIC_FCM_SERVER_KEY as string;
