@@ -5,6 +5,8 @@ export type SendNotificationBody = {
   group_id: number;
   notification_title: string;
   notification_body: string;
+  notification_icon: string;
+  notification_click_action: string;
 };
 
 export const useSendNotification = () => {

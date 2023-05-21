@@ -1,14 +1,15 @@
 import queryString from 'query-string';
 import { createQueryKeys } from './createQueryKeys';
 
-export const HOSTING_URL = process.env.NEXT_PUBLIC_HOSTING_URL || 'http://localhost:3000';
+export const LOCAL_HOSTING_URL = 'http://localhost:3000';
+export const HOSTING_URL = process.env.NEXT_PUBLIC_HOSTING_URL || LOCAL_HOSTING_URL;
 
 export const KAKAO_CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY as string;
 export const KAKAO_CLIENT_SECRET = process.env.NEXT_PUBLIC_KAKAO_CLIENT_SECRET as string;
 export const KAKAO_LOGIN_REDIRECT_URL =
-  process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL || 'http://localhost:3000/api/auth/kakao-login';
+  process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URL || `${LOCAL_HOSTING_URL}/api/auth/kakao-login`;
 export const KAKAO_LOGOUT_REDIRECT_URL =
-  process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL || 'http://localhost:3000/api/auth/kakao-logout';
+  process.env.NEXT_PUBLIC_KAKAO_LOGOUT_REDIRECT_URL || `${LOCAL_HOSTING_URL}/api/auth/kakao-logout`;
 
 export const KAKAO_LOGIN_URL = (state?: string | null) =>
   queryString.stringifyUrl({
@@ -42,6 +43,8 @@ export const INVITATION_CODE_LENGTH = 10;
 export const LOCAL_STORAGE__GROUP_ID = 'ditto-latest-group-id';
 
 export const INQUIRY_CHANNEL_URL = 'https://open.kakao.com/o/sNBgXm6e';
+
+export const NOTIFICATION_ICON_URL = `https://raw.githubusercontent.com/Nexters/ditto/main/public/favicon/android-chrome-192x192.png`;
 
 // query keys
 

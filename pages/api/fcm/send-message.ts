@@ -13,6 +13,8 @@ const bodyScheme = z.object({
   group_id: z.number(),
   notification_title: z.string(),
   notification_body: z.string(),
+  notification_icon: z.string(),
+  notification_click_action: z.string(),
 });
 
 const edgeFunction: EdgeFunction = async (req) => {
@@ -23,7 +25,15 @@ const edgeFunction: EdgeFunction = async (req) => {
     if (!refreshToken || !accessToken) throw 'no authorized';
 
     const body = await req.json();
-    const { sender_id, group_id, notification_title, notification_body } = bodyScheme.parse(body);
+    const {
+      sender_id,
+      group_id,
+      notification_title,
+      notification_body,
+      notification_icon,
+      notification_click_action,
+      //
+    } = bodyScheme.parse(body);
 
     // 1. 푸시 알림을 보내기 위한 그룹 내 다른 멤버 token들을 가져온다
     // 2. firebase http(legacy, not v1) 호출을 통해 푸시 알림을 보낸다
@@ -43,6 +53,8 @@ const edgeFunction: EdgeFunction = async (req) => {
             notification: {
               title: notification_title,
               body: notification_body,
+              icon: notification_icon,
+              click_action: notification_click_action,
             },
           }),
         });

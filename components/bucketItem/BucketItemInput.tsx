@@ -3,7 +3,7 @@ import React from 'react';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import styled from '@emotion/styled';
 import theme from '@/styles/theme';
-import { MAX_LENGTH__BUCKETLIST_ITEM_TITLE } from '@/utils/const';
+import { HOSTING_URL, MAX_LENGTH__BUCKETLIST_ITEM_TITLE, NOTIFICATION_ICON_URL } from '@/utils/const';
 import { useSendNotification } from '@/hooks/useSendNotification';
 import { useUser } from '@/store/useUser';
 import { useFetchGroup } from '@/hooks/group/useFetchGroup';
@@ -45,6 +45,8 @@ const BucketItemInput = ({ folderId }: { folderId: number }) => {
       group_id: selectedGroupId,
       notification_title: group.name,
       notification_body: `${user.nickname}님이 새로운 버킷리스트를 추가했습니다.`,
+      notification_icon: NOTIFICATION_ICON_URL,
+      notification_click_action: `${HOSTING_URL}/bucketlist`,
     });
   };
 
