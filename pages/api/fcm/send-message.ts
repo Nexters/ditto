@@ -9,11 +9,17 @@ export const config = {
 };
 
 const bodyScheme = z.object({
+  /** 보내는 유저 id. push 메시지 보낼 때 이 유저는 제외된다. */
   sender_id: z.number(),
+  /** push 메시지 보낼 그룹 id */
   group_id: z.number(),
+  /** push 메시지 제목 */
   notification_title: z.string(),
+  /** push 메시지 내용 */
   notification_body: z.string(),
+  /** push 메시지 아이콘 */
   notification_icon: z.string(),
+  /** push 메시지 클릭 시 이동할 url */
   notification_click_action: z.string(),
 });
 
