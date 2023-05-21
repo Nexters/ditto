@@ -61,6 +61,14 @@ CREATE TABLE "bucket_items" (
   "group_id" int NOT NULL
 );
 
+CREATE TABLE "fcm_tokens" (
+  "user_id" int NOT NULL,
+  "token" varchar NOT NULL,
+  "created_time" timestamptz NOT NULL DEFAULT (now()),
+  "last_used_time" timestamptz
+  PRIMARY KEY ("user_id", "token")
+);
+
 CREATE INDEX ON "users" ("oauth_id");
 
 ALTER TABLE "groups" ADD FOREIGN KEY ("owner_id") REFERENCES "users" ("id");
@@ -88,3 +96,5 @@ ALTER TABLE "bucket_items" ADD FOREIGN KEY ("creator_id") REFERENCES "users" ("i
 ALTER TABLE "bucket_items" ADD FOREIGN KEY ("bucket_folder_id") REFERENCES "bucket_folders" ("id");
 
 ALTER TABLE "bucket_items" ADD FOREIGN KEY ("group_id") REFERENCES "groups" ("id");
+
+ALTER TABLE "fcm_tokens" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");

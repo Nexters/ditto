@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 export type Json = string | number | boolean | null | { [key: string]: Json } | Json[];
 
 export interface Database {
@@ -70,8 +68,10 @@ export interface Database {
           id: number;
           is_all_day: boolean | null;
           is_annual: boolean | null;
+          sequence: number;
           start_time: string;
           title: string;
+          updated_time: string | null;
         };
         Insert: {
           created_time?: string;
@@ -82,8 +82,10 @@ export interface Database {
           id?: number;
           is_all_day?: boolean | null;
           is_annual?: boolean | null;
+          sequence?: number;
           start_time: string;
           title: string;
+          updated_time?: string | null;
         };
         Update: {
           created_time?: string;
@@ -94,8 +96,30 @@ export interface Database {
           id?: number;
           is_all_day?: boolean | null;
           is_annual?: boolean | null;
+          sequence?: number;
           start_time?: string;
           title?: string;
+          updated_time?: string | null;
+        };
+      };
+      fcm_tokens: {
+        Row: {
+          created_time: string;
+          last_used_time: string;
+          token: string;
+          user_id: number;
+        };
+        Insert: {
+          created_time?: string;
+          last_used_time?: string;
+          token: string;
+          user_id: number;
+        };
+        Update: {
+          created_time?: string;
+          last_used_time?: string;
+          token?: string;
+          user_id?: number;
         };
       };
       group_members: {
@@ -122,20 +146,26 @@ export interface Database {
         Row: {
           created_time: string;
           id: number;
+          is_opened_events: boolean;
           name: string;
           owner_id: number | null;
+          uid: string;
         };
         Insert: {
           created_time?: string;
           id?: number;
+          is_opened_events?: boolean;
           name: string;
           owner_id?: number | null;
+          uid?: string;
         };
         Update: {
           created_time?: string;
           id?: number;
+          is_opened_events?: boolean;
           name?: string;
           owner_id?: number | null;
+          uid?: string;
         };
       };
       invitations: {
@@ -186,9 +216,20 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      get_group_tokens: {
+        Args: {
+          p_group_id: number;
+          p_exclude_user_id: number;
+        };
+        Returns: {
+          token: string;
+        }[];
+      };
     };
     Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
       [_ in never]: never;
     };
   };

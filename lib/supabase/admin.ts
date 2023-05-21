@@ -1,3 +1,4 @@
+import { isNonNullable, pickFirst } from '@/utils/array';
 import { createCredentials } from '@/utils/auth';
 import { INVITATION_CODE_LENGTH, SUPABASE_URL } from '@/utils/const';
 import { addDays } from '@/utils/date';
@@ -62,6 +63,16 @@ const getInvitationInfo = async (code: string) => {
   return invitationInfo as InvitationInfo | undefined;
 };
 
+const getFcmTokenListByGroupId = async (sender_id: number, group_id: number) => {
+  const { data, error } = await adminSupabaseClient.rpc('get_group_tokens', {
+    p_exclude_user_id: sender_id,
+    p_group_id: group_id,
+  });
+
+  if (error) throw error;
+  return data.map(pickFirst).filter(isNonNullable);
+};
+
 /**
  * @note 오직 server side에서만 호출되어야 함
  */
@@ -70,4 +81,5 @@ export const adminApi = {
   signUpUser,
   updateUserInfo,
   getInvitationInfo,
+  getFcmTokenListByGroupId,
 };

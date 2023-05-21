@@ -20,6 +20,8 @@ export type Group = Database['public']['Tables']['groups']['Row'];
 
 export type GroupMember = Database['public']['Tables']['group_members']['Row'];
 
+export type FcmToken = Database['public']['Tables']['fcm_tokens']['Row'];
+
 // joined
 
 export type InvitationInfo = Invitation & {

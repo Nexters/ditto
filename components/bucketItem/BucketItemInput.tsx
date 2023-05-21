@@ -4,10 +4,17 @@ import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import styled from '@emotion/styled';
 import theme from '@/styles/theme';
 import { MAX_LENGTH__BUCKETLIST_ITEM_TITLE } from '@/utils/const';
+import { useSendNotification } from '@/hooks/useSendNotification';
+import { useUser } from '@/store/useUser';
+import { useFetchGroup } from '@/hooks/group/useFetchGroup';
 
 const BucketItemInput = ({ folderId }: { folderId: number }) => {
+  const { user, selectedGroupId } = useUser();
+  const { data: group } = useFetchGroup(selectedGroupId);
+
   const { createBucketItemMutation } = useMutateBucketItems();
   const { mutate: createBucket } = createBucketItemMutation;
+  const { mutate: sendNotification } = useSendNotification();
 
   const [itemTitle, setItemTitle] = React.useState<string>('');
 
@@ -16,6 +23,7 @@ const BucketItemInput = ({ folderId }: { folderId: number }) => {
   };
 
   const handleClick = () => {
+    if (!user || !selectedGroupId || !group) return;
     if (!itemTitle) return;
 
     createBucket(
@@ -31,6 +39,13 @@ const BucketItemInput = ({ folderId }: { folderId: number }) => {
         },
       }
     );
+
+    sendNotification({
+      sender_id: user.id,
+      group_id: selectedGroupId,
+      notification_title: group.name,
+      notification_body: `${user.nickname}님이 새로운 버킷리스트를 추가했습니다.`,
+    });
   };
 
   return (
