@@ -52,6 +52,19 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     <>
       <Head>
         <title>Ditto</title>
+        <meta name="application-name" content="Ditto" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Ditto" />
+        <meta name="description" content="그룹 일정 & 버킷리스트 서비스" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+
+        <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="msapplication-tap-highlight" content="no" />
+
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
@@ -61,7 +74,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <meta name="theme-color" content="#ffffff" />
         <meta
           name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
       </Head>
       <GoogleAnalytics />

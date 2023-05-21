@@ -72,10 +72,11 @@ export const useFirebaseMessaging = () => {
       const body = payload?.notification?.body;
       const icon = payload.notification?.icon;
 
-      const notification = new Notification(title, { body, icon });
-      notification.onclick = () => {
-        window.focus();
-      };
+      // @note: mobile에선 notification 생성자 함수를 지원하지 않아 serviceWorker 사용
+      // https://stackoverflow.com/questions/31512504/html5-notification-not-working-in-mobile-chrome
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(title, { body, icon });
+      });
     });
     return () => unsubscribe();
   }, [messaging]);
