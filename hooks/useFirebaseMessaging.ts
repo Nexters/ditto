@@ -24,6 +24,7 @@ export const useFirebaseMessaging = () => {
   // notification 권한이 없는 경우 나머지 effect는 진행되지 않는다.
   useEffect(() => {
     if (!user) return;
+    if ('Notification' in window === false) return;
 
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
