@@ -1,20 +1,20 @@
-import React, { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Flex, Text, useDisclosure } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
-import EventModal from '@/components/modals/EventModal';
 import { PlusWhiteIcon } from '@/components/icons';
 import EventHeader from '@/components/header/EventHeader';
 import theme from '@/styles/theme';
 import styled from '@emotion/styled';
-import { changedToEventDate, differenceInMillisecondsFromNow, today } from '@/utils/date';
+import { formatDateRange, isTodayEvent } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
 import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
-import { Event } from '@/lib/supabase/type';
 import { CustomMenu } from '@/components/menus/CustomMenu';
+import { toEventsForView } from '@/utils/event';
+import EventModal from '@/components/modals/EventModal';
 
 const EVENT_FILTER = {
   all: 0,
@@ -37,93 +37,38 @@ const EventFilterMenuList = [
   },
 ] as const;
 
-// 다가오는 일정
-const filterByComingEvent = (data: Event[]) =>
-  data?.filter((v) => {
-    if (today(v.start_time, v.end_time) && v.is_all_day) return true;
-    return differenceInMillisecondsFromNow(v.end_time) > 0;
-  });
-
-// 지난 일정
-const filterByPastEvent = (data: Event[]) =>
-  data?.filter((v) => {
-    if (today(v.start_time, v.end_time) && v.is_all_day) return false;
-    return differenceInMillisecondsFromNow(v.end_time) <= 0;
-  });
-
-const Event: NextPageWithLayout = () => {
-  const comingEvent = useRef<HTMLInputElement>(null);
-  const pastEvent = useRef<HTMLInputElement>(null);
-  const [isFirstCreatedEvent, setFirstCreatedEvent] = useState(false);
-  const [isTriggerOnce, setTriggerOnce] = useState(true);
-  const [filteredEvent, setFilterEvent] = useState<Event[]>([]);
+const EventPage: NextPageWithLayout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { setMode } = useChangeMode();
+  const [showPlanedEvents, setShowPlanedEvents] = useState(true);
   const [selectedMenuFilterId, setSelectMenuFilterId] = useState<number>(EVENT_FILTER.all);
 
-  const { data: eventList } = useFetchEventList({
-    onSuccess: (data) => {
-      if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(data));
-      if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(data));
-    },
-  });
+  const { data: events } = useFetchEventList();
+  const { completed, planned } = useMemo(() => toEventsForView(events ?? []), [events]);
 
   const handleClickEvent = (id: number) => () => {
     setMode('update', id);
     onOpen();
   };
 
-  const handleFilterChip = (targetRef: RefObject<HTMLInputElement>) => () => {
-    if (!targetRef.current) return;
-    if (targetRef.current.checked) return;
-
-    targetRef.current.checked = true;
-    if (targetRef === comingEvent) {
-      setFilterEvent(filterByComingEvent(eventList ?? []));
-    } else {
-      setFilterEvent(filterByPastEvent(eventList ?? []));
-    }
-  };
-
-  const resetFirstCreatedEvent = () => setFirstCreatedEvent(false);
-
-  useEffect(() => {
-    if (eventList) {
-      if (comingEvent.current?.checked) setFilterEvent(filterByComingEvent(eventList));
-      if (pastEvent.current?.checked) setFilterEvent(filterByPastEvent(eventList));
-      if (isTriggerOnce) setTriggerOnce(false);
-    }
-  }, [eventList, isTriggerOnce]);
-
-  const renderData = useMemo(() => {
-    if (filteredEvent?.length) {
-      // 반복 일정만
-      if (selectedMenuFilterId === EVENT_FILTER.repeat) return filteredEvent.filter((event) => event.is_annual);
-      // 반복 일정 제외
-      if (selectedMenuFilterId === EVENT_FILTER.exceptRepeat) return filteredEvent.filter((event) => !event.is_annual);
-      // 모든 일정
-      return filteredEvent;
-    }
-  }, [filteredEvent, selectedMenuFilterId]);
-
   return (
     <MainLayout
       header={<EventHeader />}
       headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
-        eventList?.length !== 0 ? (
+        events?.length !== 0 ? (
           <FAB onClick={onOpen}>
             <PlusWhiteIcon />
           </FAB>
         ) : null
       }
     >
-      {eventList?.length === 0 ? (
+      {events?.length === 0 ? (
         <ListContainer center>
           <EmptyEvent
             onClick={() => {
               onOpen();
-              setFirstCreatedEvent(true);
+              // setFirstCreatedEvent(true);
             }}
           />
         </ListContainer>
@@ -132,14 +77,12 @@ const Event: NextPageWithLayout = () => {
           {/* 필터 */}
           <Flex justifyContent="space-between" alignItems="center" marginBottom="4px">
             <Flex gap="8px">
-              <label>
-                <A11yInput type="radio" name="filter-chip" ref={comingEvent} defaultChecked={true} />
-                <FilterChip onClick={handleFilterChip(comingEvent)}>예정된 일정</FilterChip>
-              </label>
-              <label>
-                <A11yInput type="radio" name="filter-chip" ref={pastEvent} />
-                <FilterChip onClick={handleFilterChip(pastEvent)}>완료된 일정</FilterChip>
-              </label>
+              <FilterChip checked={showPlanedEvents} onClick={() => setShowPlanedEvents(true)}>
+                예정된 일정
+              </FilterChip>
+              <FilterChip checked={!showPlanedEvents} onClick={() => setShowPlanedEvents(false)}>
+                완료된 일정
+              </FilterChip>
             </Flex>
 
             <CustomMenu
@@ -153,19 +96,19 @@ const Event: NextPageWithLayout = () => {
           </Flex>
 
           {/* 일정목록 */}
-          {renderData?.map(
+          {(showPlanedEvents ? planned : completed).map(
             ({ id, title, start_time: startTime, end_time: endTime, is_annual: isAnnual, is_all_day: isAllDay }) => (
-              <ListItem key={id} onClick={handleClickEvent(id)}>
+              <ListItem key={id + startTime} onClick={handleClickEvent(id)}>
                 <Flex flexDirection="column" gap="8px">
                   <Text textStyle="buttonMedium" color={theme.colors.secondary}>
                     {title}
                   </Text>
                   <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                    {changedToEventDate(isAllDay, startTime, endTime)}
+                    {formatDateRange(isAllDay, startTime, endTime)}
                   </Text>
                 </Flex>
                 <Flex>
-                  {today(startTime, endTime) && <Chip type="allDay">오늘</Chip>}
+                  {isTodayEvent(startTime, endTime) && <Chip type="allDay">오늘</Chip>}
                   {isAnnual && <Chip type="annual">매년</Chip>}
                 </Flex>
               </ListItem>
@@ -174,28 +117,14 @@ const Event: NextPageWithLayout = () => {
         </ListContainer>
       )}
 
-      <EventModal
-        isOpen={isOpen}
-        onClose={onClose}
-        isFirstCreatedEvent={isFirstCreatedEvent}
-        resetFirstCreatedEvent={resetFirstCreatedEvent}
-      />
+      <EventModal isOpen={isOpen} onClose={onClose} />
     </MainLayout>
   );
 };
 
-Event.isProtectedPage = true;
+EventPage.isProtectedPage = true;
 
-export default Event;
-
-const A11yInput = styled.input`
-  position: absolute !important;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  width: 0.1rem;
-  height: 0.1rem;
-  white-space: nowrap;
-`;
+export default EventPage;
 
 const FAB = styled.button`
   display: flex;
@@ -208,24 +137,16 @@ const FAB = styled.button`
   filter: drop-shadow(1.88235px 3.76471px 2.82353px rgba(0, 0, 0, 0.2));
 `;
 
-const FilterChip = styled.button`
+const FilterChip = styled.button<{ checked: boolean }>`
   display: inline-flex;
   align-items: flex-start;
   width: fit-content;
   padding: 11px 16px;
   ${theme.textStyles.buttonSmall};
   border-radius: 100px;
-
-  ${A11yInput} ~ & {
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.grey[3]};
-    border: 1px solid ${theme.colors.grey[3]};
-  }
-
-  ${A11yInput}:checked ~ & {
-    background-color: ${theme.colors.black};
-    color: ${theme.colors.white};
-  }
+  border: 1px solid ${theme.colors.grey[3]};
+  background-color: ${({ checked }) => (checked ? theme.colors.black : theme.colors.white)};
+  color: ${({ checked }) => (checked ? theme.colors.white : theme.colors.grey[3])};
 `;
 
 const ListContainer = styled.ul<{ center?: boolean }>`

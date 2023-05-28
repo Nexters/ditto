@@ -227,13 +227,14 @@ const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: 
 const EventModal = ({
   isOpen,
   onClose,
-  isFirstCreatedEvent,
-  resetFirstCreatedEvent,
+  // @fixme: 임시로 추가
+  isFirstCreatedEvent = false,
+  resetFirstCreatedEvent = () => null,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  isFirstCreatedEvent: boolean;
-  resetFirstCreatedEvent: () => void;
+  isFirstCreatedEvent?: boolean;
+  resetFirstCreatedEvent?: () => void;
 }) => (
   <BaseModal
     isOpen={isOpen}
