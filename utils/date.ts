@@ -1,16 +1,14 @@
-import { utcToZonedTime } from 'date-fns-tz';
-import { formatISO, format, differenceInMilliseconds, isToday } from 'date-fns';
+import { formatISO, format, differenceInMilliseconds, isToday, set, add } from 'date-fns';
 
-export const eventDateForView = (isAllDay: boolean, date?: string) => {
-  return isAllDay
-    ? formatISO(date ? new Date(date) : new Date(), { representation: 'date' })
-    : formatISO(date ? new Date(date) : new Date()).slice(0, -9);
+// @note: date input의 value에 알맞는 값을 반환한다.
+export const formatISOForDateInput = (isAllDay: boolean, date: Date) => {
+  return isAllDay ? formatISO(date, { representation: 'date' }) : formatISO(date).slice(0, -9);
 };
 
-export const eventDateForSave = (isAllDay: boolean, date: string) => {
-  return isAllDay
-    ? format(utcToZonedTime(`${date}Z`, 'UTC'), 'yyyy-MM-dd')
-    : format(utcToZonedTime(date, 'UTC'), 'yyyy-MM-dd HH:mm');
+export const createDate = (addHours?: number) => {
+  const date = new Date();
+  const _date = set(date, { minutes: 0, seconds: 0, milliseconds: 0 });
+  return add(_date, { hours: addHours });
 };
 
 export const addDays = (date: string | number | Date, days: number) => {

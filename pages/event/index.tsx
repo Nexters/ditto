@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Flex, Text, useDisclosure } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { NextPageWithLayout } from '@/pages/_app';
 import MainLayout from '@/components/layouts/MainLayout';
 import { PlusWhiteIcon } from '@/components/icons';
@@ -8,13 +8,13 @@ import theme from '@/styles/theme';
 import styled from '@emotion/styled';
 import { formatDateRange, isTodayEvent } from '@/utils/date';
 import { useFetchEventList } from '@/hooks/Event/useFetchEventList';
-import useChangeMode from '@/store/useChangeMode';
 import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
 import { CustomMenu } from '@/components/menus/CustomMenu';
 import { toEventsForView } from '@/utils/event';
-import EventModal from '@/components/modals/EventModal';
+import { useEventModal } from '@/components/modals/EventModal';
+import { Event } from '@/lib/supabase/type';
 
 const EVENT_FILTER = {
   all: 0,
@@ -38,17 +38,16 @@ const EventFilterMenuList = [
 ] as const;
 
 const EventPage: NextPageWithLayout = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setMode } = useChangeMode();
   const [showPlanedEvents, setShowPlanedEvents] = useState(true);
   const [selectedMenuFilterId, setSelectMenuFilterId] = useState<number>(EVENT_FILTER.all);
 
   const { data: events } = useFetchEventList();
   const { completed, planned } = useMemo(() => toEventsForView(events ?? []), [events]);
 
-  const handleClickEvent = (id: number) => () => {
-    setMode('update', id);
-    onOpen();
+  const { openEventModal, renderEventModal } = useEventModal();
+
+  const handleClickEvent = (event: Event) => () => {
+    openEventModal(event);
   };
 
   return (
@@ -57,7 +56,7 @@ const EventPage: NextPageWithLayout = () => {
       headerHeight={COMMON_HEADER_HEIGHT}
       floatButton={
         events?.length !== 0 ? (
-          <FAB onClick={onOpen}>
+          <FAB onClick={() => openEventModal()}>
             <PlusWhiteIcon />
           </FAB>
         ) : null
@@ -67,8 +66,7 @@ const EventPage: NextPageWithLayout = () => {
         <ListContainer center>
           <EmptyEvent
             onClick={() => {
-              onOpen();
-              // setFirstCreatedEvent(true);
+              openEventModal(undefined, true);
             }}
           />
         </ListContainer>
@@ -96,28 +94,27 @@ const EventPage: NextPageWithLayout = () => {
           </Flex>
 
           {/* 일정목록 */}
-          {(showPlanedEvents ? planned : completed).map(
-            ({ id, title, start_time: startTime, end_time: endTime, is_annual: isAnnual, is_all_day: isAllDay }) => (
-              <ListItem key={id + startTime} onClick={handleClickEvent(id)}>
-                <Flex flexDirection="column" gap="8px">
-                  <Text textStyle="buttonMedium" color={theme.colors.secondary}>
-                    {title}
-                  </Text>
-                  <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
-                    {formatDateRange(isAllDay, startTime, endTime)}
-                  </Text>
-                </Flex>
-                <Flex>
-                  {isTodayEvent(startTime, endTime) && <Chip type="allDay">오늘</Chip>}
-                  {isAnnual && <Chip type="annual">매년</Chip>}
-                </Flex>
-              </ListItem>
-            )
-          )}
+          {(showPlanedEvents ? planned : completed).map((event) => (
+            // @note: key를 id + start_time으로 설정한 이유는, 같은 id를 가진 일정이 반복되는 경우가 있기 때문
+            <ListItem key={event.id + event.start_time} onClick={handleClickEvent(event)}>
+              <Flex flexDirection="column" gap="8px">
+                <Text textStyle="buttonMedium" color={theme.colors.secondary}>
+                  {event.title}
+                </Text>
+                <Text textStyle="body3" fontWeight={500} color={theme.colors.grey[4]}>
+                  {formatDateRange(event.is_all_day, event.start_time, event.end_time)}
+                </Text>
+              </Flex>
+              <Flex>
+                {isTodayEvent(event.start_time, event.end_time) && <Chip type="allDay">오늘</Chip>}
+                {event.is_annual && <Chip type="annual">매년</Chip>}
+              </Flex>
+            </ListItem>
+          ))}
         </ListContainer>
       )}
 
-      <EventModal isOpen={isOpen} onClose={onClose} />
+      {renderEventModal()}
     </MainLayout>
   );
 };
