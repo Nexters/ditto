@@ -69,8 +69,8 @@ export const useFirebaseMessaging = () => {
     if (!messaging) return;
 
     const unsubscribe = onMessage(messaging, (payload) => {
-      const title = payload?.notification?.title ?? '';
-      const body = payload?.notification?.body;
+      const title = payload.notification?.title ?? '';
+      const body = payload.notification?.body;
       const icon = payload.notification?.icon;
 
       // @hack: onNotificationClick 핸들러를 그대로 사용하고자 data에 FCM_MSG를 넣어 internal payload처럼 처리되도록 한다.
