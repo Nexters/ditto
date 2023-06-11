@@ -73,11 +73,20 @@ export const useFirebaseMessaging = () => {
       const body = payload?.notification?.body;
       const icon = payload.notification?.icon;
 
+      // @hack: onNotificationClick 핸들러를 그대로 사용하고자 data에 FCM_MSG를 넣어 internal payload처럼 처리되도록 한다.
+      // ref: https://github.com/firebase/firebase-js-sdk/blob/713363d3088f8d11ac2a08beaaeca0b4a7a40003/packages/messaging/src/listeners/sw-listeners.ts#L113-L125
+      const data = { FCM_MSG: payload };
+
       // @note: mobile에선 notification 생성자 함수를 지원하지 않아 serviceWorker 사용
       // https://stackoverflow.com/questions/31512504/html5-notification-not-working-in-mobile-chrome
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(title, { body, icon });
-      });
+      navigator.serviceWorker.ready
+        .then(() => navigator.serviceWorker.getRegistrations())
+        .then((registrations) => {
+          // @note: 현재 2개의 sw가 있기 때문에, 그 중 firebase sw를 찾아서 notification을 띄워야
+          // firebase-message-sw.js 의 onNotificationClick 핸들러를 이용할 수 있다.
+          const registration = registrations.find((reg) => reg.active?.scriptURL.includes('firebase-messaging-sw.js'));
+          registration?.showNotification(title, { body, icon, data });
+        });
     });
     return () => unsubscribe();
   }, [messaging]);
