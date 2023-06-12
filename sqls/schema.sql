@@ -12,7 +12,8 @@ CREATE TABLE "users" (
   "oauth_id" varchar UNIQUE NOT NULL,
   "nickname" varchar NOT NULL,
   "profile_image" varchar,
-  "created_time" timestamptz NOT NULL DEFAULT (now())
+  "created_time" timestamptz NOT NULL DEFAULT (now()),
+  "last_login_time" timestamptz
 );
 
 CREATE TABLE "group_members" (

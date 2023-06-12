@@ -39,6 +39,9 @@ const edgeFunction: EdgeFunction = async (req) => {
       found = await adminApi.updateUserInfo(found.id, nickname, profile_image);
     }
 
+    // 로그인 시간 업데이트
+    await adminApi.updateUserLoginTime(found.id);
+
     const res = new NextResponse(
       JSON.stringify({
         message: 'ok',

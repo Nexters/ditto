@@ -47,6 +47,14 @@ const updateUserInfo = async (user_id: number, nickname: string, profile_image?:
   return updatedUser;
 };
 
+const updateUserLoginTime = async (user_id: number) => {
+  const { error } = await adminSupabaseClient
+    .from('users')
+    .update({ last_login_time: new Date().toISOString() })
+    .eq('id', user_id);
+  if (error) throw error;
+};
+
 const getInvitationInfo = async (code: string) => {
   if (code.length !== INVITATION_CODE_LENGTH) throw 'invalid code';
 
@@ -80,6 +88,7 @@ export const adminApi = {
   findUserByOauthId,
   signUpUser,
   updateUserInfo,
+  updateUserLoginTime,
   getInvitationInfo,
   getFcmTokenListByGroupId,
 };
