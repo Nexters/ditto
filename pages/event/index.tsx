@@ -12,9 +12,8 @@ import { COMMON_HEADER_HEIGHT } from '@/components/header/CommonHeader';
 import EmptyEvent from '@/components/event/EmptyEvent';
 import { css } from '@emotion/react';
 import { CustomMenu } from '@/components/menus/CustomMenu';
-import { toEventsForView } from '@/utils/event';
+import { EventForView, toEventsForView } from '@/utils/event';
 import { useEventModal } from '@/components/modals/EventModal';
-import { Event } from '@/lib/supabase/type';
 
 const EVENT_FILTER = {
   all: 0,
@@ -46,8 +45,9 @@ const EventPage: NextPageWithLayout = () => {
 
   const { openEventModal, renderEventModal } = useEventModal();
 
-  const handleClickEvent = (event: Event) => () => {
-    openEventModal(event);
+  const handleClickEvent = (event: EventForView) => () => {
+    const originEvent = event.cloned ? events?.find((e) => e.id === event.origin_event_id) : event;
+    originEvent && openEventModal(originEvent);
   };
 
   return (

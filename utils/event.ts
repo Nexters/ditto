@@ -1,9 +1,14 @@
 import { Event } from '@/lib/supabase/type';
 import { add, isToday } from 'date-fns';
 
+export type EventForView = Event & {
+  cloned?: boolean;
+  origin_event_id?: number;
+};
+
 export type EventsForView = {
-  completed: Event[];
-  planned: Event[];
+  completed: EventForView[];
+  planned: EventForView[];
 };
 
 export const toEventsForView = (events: Event[]): EventsForView => {
@@ -17,10 +22,10 @@ export const toEventsForView = (events: Event[]): EventsForView => {
 
     completed.push(event);
     if (event.is_annual) {
-      let next = createNextYearEvent(event);
+      let next = createNextYearEvent(event, event.id);
       while (isPassedEvent(next)) {
         completed.push(next);
-        next = createNextYearEvent(next);
+        next = createNextYearEvent(next, event.id);
       }
       planned.push(next);
     }
@@ -39,12 +44,14 @@ const isPassedEvent = (event: Event) => {
   return now > end;
 };
 
-const createNextYearEvent = (curr: Event): Event => {
+const createNextYearEvent = (curr: Event, origin_event_id: number): EventForView => {
   const nextStart = add(new Date(curr.start_time), { years: 1 });
   const nextEnd = add(new Date(curr.end_time), { years: 1 });
 
   return {
     ...curr,
+    cloned: true,
+    origin_event_id,
     start_time: nextStart.toISOString(),
     end_time: nextEnd.toISOString(),
   };
