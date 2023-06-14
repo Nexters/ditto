@@ -50,6 +50,8 @@ const createNextYearEvent = (curr: Event, origin_event_id: number): EventForView
 
   return {
     ...curr,
+    // @note: 연단위 반복이므로 id 값을 유니크하게 만들기 위함
+    id: parseFloat(`${origin_event_id}.${nextStart.getFullYear()}`),
     cloned: true,
     origin_event_id,
     start_time: nextStart.toISOString(),

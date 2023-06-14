@@ -64,11 +64,7 @@ const EventPage: NextPageWithLayout = () => {
     >
       {events?.length === 0 ? (
         <ListContainer center>
-          <EmptyEvent
-            onClick={() => {
-              openEventModal(undefined, true);
-            }}
-          />
+          <EmptyEvent onClick={() => openEventModal(undefined, true)} />
         </ListContainer>
       ) : (
         <ListContainer>
@@ -95,8 +91,7 @@ const EventPage: NextPageWithLayout = () => {
 
           {/* 일정목록 */}
           {(showPlanedEvents ? planned : completed).map((event) => (
-            // @note: key를 id + start_time으로 설정한 이유는, 같은 id를 가진 일정이 반복되는 경우가 있기 때문
-            <ListItem key={event.id + event.start_time} onClick={handleClickEvent(event)}>
+            <ListItem key={event.id} onClick={handleClickEvent(event)}>
               <Flex flexDirection="column" gap="8px">
                 <Text textStyle="buttonMedium" color={theme.colors.secondary}>
                   {event.title}
