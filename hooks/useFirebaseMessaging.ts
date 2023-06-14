@@ -1,7 +1,7 @@
 import { saveToken } from '@/lib/supabase/apis/fcm';
 import { useUser } from '@/store/useUser';
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, Messaging, onMessage } from 'firebase/messaging';
+import { getMessaging, getToken, Messaging, onMessage, isSupported } from 'firebase/messaging';
 import { useEffect, useState } from 'react';
 
 const firebaseConfig = {
@@ -24,15 +24,18 @@ export const useFirebaseMessaging = () => {
   // notification 권한이 없는 경우 나머지 effect는 진행되지 않는다.
   useEffect(() => {
     if (!user) return;
-    if ('Notification' in window === false) return;
 
     const app = initializeApp(firebaseConfig);
-    const messaging = getMessaging(app);
 
-    Notification.requestPermission()
+    isSupported()
+      .then((supported) => {
+        if (!supported) throw 'not supported firebase messaging';
+        return Notification.requestPermission();
+      })
       .then((permission) => {
         if (permission !== 'granted') return;
 
+        const messaging = getMessaging(app);
         setMessaging(messaging);
       })
       .catch(console.error);
