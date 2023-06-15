@@ -1,4 +1,5 @@
 import theme from '@/styles/theme';
+import { toHttps } from '@/utils/url';
 import styled from '@emotion/styled';
 
 export type MemberItemProps = {
@@ -9,7 +10,12 @@ export type MemberItemProps = {
 export const MemberItem = ({ nickname, profileImage, isMe }: MemberItemProps) => {
   return (
     <MemberItemWrap>
-      <MemberItemProfileImage src={profileImage || ''} alt={`${nickname}의 프로필 이미지`} width={48} height={48} />
+      <MemberItemProfileImage
+        src={toHttps(profileImage || '')}
+        alt={`${nickname}의 프로필 이미지`}
+        width={48}
+        height={48}
+      />
       {isMe && <MemberItemIsMe>나</MemberItemIsMe>}
       <MemberItemNickname>{nickname}</MemberItemNickname>
     </MemberItemWrap>

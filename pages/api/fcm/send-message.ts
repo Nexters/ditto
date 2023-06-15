@@ -48,6 +48,7 @@ const edgeFunction: EdgeFunction = async (req) => {
     const serverKey = process.env.NEXT_PUBLIC_FCM_SERVER_KEY as string;
     const results = await Promise.all(
       fcmTokens.map(async ({ token }) => {
+        // docs link: https://firebase.google.com/docs/cloud-messaging/http-server-ref?hl=ko
         const res = await fetch('https://fcm.googleapis.com/fcm/send', {
           method: 'post',
           headers: {
@@ -55,6 +56,9 @@ const edgeFunction: EdgeFunction = async (req) => {
             Authorization: `key=${serverKey}`,
           },
           body: JSON.stringify({
+            // @note: 비활성화 앱을 활성화시키기 위해 아래 두 옵션을 추가함
+            content_available: true,
+            priority: 'high',
             to: token,
             notification: {
               title: notification_title,
