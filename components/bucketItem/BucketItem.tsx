@@ -6,8 +6,8 @@ import styled from '@emotion/styled';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import theme from '@/styles/theme';
 import useCustomToast from '@/hooks/shared/useCustomToast';
-import { Dot } from '@/components/common/dot';
 import { useUnreadBucketItems } from '@/hooks/bucketlist/useUnreadBucketItems';
+import { Badge } from '../common/badge';
 
 const BucketItem = ({ item }: { item: TBucketItem }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -39,10 +39,10 @@ const BucketItem = ({ item }: { item: TBucketItem }) => {
     <>
       <Item>
         <TitleSection onClick={onOpen}>
-          <Text textStyle={'h3'} mr={'4px'}>
+          <Text textStyle={'h3'} mr={'6px'}>
             {item.title}
           </Text>
-          {isUnread && <Dot>new</Dot>}
+          {isUnread && <Badge>NEW</Badge>}
         </TitleSection>
         <PawBtnSection>
           <PawButton isCompleted={item.completed} onClick={handleClickPawButton} />

@@ -5,8 +5,8 @@ import { Text, useDisclosure } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import UpdateBucketFolderModal from '@/components/modals/bucketList/UpdateBucketFolderModal';
 import theme from '@/styles/theme';
-import { Dot } from '@/components/common/dot';
 import { useUnreadBucketItems } from '@/hooks/bucketlist/useUnreadBucketItems';
+import { Badge } from '../common/badge';
 
 const BucketFolderItem = ({ folder }: { folder: BucketFolder }) => {
   const router = useRouter();
@@ -30,10 +30,10 @@ const BucketFolderItem = ({ folder }: { folder: BucketFolder }) => {
     <>
       <BucketFolder key={folder.id}>
         <TitleSection onClick={handleClickTitle}>
-          <Text textStyle={'h3'} mr={'4px'}>
+          <Text textStyle={'h3'} mr={'6px'}>
             {folder.title}
           </Text>
-          {unreadCount > 0 && <Dot>{unreadCount}</Dot>}
+          {unreadCount > 0 && <Badge square>{unreadCount}</Badge>}
         </TitleSection>
         <EditSection onClick={onOpen}>
           <Text textStyle={'body3'} color={'grey.4'}>
