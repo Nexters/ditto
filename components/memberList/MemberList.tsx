@@ -38,8 +38,8 @@ export const MemberList = () => {
 
         <motion.div
           variants={{
-            show: { opacity: 1, height: 'auto' },
-            hide: { opacity: 0, height: 0 },
+            show: { opacity: 1, height: 'auto', pointerEvents: 'auto' },
+            hide: { opacity: 0, height: 0, pointerEvents: 'none' },
           }}
           animate={isShowList ? 'show' : 'hide'}
           transition={{ type: 'tween', duration: 0.2 }}
