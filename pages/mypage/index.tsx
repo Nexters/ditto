@@ -20,7 +20,8 @@ const MyPage: NextPageWithLayout = () => {
   return (
     <MainLayout header={<MyPageHeader />} headerHeight={MY_PAGE_HEADER_HEIGHT}>
       <MemberList />
-      <MyPageDivider />
+      <OtherButton onClick={onOpen}>일정 설정</OtherButton>
+      <OtherButton onClick={onOpen}>알림 설정</OtherButton>
       <OtherButton onClick={onOpen}>새 그룹 만들기</OtherButton>
       <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
       <OtherButton onClick={logout}>로그아웃</OtherButton>
@@ -33,12 +34,6 @@ const MyPage: NextPageWithLayout = () => {
 MyPage.isProtectedPage = true;
 
 export default MyPage;
-
-const MyPageDivider = styled.div`
-  width: 100%;
-  height: 6px;
-  background-color: #f3f5f5;
-`;
 
 const OtherButton = styled.button`
   width: 100%;
