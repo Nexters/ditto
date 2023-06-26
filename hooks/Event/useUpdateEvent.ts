@@ -16,7 +16,7 @@ export const useUpdateEvent = (options?: Omit<UseMutationOptions<void, Error, Up
       openToast({ message: '일정이 편집되었습니다.', type: 'success' });
     },
     onError: () => {
-      openToast({ message: '일정 편집에 실패했습니다. 화면을 새로고침해주세요', type: 'success' });
+      openToast({ message: '일정 편집에 실패했습니다. 화면을 새로고침해주세요.', type: 'error' });
     },
   });
 };
