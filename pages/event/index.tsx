@@ -282,6 +282,6 @@ const Chip = styled.div<{ type: 'allDay' | 'annual' }>`
         `
       : `
           color: ${theme.colors.orange};
-          background: rgba(255, 84, 30, 0.1);
+          background: ${theme.colors.orangeAlpha};
         `}
 `;

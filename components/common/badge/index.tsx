@@ -24,7 +24,7 @@ const badgeVariants = {
     color: theme.colors.white,
   },
   outline: {
-    backgroundColor: 'rgba(255, 84, 30, 0.1)',
+    backgroundColor: theme.colors.orangeAlpha,
     color: theme.colors.orange,
     border: `1px solid ${theme.colors.orange}`,
   },
