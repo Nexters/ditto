@@ -290,6 +290,7 @@ export interface Database {
         Row: {
           created_time: string;
           id: number;
+          is_allowed_alarm: boolean | null;
           last_login_time: string | null;
           nickname: string;
           oauth_id: string;
@@ -298,6 +299,7 @@ export interface Database {
         Insert: {
           created_time?: string;
           id?: number;
+          is_allowed_alarm?: boolean | null;
           last_login_time?: string | null;
           nickname: string;
           oauth_id: string;
@@ -306,6 +308,7 @@ export interface Database {
         Update: {
           created_time?: string;
           id?: number;
+          is_allowed_alarm?: boolean | null;
           last_login_time?: string | null;
           nickname?: string;
           oauth_id?: string;
