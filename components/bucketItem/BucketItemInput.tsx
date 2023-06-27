@@ -43,10 +43,10 @@ const BucketItemInput = ({ folderId }: { folderId: number }) => {
     sendNotification({
       sender_id: user.id,
       group_id: selectedGroupId,
-      notification_title: group.name,
-      notification_body: `${user.nickname}님이 새로운 버킷리스트를 추가했습니다.`,
+      notification_title: '새로운 버킷리스트가 추가되었어요',
+      notification_body: itemTitle,
       notification_icon: NOTIFICATION_ICON_URL,
-      notification_click_action: `${HOSTING_URL}/bucketlist`,
+      notification_click_action: `${HOSTING_URL}/bucketlist/${folderId}`,
     });
   };
 
