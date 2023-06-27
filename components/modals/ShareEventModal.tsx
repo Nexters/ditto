@@ -25,17 +25,18 @@ const ModalContent = () => {
 
     try {
       await mutateAsync({ groupId: group.id, groupIsOpenedEvents: !group.is_opened_events });
+      openToast({ message: '설정이 변경되었습니다.', type: 'success' });
     } catch (error) {
       console.error(error);
+      openToast({ message: '변경에 실패했습니다.', type: 'error' });
     }
   };
   const copyLink = () => {
     if (!group) return;
+
     navigator.clipboard.writeText(url);
     openToast({ message: '공개링크가 복사되었습니다.', type: 'success' });
   };
-
-  console.warn(group, url);
 
   return (
     <ModalBody>
