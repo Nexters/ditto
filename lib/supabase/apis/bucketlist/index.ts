@@ -76,9 +76,9 @@ export const getBucketFolders = async (groupId: number): Promise<BucketFolder[]>
 };
 
 export const getBucketFolderById = async (id: number): Promise<BucketFolder> => {
-  const { data, error } = await supabase.from('bucket_folders').select('*').eq('id', id);
+  const { data, error } = await supabase.from('bucket_folders').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
-  return data[0];
+  return data;
 };
 
 export const createBucketFolder = async (params: TCreateBucketFolderParams) => {
