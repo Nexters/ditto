@@ -14,6 +14,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useCalcViewHeight } from '@/hooks/shared/useCalcViewHeight';
 import { GoogleAnalytics } from '@/components/ga/GoogleAnalytics';
 import { useFirebaseMessaging } from '@/hooks/useFirebaseMessaging';
+import ErrorPage from './error';
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -82,7 +83,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <Hydrate state={pageProps.dehydratedState}>
           <ChakraProvider theme={theme} resetCSS cssVarsRoot="#app">
             <Fonts />
-            <ErrorBoundary fallback={<div>에러 페이지</div>}>
+            <ErrorBoundary fallback={<ErrorPage />}>
               {showLoadingPage ? <SplashPage /> : getLayout(<Component {...pageProps} />)}
             </ErrorBoundary>
           </ChakraProvider>
