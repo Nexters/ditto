@@ -24,7 +24,7 @@ const ModalContent = () => {
     if (!group) return;
 
     try {
-      await mutateAsync({ groupId: group.id, groupIsOpenedEvents: !group.is_opened_events });
+      await mutateAsync({ groupId: group.id, isOpenedEvents: !group.is_opened_events });
       openToast({ message: '설정이 변경되었습니다.', type: 'success' });
     } catch (error) {
       console.error(error);

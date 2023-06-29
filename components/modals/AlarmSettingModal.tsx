@@ -12,7 +12,7 @@ interface AlarmSettingModalProps {
 }
 
 const ModalContent = () => {
-  const { user, updateAlarm } = useUser();
+  const { user, setAllowedAlarm } = useUser();
   const { openToast } = useCustomToast();
 
   const toggleSwitch = async () => {
@@ -29,7 +29,7 @@ const ModalContent = () => {
     }
 
     try {
-      await updateAlarm(!user.is_allowed_alarm);
+      await setAllowedAlarm(!user.is_allowed_alarm);
       openToast({ message: '설정이 변경되었습니다.', type: 'success' });
     } catch (error) {
       console.error(error);

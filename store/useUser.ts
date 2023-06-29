@@ -13,7 +13,7 @@ type UserState = {
   login: () => Promise<void>;
   logout: () => Promise<void>;
   setGroupId: (groupId: number) => void;
-  updateAlarm: (allowed: boolean) => Promise<void>;
+  setAllowedAlarm: (allowed: boolean) => Promise<void>;
 };
 
 export const useUser = create<UserState>((set, get) => ({
@@ -52,7 +52,7 @@ export const useUser = create<UserState>((set, get) => ({
   setGroupId: (groupId: number) => {
     set({ selectedGroupId: groupId });
   },
-  updateAlarm: async (allowed: boolean) => {
+  setAllowedAlarm: async (allowed: boolean) => {
     const userId = get().user?.id;
     if (!userId) throw 'no user id';
 
