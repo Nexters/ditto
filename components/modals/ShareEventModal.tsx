@@ -16,20 +16,24 @@ interface ShareEventModalProps {
 const ModalContent = () => {
   const { selectedGroupId } = useUser();
   const { data: group } = useFetchGroup(selectedGroupId);
-  const { mutateAsync } = useUpdateGroup();
+  const { mutate } = useUpdateGroup();
   const { openToast } = useCustomToast();
   const url = `${process.env.NEXT_PUBLIC_HOSTING_URL}api/event/${group?.uid}.ics`;
 
-  const toggleSwitch = async () => {
+  const toggleSwitch = () => {
     if (!group) return;
 
-    try {
-      await mutateAsync({ groupId: group.id, isOpenedEvents: !group.is_opened_events });
-      openToast({ message: '설정이 변경되었습니다.', type: 'success' });
-    } catch (error) {
-      console.error(error);
-      openToast({ message: '변경에 실패했습니다.', type: 'error' });
-    }
+    mutate(
+      { groupId: group.id, isOpenedEvents: !group.is_opened_events },
+      {
+        onSuccess: () => {
+          openToast({ message: '설정이 변경되었습니다.', type: 'success' });
+        },
+        onError: () => {
+          openToast({ message: '변경에 실패했습니다.', type: 'error' });
+        },
+      }
+    );
   };
   const copyLink = () => {
     if (!group) return;

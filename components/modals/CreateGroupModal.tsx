@@ -18,30 +18,35 @@ interface CreateGroupModalProps {
 const ModalContent = ({ onClose }: Pick<CreateGroupModalProps, 'onClose'>) => {
   const { user, setGroupId } = useUser();
   const { openToast } = useCustomToast();
-  const { mutateAsync } = useMutateCreateGroup();
+  const { mutate, isLoading } = useMutateCreateGroup();
   const router = useRouter();
 
   const [groupName, setGroupName] = useState('');
 
-  const disabledToCreate = groupName.trim().length === 0;
+  const disabledToCreate = groupName.trim().length === 0 || isLoading;
 
   const handleChangeTitle = (input: string) => {
     setGroupName(input.slice(0, MAX_LENGTH__GROUP_NAME));
   };
-  const handleClickCreateButton = async () => {
+  const handleClickCreateButton = () => {
     if (!user) return;
     if (disabledToCreate) return;
 
-    try {
-      const group = await mutateAsync({ userId: user.id, groupName });
-      setGroupId(group.id);
-      openToast({ message: '새 그룹이 생성되었습니다.', type: 'success' });
-      router.replace('/bucketlist');
-      onClose();
-    } catch (error) {
-      console.error(error);
-      openToast({ message: '그룹 만들기에 실패했습니다.', type: 'error' });
-    }
+    mutate(
+      { userId: user.id, groupName },
+      {
+        onSuccess: (group) => {
+          setGroupId(group.id);
+          openToast({ message: '새 그룹이 생성되었습니다.', type: 'success' });
+          router.replace('/bucketlist');
+          onClose();
+        },
+        onError: (error) => {
+          console.error(error);
+          openToast({ message: '그룹 만들기에 실패했습니다.', type: 'error' });
+        },
+      }
+    );
   };
 
   return (
