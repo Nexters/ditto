@@ -1,5 +1,6 @@
 import { isNonNullable, pickFirst } from '@/utils/array';
 import { supabase } from '../client';
+import { Group } from '../type';
 
 export const createGroup = async (user_id: number, group_name: string) => {
   const { data, error } = await supabase.from('groups').insert({ owner_id: user_id, name: group_name }).select();
@@ -48,6 +49,13 @@ export const getJoinedGroupList = async (user_id: number) => {
 
 export const getGroup = async (group_id: number) => {
   const { data, error } = await supabase.from('groups').select().eq('id', group_id);
+  const group = data?.[0];
+  if (error || !group) throw error;
+  return group;
+};
+
+export const updateGroup = async (group_id: number, values: Pick<Partial<Group>, 'name' | 'is_opened_events'>) => {
+  const { data, error } = await supabase.from('groups').update(values).eq('id', group_id).select();
   const group = data?.[0];
   if (error || !group) throw error;
   return group;

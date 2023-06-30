@@ -20,6 +20,7 @@ export const colors = {
     1: '#F54141',
   },
   orange: '#FF541E',
+  orangeAlpha: 'rgba(255, 84, 30, 0.1)',
   green: {
     1: '#23CF69',
   },

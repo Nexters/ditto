@@ -1,7 +1,9 @@
 import { MyPageHeader, MY_PAGE_HEADER_HEIGHT } from '@/components/header/MyPageHeader';
 import MainLayout from '@/components/layouts/MainLayout';
 import { MemberList } from '@/components/memberList/MemberList';
+import AlarmSettingModal from '@/components/modals/AlarmSettingModal';
 import CreateGroupModal from '@/components/modals/CreateGroupModal';
+import ShareEventModal from '@/components/modals/ShareEventModal';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useUser } from '@/store/useUser';
 import theme from '@/styles/theme';
@@ -10,7 +12,10 @@ import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const MyPage: NextPageWithLayout = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const createGroupModalProps = useDisclosure();
+  const shareEventModalProps = useDisclosure();
+  const alarmSettingModalProps = useDisclosure();
+
   const { logout } = useUser();
 
   const goToOpenInquiryChannel = () => {
@@ -20,12 +25,15 @@ const MyPage: NextPageWithLayout = () => {
   return (
     <MainLayout header={<MyPageHeader />} headerHeight={MY_PAGE_HEADER_HEIGHT}>
       <MemberList />
-      <MyPageDivider />
-      <OtherButton onClick={onOpen}>새 그룹 만들기</OtherButton>
+      <OtherButton onClick={shareEventModalProps.onOpen}>일정 설정</OtherButton>
+      <OtherButton onClick={alarmSettingModalProps.onOpen}>알림 설정</OtherButton>
+      <OtherButton onClick={createGroupModalProps.onOpen}>새 그룹 만들기</OtherButton>
       <OtherButton onClick={goToOpenInquiryChannel}>문의하기</OtherButton>
       <OtherButton onClick={logout}>로그아웃</OtherButton>
 
-      <CreateGroupModal isOpen={isOpen} onClose={onClose} />
+      <CreateGroupModal isOpen={createGroupModalProps.isOpen} onClose={createGroupModalProps.onClose} />
+      <ShareEventModal isOpen={shareEventModalProps.isOpen} onClose={shareEventModalProps.onClose} />
+      <AlarmSettingModal isOpen={alarmSettingModalProps.isOpen} onClose={alarmSettingModalProps.onClose} />
     </MainLayout>
   );
 };
@@ -33,12 +41,6 @@ const MyPage: NextPageWithLayout = () => {
 MyPage.isProtectedPage = true;
 
 export default MyPage;
-
-const MyPageDivider = styled.div`
-  width: 100%;
-  height: 6px;
-  background-color: #f3f5f5;
-`;
 
 const OtherButton = styled.button`
   width: 100%;

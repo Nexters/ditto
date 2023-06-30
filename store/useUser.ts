@@ -1,4 +1,5 @@
 import { getJoinedGroupList } from '@/lib/supabase/apis/group';
+import { updateAllowedAlarm } from '@/lib/supabase/apis/user';
 import { supabase } from '@/lib/supabase/client';
 import { Group, User } from '@/lib/supabase/type';
 import { createCredentials } from '@/utils/auth';
@@ -12,9 +13,10 @@ type UserState = {
   login: () => Promise<void>;
   logout: () => Promise<void>;
   setGroupId: (groupId: number) => void;
+  setAllowedAlarm: (allowed: boolean) => Promise<void>;
 };
 
-export const useUser = create<UserState>((set) => ({
+export const useUser = create<UserState>((set, get) => ({
   user: null,
   isLoading: true,
   selectedGroupId: null,
@@ -49,6 +51,13 @@ export const useUser = create<UserState>((set) => ({
   },
   setGroupId: (groupId: number) => {
     set({ selectedGroupId: groupId });
+  },
+  setAllowedAlarm: async (allowed: boolean) => {
+    const userId = get().user?.id;
+    if (!userId) throw 'no user id';
+
+    const user = await updateAllowedAlarm(userId, allowed);
+    set({ user });
   },
 }));
 

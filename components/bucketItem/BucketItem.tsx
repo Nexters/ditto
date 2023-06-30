@@ -6,13 +6,18 @@ import styled from '@emotion/styled';
 import { useMutateBucketItems } from '@/hooks/bucketlist/useMutateBucketItems';
 import theme from '@/styles/theme';
 import useCustomToast from '@/hooks/shared/useCustomToast';
+import { useUnreadBucketItems } from '@/hooks/bucketlist/useUnreadBucketItems';
+import { Badge } from '../common/badge';
 
 const BucketItem = ({ item }: { item: TBucketItem }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { openToast } = useCustomToast();
+  const { data: unreadBucketItems = [] } = useUnreadBucketItems();
 
   const { completeBucketItemMutation } = useMutateBucketItems();
   const { mutate: completeBucketItem } = completeBucketItemMutation;
+
+  const isUnread = unreadBucketItems.some((_item) => _item.id === item.id);
 
   const handleClickPawButton = () => {
     completeBucketItem(
@@ -34,7 +39,10 @@ const BucketItem = ({ item }: { item: TBucketItem }) => {
     <>
       <Item>
         <TitleSection onClick={onOpen}>
-          <Text textStyle={'h3'}>{item.title}</Text>
+          <Text textStyle={'h3'} mr={'6px'}>
+            {item.title}
+          </Text>
+          {isUnread && <Badge>NEW</Badge>}
         </TitleSection>
         <PawBtnSection>
           <PawButton isCompleted={item.completed} onClick={handleClickPawButton} />

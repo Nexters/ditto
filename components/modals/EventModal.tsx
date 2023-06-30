@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Box, Button, Flex, ModalBody, ModalFooter, ModalHeader, Switch, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, ModalBody, ModalFooter, ModalHeader, Text } from '@chakra-ui/react';
 import BaseModal from '@/components/modals/BaseModal';
 import styled from '@emotion/styled';
 import { useSwitchState } from '@/hooks/useSwitchState';
@@ -17,6 +17,7 @@ import { useUpdateEvent } from '@/hooks/Event/useUpdateEvent';
 import { useDeleteEvent } from '@/hooks/Event/useDeleteEvent';
 import { MAX_LENGTH__EVENT_DESCRIPTION, MAX_LENGTH__EVENT_TITLE } from '@/utils/const';
 import { showConfetti } from '@/lib/confetti';
+import { Switch } from '../common/switch';
 
 interface ModalContentProps {
   onClose: () => void;
@@ -111,6 +112,8 @@ const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: 
         isAnnual,
         startTime: eventDateForSave(isAllDay, startDate),
         endTime: eventDateForSave(isAllDay, endDate),
+        sequence: (prevData?.sequence ?? 0) + 1,
+        updatedTime: new Date().toISOString(),
       });
     } else {
       createEvent({
@@ -169,7 +172,7 @@ const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: 
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             하루종일
           </Text>
-          <CustomSwitch isChecked={isAllDay} onChange={toggleAllDay} />
+          <Switch isChecked={isAllDay} onChange={toggleAllDay} />
         </Flex>
         <Flex flexDirection="column" marginBottom="16px">
           <Flex justifyContent="space-between" alignItems="center" marginBottom="10px">
@@ -189,7 +192,7 @@ const ModalContent = ({ onClose, isFirstCreatedEvent, resetFirstCreatedEvent }: 
           <Text textStyle="body1" fontWeight={600} color="grey.10">
             매년 반복
           </Text>
-          <CustomSwitch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
+          <Switch isChecked={isAnnual} onChange={toggleAnnual} color="#FF541E" />
         </Flex>
         <ContentTextarea
           placeholder="설명을 입력하세요 (선택)"
@@ -276,19 +279,4 @@ export const DateInput = styled.input`
   ${theme.textStyles.buttonSmall};
   color: ${theme.colors.black};
   cursor: pointer;
-`;
-
-const CustomSwitch = styled(Switch)`
-  --switch-track-width: 34px;
-  & > span {
-    width: 32px;
-    height: 14px;
-    &[data-checked] {
-      --switch-bg: ${theme.colors.orange};
-    }
-    & > span {
-      width: 14px;
-      height: 14px;
-    }
-  }
 `;

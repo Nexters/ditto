@@ -1,10 +1,10 @@
-import { isNonNullable, pickFirst } from '@/utils/array';
+import { isNonNullable, makeArray, pickFirst } from '@/utils/array';
 import { createCredentials } from '@/utils/auth';
 import { INVITATION_CODE_LENGTH, SUPABASE_URL } from '@/utils/const';
 import { addDays } from '@/utils/date';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from './schema';
-import { InvitationInfo } from './type';
+import { Event, InvitationInfo } from './type';
 
 // @note: 절대 노출되면 안되는 키
 const secret = process.env.NEXT_PUBLIC_SUPABASE_SECRET as string;
@@ -47,6 +47,14 @@ const updateUserInfo = async (user_id: number, nickname: string, profile_image?:
   return updatedUser;
 };
 
+const updateUserLoginTime = async (user_id: number) => {
+  const { error } = await adminSupabaseClient
+    .from('users')
+    .update({ last_login_time: new Date().toISOString() })
+    .eq('id', user_id);
+  if (error) throw error;
+};
+
 const getInvitationInfo = async (code: string) => {
   if (code.length !== INVITATION_CODE_LENGTH) throw 'invalid code';
 
@@ -73,6 +81,19 @@ const getFcmTokenListByGroupId = async (sender_id: number, group_id: number) => 
   return data.map(pickFirst).filter(isNonNullable);
 };
 
+const getAllEventsByGroupUid = async (uid: string) => {
+  const { data, error } = await adminSupabaseClient
+    .from('groups')
+    .select('name, events (*)')
+    .eq('uid', uid)
+    .eq('is_opened_events', true);
+
+  if (error) throw error;
+  const events = makeArray(data[0].events) as Event[];
+  const group_name = data[0].name || '';
+  return { group_name, events };
+};
+
 /**
  * @note 오직 server side에서만 호출되어야 함
  */
@@ -80,6 +101,8 @@ export const adminApi = {
   findUserByOauthId,
   signUpUser,
   updateUserInfo,
+  updateUserLoginTime,
   getInvitationInfo,
   getFcmTokenListByGroupId,
+  getAllEventsByGroupUid,
 };

@@ -5,7 +5,7 @@ import {
   TUpdateBucketFolder,
   TUpdateBucketItem,
 } from '@/lib/supabase/apis/bucketlist/type';
-import { BucketFolder } from '@/lib/supabase/type';
+import { BucketFolder, TBucketItem } from '@/lib/supabase/type';
 
 //Bucket Item
 export const getBucketItems = async (folderId: number) => {
@@ -52,6 +52,18 @@ export const completeBucketItem = async ({ id, completed }: { id: number; comple
   return;
 };
 
+export const getUnreadBucketItems = async (user_id: number, group_id: number, last_login_time: string) => {
+  const { data, error } = await supabase
+    .from('bucket_items')
+    .select('id, bucket_folder_id')
+    .eq('group_id', group_id)
+    .neq('creator_id', user_id)
+    .gt('created_time', last_login_time);
+
+  if (error) throw error;
+  return data as Array<Pick<TBucketItem, 'id' | 'bucket_folder_id'>>;
+};
+
 //Bucket Folder
 export const getBucketFolders = async (groupId: number): Promise<BucketFolder[]> => {
   const { data, error } = await supabase
@@ -64,9 +76,9 @@ export const getBucketFolders = async (groupId: number): Promise<BucketFolder[]>
 };
 
 export const getBucketFolderById = async (id: number): Promise<BucketFolder> => {
-  const { data, error } = await supabase.from('bucket_folders').select('*').eq('id', id);
+  const { data, error } = await supabase.from('bucket_folders').select('*').eq('id', id).single();
   if (error) throw new Error(error.message);
-  return data[0];
+  return data;
 };
 
 export const createBucketFolder = async (params: TCreateBucketFolderParams) => {

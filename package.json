@@ -31,6 +31,7 @@
     "eslint-config-next": "13.1.2",
     "firebase": "^9.21.0",
     "framer-motion": "^8.5.2",
+    "ical-generator": "^4.0.0",
     "js-confetti": "^0.11.0",
     "nanoid": "^4.0.1",
     "next": "13.1.2",
