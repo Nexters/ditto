@@ -22,18 +22,12 @@ export const MemberList = () => {
       <MemberListWrap>
         <MemberListHeader>
           <span>멤버 리스트</span>
-          <motion.button
+          <button
             aria-label={isShowList ? '멤버 리스트 펼치기' : '멤버 리스트 숨기기'}
             onClick={() => setShowList(!isShowList)}
-            variants={{
-              show: { rotate: 180 },
-              hide: { rotate: 0 },
-            }}
-            animate={isShowList ? 'show' : 'hide'}
-            transition={{ type: 'tween', duration: 0.2 }}
           >
-            <BlackDownIcon width={24} height={24} />
-          </motion.button>
+            <BlackDownIcon width={24} height={24} style={{ rotate: isShowList ? '180deg' : '0deg' }} />
+          </button>
         </MemberListHeader>
 
         <motion.div
