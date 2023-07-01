@@ -4,17 +4,18 @@ import theme from '@/styles/theme';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import { BlackDownIcon } from '../icons';
 import InviteMemberModal from '../modals/InviteMemberModal';
 import { MemberItem } from './MemberItem';
 import { motion } from 'framer-motion';
+import { useLocalStorage } from 'usehooks-ts';
+import { LOCAL_STORAGE__SHOW_MEMBER } from '@/utils/const';
 
 export const MemberList = () => {
   const { user, selectedGroupId } = useUser();
   const { data } = useFetchMemberList(selectedGroupId);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isShowList, setShowList] = useState(true);
+  const [isShowList, setShowList] = useLocalStorage(LOCAL_STORAGE__SHOW_MEMBER, true);
 
   if (!user) return null;
   return (
@@ -35,6 +36,7 @@ export const MemberList = () => {
             show: { opacity: 1, height: 'auto', pointerEvents: 'auto' },
             hide: { opacity: 0, height: 0, pointerEvents: 'none' },
           }}
+          initial={isShowList ? 'show' : 'hide'}
           animate={isShowList ? 'show' : 'hide'}
           transition={{ type: 'tween', duration: 0.2 }}
         >
