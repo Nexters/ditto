@@ -21,12 +21,9 @@ export const MemberList = () => {
   return (
     <>
       <MemberListWrap>
-        <MemberListHeader>
+        <MemberListHeader onClick={() => setShowList(!isShowList)}>
           <span>멤버 리스트</span>
-          <button
-            aria-label={isShowList ? '멤버 리스트 펼치기' : '멤버 리스트 숨기기'}
-            onClick={() => setShowList(!isShowList)}
-          >
+          <button aria-label={isShowList ? '멤버 리스트 펼치기' : '멤버 리스트 숨기기'}>
             <BlackDownIcon width={24} height={24} style={{ rotate: isShowList ? '180deg' : '0deg' }} />
           </button>
         </MemberListHeader>
