@@ -4,36 +4,28 @@ import theme from '@/styles/theme';
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { useState } from 'react';
 import { BlackDownIcon } from '../icons';
 import InviteMemberModal from '../modals/InviteMemberModal';
 import { MemberItem } from './MemberItem';
 import { motion } from 'framer-motion';
+import { useLocalStorage } from 'usehooks-ts';
+import { LOCAL_STORAGE__SHOW_MEMBER } from '@/utils/const';
 
 export const MemberList = () => {
   const { user, selectedGroupId } = useUser();
   const { data } = useFetchMemberList(selectedGroupId);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isShowList, setShowList] = useState(true);
+  const [isShowList, setShowList] = useLocalStorage(LOCAL_STORAGE__SHOW_MEMBER, true);
 
   if (!user) return null;
   return (
     <>
       <MemberListWrap>
-        <MemberListHeader>
+        <MemberListHeader onClick={() => setShowList(!isShowList)}>
           <span>멤버 리스트</span>
-          <motion.button
-            aria-label={isShowList ? '멤버 리스트 펼치기' : '멤버 리스트 숨기기'}
-            onClick={() => setShowList(!isShowList)}
-            variants={{
-              show: { rotate: 180 },
-              hide: { rotate: 0 },
-            }}
-            animate={isShowList ? 'show' : 'hide'}
-            transition={{ type: 'tween', duration: 0.2 }}
-          >
-            <BlackDownIcon width={24} height={24} />
-          </motion.button>
+          <button aria-label={isShowList ? '멤버 리스트 펼치기' : '멤버 리스트 숨기기'}>
+            <BlackDownIcon width={24} height={24} style={{ rotate: isShowList ? '180deg' : '0deg' }} />
+          </button>
         </MemberListHeader>
 
         <motion.div
@@ -41,6 +33,7 @@ export const MemberList = () => {
             show: { opacity: 1, height: 'auto', pointerEvents: 'auto' },
             hide: { opacity: 0, height: 0, pointerEvents: 'none' },
           }}
+          initial={isShowList ? 'show' : 'hide'}
           animate={isShowList ? 'show' : 'hide'}
           transition={{ type: 'tween', duration: 0.2 }}
         >

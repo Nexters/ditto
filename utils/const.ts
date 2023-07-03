@@ -41,6 +41,7 @@ export const API_PRIVATE_KEY = process.env.NEXT_PUBLIC_API_PRIVATE_KEY as string
 export const INVITATION_CODE_LENGTH = 10;
 
 export const LOCAL_STORAGE__GROUP_ID = 'ditto-latest-group-id';
+export const LOCAL_STORAGE__SHOW_MEMBER = 'ditto-show-member';
 
 export const INQUIRY_CHANNEL_URL = 'https://open.kakao.com/o/sNBgXm6e';
 
